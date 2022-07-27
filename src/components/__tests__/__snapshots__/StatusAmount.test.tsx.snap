@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StatusAmount.tsx component match to snapshot 1`] = `
+<div>
+  <div
+    class="css-fq4xvt"
+  >
+    <p
+      class="chakra-text css-1ykficz"
+    >
+      Test Label
+    </p>
+    <p
+      class="chakra-text css-1p1588x"
+    >
+      Test Amount 
+    </p>
+  </div>
+</div>
+`;

@@ -1,0 +1,49 @@
+.react-markdown h1 {
+  font-size: 1.4rem;
+  font-weight: 800;
+  margin-bottom: 5px;
+}
+.react-markdown h2 {
+  font-size: 1.2rem;
+  font-weight: 800;
+  margin-bottom: 5px;
+}
+.react-markdown h3 {
+  font-size: 1.1rem;
+  font-weight: 800;
+  margin-bottom: 5px;
+}
+
+.react-markdown p {
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+
+.react-markdown strong {
+  font-weight: 800;
+  color: #9e00ff;
+}
+
+.react-markdown a {
+  font-size: 0.9rem;
+  color: #36ff7a;
+  transition: all 0.3s ease;
+}
+
+.react-markdown a:hover,
+a:focus,
+a:active {
+  color: #03ff58;
+  text-decoration: underline;
+}
+
+.react-markdown ul,
+.react-markdown ol {
+  padding-left: 1.5rem;
+  font-size: 0.9rem;
+}
+
+.react-markdown ul li,
+.react-markdown ol li {
+  margin-bottom: 10px;
+}

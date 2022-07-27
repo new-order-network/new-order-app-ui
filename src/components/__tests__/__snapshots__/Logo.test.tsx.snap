@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Logo.tsx component match to snapshot 1`] = `
+<div>
+  <div
+    class="chakra-aspect-ratio css-2xipno"
+  >
+    Next image stub
+  </div>
+</div>
+`;

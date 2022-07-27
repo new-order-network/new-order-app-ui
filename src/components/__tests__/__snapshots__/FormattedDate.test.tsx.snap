@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FormattedDate.tsx component match to snapshot 1`] = `
+<div>
+  <div
+    class="css-j2at52"
+  >
+    <p
+      class="chakra-text css-19j6lia"
+    >
+      01.01.2022
+    </p>
+    <p
+      class="chakra-text css-3yq4qz"
+    >
+      00.00
+    </p>
+  </div>
+</div>
+`;

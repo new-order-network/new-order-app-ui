@@ -1,0 +1,114 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "extends": ["plugin:@typescript-eslint/recommended", "next/core-web-vitals"],
+  "plugins": [
+    "@typescript-eslint/eslint-plugin",
+    "import",
+    "no-relative-import-paths"
+  ],
+  "rules": {
+    "no-relative-import-paths/no-relative-import-paths": [
+      "warn",
+      { "allowSameFolder": false, "rootDir": "src" }
+    ],
+    "curly": 1,
+    "no-console": 0,
+    "prefer-template": 0,
+    "consistent-return": 1,
+    "react/display-name": "off",
+    "max-classes-per-file": 0,
+    "prefer-destructuring": 0,
+    "arrow-body-style": ["warn", "always"],
+    "react/react-in-jsx-scope": "off",
+    "max-len": 0,
+    // "indent": ["error", 2],
+    "prefer-const": "error",
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": ["error"],
+    "no-redeclare": "error",
+    "max-lines": ["warn", { "max": 500 }],
+    "import/order": [
+      "error",
+      {
+        "newlines-between": "always",
+        "groups": [
+          "external",
+          "builtin",
+          "internal",
+          "sibling",
+          "parent",
+          "index"
+        ],
+        "pathGroups": [
+          {
+            "pattern": "react",
+            "group": "external",
+            "position": "before"
+          },
+          {
+            "pattern": "next",
+            "group": "external",
+            "position": "before"
+          },
+          {
+            "pattern": "components/**",
+            "group": "internal",
+            "position": "before"
+          },
+          {
+            "pattern": "hooks/**",
+            "group": "internal",
+            "position": "before"
+          },
+          {
+            "pattern": "layout/**",
+            "group": "internal",
+            "position": "before"
+          },
+          {
+            "pattern": "api/**",
+            "group": "internal",
+            "position": "before"
+          },
+          {
+            "pattern": "lib/**",
+            "group": "internal",
+            "position": "before"
+          },
+          {
+            "pattern": "models/**",
+            "group": "internal",
+            "position": "before"
+          },
+          {
+            "pattern": "store/**",
+            "group": "internal",
+            "position": "before"
+          },
+          {
+            "pattern": "constants/**",
+            "group": "internal",
+            "position": "before"
+          },
+          {
+            "pattern": "styles/**",
+            "group": "internal",
+            "position": "before"
+          },
+          {
+            "pattern": "assets/**",
+            "group": "internal",
+            "position": "before"
+          }
+        ],
+        "alphabetize": {
+          "order": "ignore",
+          "caseInsensitive": true
+        },
+        "warnOnUnassignedImports": true
+      }
+    ],
+    "semi": "off",
+    "@typescript-eslint/semi": ["error", "never"]
+  }
+}

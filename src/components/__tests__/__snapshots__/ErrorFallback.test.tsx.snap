@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ErrorFallback.tsx component match to snapshot 1`] = `
+<div>
+  <main
+    class="css-1sopcer"
+  >
+    <div
+      class="css-1p5gixb"
+    >
+      <div
+        class="chakra-container css-tflc3m"
+      >
+        <div
+          class="css-1jvvll6"
+        >
+          <h2
+            class="chakra-heading css-1cg17vk"
+          >
+            Something went wrong, please reload or try again later.
+          </h2>
+          <button
+            class="chakra-button css-pqd5kg"
+            href="/"
+            type="button"
+          >
+            <span
+              class="chakra-button__icon css-1wh2kri"
+            >
+              <svg
+                aria-hidden="true"
+                fill="none"
+                focusable="false"
+                height="1em"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <line
+                  x1="19"
+                  x2="5"
+                  y1="12"
+                  y2="12"
+                />
+                <polyline
+                  points="12 19 5 12 12 5"
+                />
+              </svg>
+            </span>
+            GO BACK TO HOME PAGE
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+`;

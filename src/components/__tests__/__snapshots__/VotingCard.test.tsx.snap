@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`VotingCard.tsx component match to snapshot 1`] = `
+<div>
+  <div
+    class="css-0"
+  >
+    <div
+      class="css-0"
+    >
+      <a
+        class="chakra-link css-0"
+        href="/voting/0xa1ec7fb2f9"
+      >
+        <div
+          class="css-1lekzkb"
+        >
+          <p
+            class="chakra-text css-1ykficz"
+          >
+            Status
+          </p>
+          <button
+            class="chakra-button css-zhj3hh"
+            type="button"
+          >
+            closed
+          </button>
+        </div>
+        <div
+          class="css-icjpl3"
+        >
+          <p
+            class="chakra-text css-1ykficz"
+          >
+            Vote Launch
+          </p>
+          <div
+            class="css-j2at52"
+          >
+            <p
+              class="chakra-text css-19j6lia"
+            >
+              01.01.2022
+            </p>
+            <p
+              class="chakra-text css-3yq4qz"
+            >
+              00.00
+            </p>
+          </div>
+        </div>
+        <p
+          class="chakra-text css-1j4syee"
+        >
+          Test Proposal
+        </p>
+        <p
+          class="chakra-text css-1ykficz"
+        >
+          Description
+        </p>
+        <p
+          class="chakra-text css-13wbubp"
+        >
+          Test Body and Description
+        </p>
+      </a>
+    </div>
+  </div>
+</div>
+`;

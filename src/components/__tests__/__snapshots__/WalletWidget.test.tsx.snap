@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WalletWidget.tsx component match to snapshot 1`] = `
+<div>
+  <div
+    class="css-0"
+  >
+    <button
+      class="chakra-button css-1iooehf"
+      type="button"
+    >
+      Connect Wallet
+    </button>
+  </div>
+  <span
+    class="chakra-env"
+    hidden=""
+  />
+</div>
+`;
+
+exports[`WalletWidget.tsx component match to snapshot with connected account 1`] = `
+<div>
+  <div
+    class="css-0"
+  >
+    <button
+      class="chakra-button css-1iooehf"
+      type="button"
+    >
+      Connect Wallet
+    </button>
+  </div>
+  <span
+    class="chakra-env"
+    hidden=""
+  />
+</div>
+`;

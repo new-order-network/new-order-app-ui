@@ -1,0 +1,80 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NewsCard.tsx component match to snapshot 1`] = `
+<div>
+  <div
+    class="css-r0wi4o"
+  >
+    <div
+      class="css-0"
+    >
+      <div
+        class="css-13rbvqk"
+      >
+        <div
+          class="chakra-aspect-ratio css-g33xdh"
+        >
+          <img
+            alt="Sample News Update 1"
+            class="chakra-image css-w8jt3e"
+            src="images/backgrounds/image-placeholder.png"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      class="css-0"
+    >
+      <div
+        class="css-1lyhfau"
+      >
+        <div
+          class="css-1ihw58d"
+        >
+          <div
+            class="css-1ywof4l"
+          >
+            <button
+              class="chakra-button css-1ofj5h4"
+              type="button"
+            >
+              article
+            </button>
+            <p
+              class="chakra-text css-y9a255"
+            >
+              Test Source
+            </p>
+          </div>
+          <p
+            class="chakra-text css-1lqtgem"
+          >
+            01.01.2022 00:00
+          </p>
+        </div>
+        <div
+          class="css-7apn2c"
+        >
+          <a
+            class="chakra-link css-0"
+            href=""
+            rel="noopener"
+            target="_blank"
+          >
+            <p
+              class="chakra-text css-quiu86"
+            >
+              Sample News Update 1
+            </p>
+          </a>
+          <p
+            class="chakra-text css-1cj4cws"
+          >
+            Test Description
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

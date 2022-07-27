@@ -1,0 +1,1 @@
+export const YEAR_IN_SECONDS = 31536000

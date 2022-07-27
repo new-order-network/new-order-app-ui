@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "$(tput setaf 6)Running Lint Stages"
+npx lint-staged
+
+echo "$(tput setaf 6)Running Test Cases"
+yarn run test
