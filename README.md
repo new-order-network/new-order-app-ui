@@ -12,7 +12,7 @@ Join New Order DAO's discord server to get more help from other contributors on 
 
 ## Issues
 
-Feel free to submit issues and enhancement requests [here](https://github.com/new-order-network/new-order-dapp-v2/issues).
+Feel free to submit issues and enhancement requests [here](https://github.com/new-order-network/new-order-app-ui/issues).
 
 ## Contributing
 
@@ -29,7 +29,7 @@ Steps 1-6 only need to be done once to get set up.
 1. Fork the repo on GitHub
 2. Clone the project onto your machine
 3. Create a `.env.local` file and ping a current dev for the contents
-4. `$ git remote add upstream https://github.com/new-order-network/new-order-dapp-v2.git`
+4. `$ git remote add upstream https://github.com/new-order-network/new-order-app-ui.git`
    1. This adds a link to your parent repo so you can easily pull from it
 5. `$ nvm use`
    1. This sets your Node to the right version
