@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/new-order-network/new-order-app-ui/compare/v1.0.1...v1.0.2) (2022-07-28)
+
+
+### Miscellaneous
+
+* update issue templates ([bbdba84](https://github.com/new-order-network/new-order-app-ui/commit/bbdba84d043f2a48fc6383920328ddc362417e10))
+
 ## [1.0.1](https://github.com/new-order-network/new-order-app-ui/compare/v1.0.0...v1.0.1) (2022-07-28)
 
 
