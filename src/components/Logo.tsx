@@ -4,7 +4,7 @@ import Image from 'next/image'
 const Logo: React.FC<AspectRatioProps> = ({ ...props }) => {
   return (
     <AspectRatio ratio={237 / 56} position="relative" {...props}>
-      <Image src="/images/logos/logo.svg" alt="frogs-logo" layout="fill" />
+      <Image src="/images/logos/logo.svg" alt="neworder-logo" layout="fill" />
     </AspectRatio>
   )
 }
