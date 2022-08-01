@@ -20,9 +20,8 @@ const Supply = () => {
     let isMounted = true
     async function loadVeNewo() {
       if (isMounted) {
-        const supplies = await getVeNewo({
-          network: activeChain?.name?.toLowerCase() || 'ethereum',
-        })
+        const supplies = await getVeNewo()
+
         if (supplies) {
           const suppliesDataJson = await supplies.json()
 
@@ -34,9 +33,8 @@ const Supply = () => {
 
     async function loadLockedNewo() {
       if (isMounted) {
-        const lockedSupplies = await getLockedNewo({
-          network: activeChain?.name?.toLowerCase() || 'ethereum',
-        })
+        const lockedSupplies = await getLockedNewo()
+
         if (lockedSupplies) {
           const lockedSuppliesDataJson = await lockedSupplies.json()
 

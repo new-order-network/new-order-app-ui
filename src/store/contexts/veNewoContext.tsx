@@ -55,11 +55,11 @@ export const VeNewoProvider: React.FC<VeNewoProviderProps> = ({ children }) => {
     let totalLocked = 0
     let totalBalance = 0
 
-    networks.forEach(async (network) => {
+    for (let index = 0; index < networks.length; index++) {
       const provider = new ethers.providers.JsonRpcProvider(
-        network.rpcUrls.default
+        networks[index].rpcUrls.default
       )
-      const veNewoAddress = contractAddresses[network.id].VENEWO
+      const veNewoAddress = contractAddresses[networks[index].id].VENEWO
       const veNewoInstance = new ethers.Contract(
         veNewoAddress,
         veTokenAbi,
@@ -74,7 +74,6 @@ export const VeNewoProvider: React.FC<VeNewoProviderProps> = ({ children }) => {
         decimals
       )
       totalLocked += Number(formattedTotalAssets)
-      dispatch({ type: UPDATE_TOTAL_LOCKED, payload: totalLocked.toFixed(4) })
 
       // Get the totalSupply and add to totalBalance
       const totalSupply = await veNewoInstance.totalSupply()
@@ -83,8 +82,9 @@ export const VeNewoProvider: React.FC<VeNewoProviderProps> = ({ children }) => {
         decimals
       )
       totalBalance += Number(formattedTotalSupply)
-      dispatch({ type: UPDATE_TOTAL_BALANCE, payload: totalBalance.toFixed(4) })
-    })
+    }
+    dispatch({ type: UPDATE_TOTAL_LOCKED, payload: totalLocked.toFixed(4) })
+    dispatch({ type: UPDATE_TOTAL_BALANCE, payload: totalBalance.toFixed(4) })
   }
 
   const updateAllowance = async () => {
