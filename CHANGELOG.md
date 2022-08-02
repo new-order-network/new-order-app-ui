@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.3](https://github.com/new-order-network/new-order-app-ui/compare/v1.0.2...v1.0.3) (2022-08-01)
+
+
+### Bug Fixes
+
+* consolidate avax and eth supplies ([34eab06](https://github.com/new-order-network/new-order-app-ui/commit/34eab062a1f470b3adf69bfddae757d8862ae773))
+
 ## [1.0.2](https://github.com/new-order-network/new-order-app-ui/compare/v1.0.1...v1.0.2) (2022-07-28)
 
 
