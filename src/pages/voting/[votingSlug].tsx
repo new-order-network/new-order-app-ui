@@ -38,7 +38,7 @@ import {
 
 import { env } from 'lib/environment'
 
-import { Voter } from 'models/voting'
+import { Voter, VotingStatus, VotingResultStatus } from 'models/voting'
 
 import Layout from 'layout'
 
@@ -179,6 +179,22 @@ const VotingDetail = () => {
     }
   })
 
+  let stateText = proposalData?.proposal.state
+  if (proposalData?.proposal.state === VotingStatus.CLOSED) {
+    const highestVotedIndex = proposalData.proposal.scores.indexOf(
+      Math.max(...proposalData?.proposal.scores)
+    )
+    if (proposalData?.proposal.choices[highestVotedIndex] === 'For') {
+      stateText = VotingResultStatus.PASSED
+    } else if (
+      proposalData?.proposal.choices[highestVotedIndex] === 'Against'
+    ) {
+      stateText = VotingResultStatus.FAILED
+    } else {
+      stateText = VotingResultStatus.ABSTAINED
+    }
+  }
+
   return (
     <Layout>
       <Flex
@@ -263,7 +279,7 @@ const VotingDetail = () => {
                       variant="greenSmallButton"
                       textTransform="uppercase"
                     >
-                      {votingProposalDetails?.state}
+                      {stateText}
                     </Button>
                   </Box>
                 </Flex>

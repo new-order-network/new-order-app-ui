@@ -2,6 +2,7 @@ export interface VotingProposalProps {
   author: string //address
   body: string
   choices: number[]
+  scores: number[]
   end: number
   id: string
   snapshot: string
@@ -18,6 +19,12 @@ export enum VotingStatus {
   ALL = 'all',
   CLOSED = 'closed',
   ACTIVE = 'active',
+}
+
+export enum VotingResultStatus {
+  PASSED = 'PASSED',
+  FAILED = 'FAILED',
+  ABSTAINED = 'ABSTAINED',
 }
 
 export type VotingStatusChoices =
