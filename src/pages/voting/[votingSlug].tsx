@@ -179,15 +179,15 @@ const VotingDetail = () => {
     }
   })
 
-  let stateText = proposalData?.proposal.state
-  if (proposalData?.proposal.state === VotingStatus.CLOSED) {
-    const highestVotedIndex = proposalData.proposal.scores.indexOf(
-      Math.max(...proposalData?.proposal.scores)
+  let stateText = votingProposalDetails?.state
+  if (votingProposalDetails?.state === VotingStatus.CLOSED) {
+    const highestVotedIndex = votingProposalDetails?.scores.indexOf(
+      Math.max(...votingProposalDetails?.scores)
     )
-    if (proposalData?.proposal.choices[highestVotedIndex] === 'For') {
+    if (votingProposalDetails?.choices[highestVotedIndex] === 'For') {
       stateText = VotingResultStatus.PASSED
     } else if (
-      proposalData?.proposal.choices[highestVotedIndex] === 'Against'
+      votingProposalDetails?.choices[highestVotedIndex] === 'Against'
     ) {
       stateText = VotingResultStatus.FAILED
     } else {
