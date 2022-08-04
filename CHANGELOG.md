@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.5](https://github.com/new-order-network/new-order-app-ui/compare/v1.0.4...v1.0.5) (2022-08-04)
+
+
+### Bug Fixes
+
+* invalid discord link ([869da57](https://github.com/new-order-network/new-order-app-ui/commit/869da573e6d6bd072f24c97be30da20b1018b31c))
+
 ## [1.0.4](https://github.com/new-order-network/new-order-app-ui/compare/v1.0.3...v1.0.4) (2022-08-04)
 
 
