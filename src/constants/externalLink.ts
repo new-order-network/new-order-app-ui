@@ -1,6 +1,6 @@
 const ExternalLink = {
   twitter: 'https://twitter.com/neworderDAO',
-  discord: 'https://discord.gg/BfZRHNBN',
+  discord: 'https://discord.gg/tyr6hyyJKC',
   medium: 'https://medium.com/neworderdao',
   github: 'https://github.com/new-order-network',
   linktree: 'https://linktr.ee/NewOrder.Network',
