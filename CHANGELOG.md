@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.0.4](https://github.com/new-order-network/new-order-app-ui/compare/v1.0.3...v1.0.4) (2022-08-04)
+
+
+### Miscellaneous
+
+* remove legacy app link ([dc26f0e](https://github.com/new-order-network/new-order-app-ui/commit/dc26f0e8c316c85a51f616edc1e86af462129a21))
+* update links on the ui ([5c5fcf8](https://github.com/new-order-network/new-order-app-ui/commit/5c5fcf85625d4b30f802cfc502f88f5420df3eba))
+
+## [1.0.3](https://github.com/new-order-network/new-order-app-ui/compare/v1.0.2...v1.0.3) (2022-08-01)
+
+
+### Bug Fixes
+
+* consolidate avax and eth supplies ([34eab06](https://github.com/new-order-network/new-order-app-ui/commit/34eab062a1f470b3adf69bfddae757d8862ae773))
+
 ## [1.0.2](https://github.com/new-order-network/new-order-app-ui/compare/v1.0.1...v1.0.2) (2022-07-28)
 
 

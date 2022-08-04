@@ -1,0 +1,19 @@
+name: veNewo Supply
+on:
+  schedule:
+    - cron: '0 0 * * *' #At 12:00 AM
+
+jobs:
+  cron:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call our veNewo Supply API route for saving into DB
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: https://dao.neworder.network/api/venewo/?SECRET_API_KEY=${{ secrets.SECRET_API_KEY }}
+          method: 'POST'
+      - name: Call our veNewo Locked Supply API route for saving into DB
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: https://dao.neworder.network/api/locked-newo/?SECRET_API_KEY=${{ secrets.SECRET_API_KEY }}
+          method: 'POST'
