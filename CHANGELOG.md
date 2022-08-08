@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.1.0](https://github.com/new-order-network/new-order-app-ui/compare/v1.0.5...v1.1.0) (2022-08-08)
+
+
+### Features
+
+* update withdraw disabled logic for LP Vaults ([b5ade6f](https://github.com/new-order-network/new-order-app-ui/commit/b5ade6f8babc19b8bb96008387362592ff745a88))
+
+
+### Bug Fixes
+
+* enable withdraw button for legacy LP Vaults ([020fc47](https://github.com/new-order-network/new-order-app-ui/commit/020fc47438f99ca11d2b75989a60754a8242808c))
+
 ## [1.0.5](https://github.com/new-order-network/new-order-app-ui/compare/v1.0.4...v1.0.5) (2022-08-04)
 
 
