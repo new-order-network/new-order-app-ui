@@ -35,15 +35,6 @@ export enum VotingOutcomes {
 
 export const VotingStatusOrOutcome = { ...VotingStatus, ...VotingOutcomes }
 
-// export enum VotingStatusResult {
-//   ALL = 'all',
-//   CLOSED = 'closed',
-//   ACTIVE = 'active',
-//   PASSED = 'PASSED',
-//   FAILED = 'FAILED',
-//   ABSTAINED = 'ABSTAINED',
-// }
-
 export type VotingStatusChoices =
   | VotingStatus.ALL
   | VotingStatus.ACTIVE
