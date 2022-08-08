@@ -1,7 +1,7 @@
 export interface VotingProposalProps {
   author: string //address
   body: string
-  choices: number[]
+  choices: string[]
   scores: number[]
   end: number
   id: string
