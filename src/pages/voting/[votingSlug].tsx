@@ -38,7 +38,12 @@ import {
 
 import { env } from 'lib/environment'
 
-import { Voter, VotingStatus, VotingResultStatus } from 'models/voting'
+import {
+  Voter,
+  VotingStatus,
+  VotingOutcomes,
+  VotingChoices,
+} from 'models/voting'
 
 import Layout from 'layout'
 
@@ -184,14 +189,17 @@ const VotingDetail = () => {
     const highestVotedIndex = votingProposalDetails?.scores.indexOf(
       Math.max(...votingProposalDetails?.scores)
     )
-    if (votingProposalDetails?.choices[highestVotedIndex] === 'For') {
-      stateText = VotingResultStatus.PASSED
-    } else if (
-      votingProposalDetails?.choices[highestVotedIndex] === 'Against'
+    if (
+      votingProposalDetails?.choices[highestVotedIndex] === VotingChoices.FOR
     ) {
-      stateText = VotingResultStatus.FAILED
+      stateText = VotingOutcomes.PASSED
+    } else if (
+      votingProposalDetails?.choices[highestVotedIndex] ===
+      VotingChoices.AGAINST
+    ) {
+      stateText = VotingOutcomes.FAILED
     } else {
-      stateText = VotingResultStatus.ABSTAINED
+      stateText = VotingOutcomes.ABSTAINED
     }
   }
 

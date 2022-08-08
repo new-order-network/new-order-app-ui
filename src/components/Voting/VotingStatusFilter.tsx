@@ -1,11 +1,15 @@
 import { Button, Text } from '@chakra-ui/react'
 
-import { VotingProposalProps, VotingStatus } from 'models/voting'
+import {
+  VotingProposalProps,
+  VotingStatusOrOutcome,
+  VotingChoices,
+} from 'models/voting'
 
 interface VotingStatusFilterProps {
   votingProposals: VotingProposalProps[]
-  status: VotingStatus
-  setStatus: (status: VotingStatus) => void
+  status: VotingStatusOrOutcome
+  setStatus: (status: VotingStatusOrOutcome) => void
 }
 
 const VotingStatusFilter: React.FC<VotingStatusFilterProps> = ({
@@ -13,14 +17,31 @@ const VotingStatusFilter: React.FC<VotingStatusFilterProps> = ({
   status,
   setStatus,
 }) => {
-  const countProposalsByStatus = (status: VotingStatus) => {
+  const countProposalsByStatus = (status: VotingStatusOrOutcome) => {
     return (
       votingProposals &&
       votingProposals.filter((proposal: VotingProposalProps) => {
-        if (status === VotingStatus.ALL) {
+        if (status === VotingStatusOrOutcome.ALL) {
           return proposal
-        } else {
+        } else if (status === VotingStatusOrOutcome.CLOSED) {
           return proposal.state === status
+        } else if (status === VotingStatusOrOutcome.ACTIVE) {
+          return proposal.state === status
+        } else {
+          const highestVotedIndex = proposal?.scores.indexOf(
+            Math.max(...proposal?.scores)
+          )
+          if (status === VotingStatusOrOutcome.PASSED) {
+            return proposal?.choices[highestVotedIndex] === VotingChoices.FOR
+          } else if (status === VotingStatusOrOutcome.FAILED) {
+            return (
+              proposal?.choices[highestVotedIndex] === VotingChoices.AGAINST
+            )
+          } else {
+            return (
+              proposal?.choices[highestVotedIndex] === VotingChoices.ABSTAIN
+            )
+          }
         }
       })?.length
     )
@@ -34,39 +55,106 @@ const VotingStatusFilter: React.FC<VotingStatusFilterProps> = ({
         h="6"
         fontWeight="bold"
         variant={
-          status === VotingStatus.ALL ? 'greenSmallButton' : 'outlineGreen'
+          status === VotingStatusOrOutcome.ALL
+            ? 'greenSmallButton'
+            : 'outlineGreen'
         }
         onClick={() => {
-          return setStatus(VotingStatus.ALL)
+          return setStatus(VotingStatusOrOutcome.ALL)
         }}
       >
-        All <Text ml="2">{countProposalsByStatus(VotingStatus.ALL)}</Text>
+        All{' '}
+        <Text ml="2">{countProposalsByStatus(VotingStatusOrOutcome.ALL)}</Text>
       </Button>
       <Button
         fontSize="0.75rem"
         h="6"
         fontWeight="bold"
         variant={
-          status === VotingStatus.ACTIVE ? 'greenSmallButton' : 'outlineGreen'
+          status === VotingStatusOrOutcome.ACTIVE
+            ? 'greenSmallButton'
+            : 'outlineGreen'
         }
         onClick={() => {
-          return setStatus(VotingStatus.ACTIVE)
+          return setStatus(VotingStatusOrOutcome.ACTIVE)
         }}
       >
-        Active <Text ml="2">{countProposalsByStatus(VotingStatus.ACTIVE)}</Text>
+        Active{' '}
+        <Text ml="2">
+          {countProposalsByStatus(VotingStatusOrOutcome.ACTIVE)}
+        </Text>
       </Button>
       <Button
         fontSize="0.75rem"
         h="6"
         fontWeight="bold"
         variant={
-          status === VotingStatus.CLOSED ? 'greenSmallButton' : 'outlineGreen'
+          status === VotingStatusOrOutcome.CLOSED
+            ? 'greenSmallButton'
+            : 'outlineGreen'
         }
         onClick={() => {
-          return setStatus(VotingStatus.CLOSED)
+          return setStatus(VotingStatusOrOutcome.CLOSED)
         }}
       >
-        Closed <Text ml="2">{countProposalsByStatus(VotingStatus.CLOSED)}</Text>
+        Closed{' '}
+        <Text ml="2">
+          {countProposalsByStatus(VotingStatusOrOutcome.CLOSED)}
+        </Text>
+      </Button>
+      <Button
+        fontSize="0.75rem"
+        h="6"
+        fontWeight="bold"
+        variant={
+          status === VotingStatusOrOutcome.PASSED
+            ? 'greenSmallButton'
+            : 'outlineGreen'
+        }
+        onClick={() => {
+          return setStatus(VotingStatusOrOutcome.PASSED)
+        }}
+      >
+        Passed{' '}
+        <Text ml="2">
+          {countProposalsByStatus(VotingStatusOrOutcome.PASSED)}
+        </Text>
+      </Button>
+      <Button
+        fontSize="0.75rem"
+        h="6"
+        fontWeight="bold"
+        variant={
+          status === VotingStatusOrOutcome.FAILED
+            ? 'greenSmallButton'
+            : 'outlineGreen'
+        }
+        onClick={() => {
+          return setStatus(VotingStatusOrOutcome.FAILED)
+        }}
+      >
+        Failed{' '}
+        <Text ml="2">
+          {countProposalsByStatus(VotingStatusOrOutcome.FAILED)}
+        </Text>
+      </Button>
+      <Button
+        fontSize="0.75rem"
+        h="6"
+        fontWeight="bold"
+        variant={
+          status === VotingStatusOrOutcome.ABSTAINED
+            ? 'greenSmallButton'
+            : 'outlineGreen'
+        }
+        onClick={() => {
+          return setStatus(VotingStatusOrOutcome.ABSTAINED)
+        }}
+      >
+        Abstained{' '}
+        <Text ml="2">
+          {countProposalsByStatus(VotingStatusOrOutcome.ABSTAINED)}
+        </Text>
       </Button>
     </>
   )

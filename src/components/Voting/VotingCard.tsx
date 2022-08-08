@@ -5,8 +5,9 @@ import Card from 'components/Card'
 import FormattedDate from 'components/Voting/FormattedDate'
 
 import {
+  VotingChoices,
   VotingProposalProps,
-  VotingResultStatus,
+  VotingOutcomes,
   VotingStatus,
 } from 'models/voting'
 
@@ -20,12 +21,12 @@ const VotingCard: React.FC<VotingCardProps> = ({
   let stateText = state
   if (state === VotingStatus.CLOSED) {
     const highestVotedIndex = scores?.indexOf(Math.max(...scores))
-    if (choices[highestVotedIndex] === 'For') {
-      stateText = VotingResultStatus.PASSED
-    } else if (choices[highestVotedIndex] === 'Against') {
-      stateText = VotingResultStatus.FAILED
+    if (choices[highestVotedIndex] === VotingChoices.FOR) {
+      stateText = VotingOutcomes.PASSED
+    } else if (choices[highestVotedIndex] === VotingChoices.AGAINST) {
+      stateText = VotingOutcomes.FAILED
     } else {
-      stateText = VotingResultStatus.ABSTAINED
+      stateText = VotingOutcomes.ABSTAINED
     }
   }
 

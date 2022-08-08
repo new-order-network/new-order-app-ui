@@ -21,16 +21,36 @@ export enum VotingStatus {
   ACTIVE = 'active',
 }
 
-export enum VotingResultStatus {
+export enum VotingChoices {
+  FOR = 'For',
+  AGAINST = 'Against',
+  ABSTAIN = 'Abstain',
+}
+
+export enum VotingOutcomes {
   PASSED = 'PASSED',
   FAILED = 'FAILED',
   ABSTAINED = 'ABSTAINED',
 }
 
+export const VotingStatusOrOutcome = { ...VotingStatus, ...VotingOutcomes }
+
+// export enum VotingStatusResult {
+//   ALL = 'all',
+//   CLOSED = 'closed',
+//   ACTIVE = 'active',
+//   PASSED = 'PASSED',
+//   FAILED = 'FAILED',
+//   ABSTAINED = 'ABSTAINED',
+// }
+
 export type VotingStatusChoices =
   | VotingStatus.ALL
   | VotingStatus.ACTIVE
   | VotingStatus.CLOSED
+  | VotingOutcomes.PASSED
+  | VotingOutcomes.FAILED
+  | VotingOutcomes.ABSTAINED
 
 export interface VotingFiltersProps {
   startDateFilter: Date | null
