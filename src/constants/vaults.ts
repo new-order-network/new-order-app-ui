@@ -8,7 +8,7 @@ export interface VaultProps {
   token1?: string
   isActive?: boolean
   isLegacyVault?: boolean //for disabling APR, Deposit and Input button, Withdraw Buton and Claims Button for Legacy Vaults (Single-Side and LP Vaults)
-  isLegacyLPVault?: boolean //for disabling APR, Deposit and Input button, Rewards Column to 0, Withdraw, Claims, Withdraw and Claims buttons for Legacy LP Vaults
+  isLegacyLPVault?: boolean //for disabling APR, Deposit and Input button, Rewards Column to 0, Claims, Withdraw and Claims buttons for Legacy LP Vaults
 }
 
 export interface VaultsProps {
