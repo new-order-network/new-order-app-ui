@@ -65,7 +65,7 @@ const ActiveDeposit = ({
             loading && actionType === ACTIVE_VAULT_DEPOSIT_ACTIONS.WITHDRAW
           }
           disabled={
-            isLegacyVault ||
+            (isLegacyVault && !isLegacyLPVault) ||
             loading ||
             !accountData?.address ||
             Number(userVaultBalance) === 0
