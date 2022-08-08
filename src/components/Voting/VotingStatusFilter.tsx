@@ -21,27 +21,23 @@ const VotingStatusFilter: React.FC<VotingStatusFilterProps> = ({
     return (
       votingProposals &&
       votingProposals.filter((proposal: VotingProposalProps) => {
-        if (status === VotingStatusOrOutcome.ALL) {
-          return proposal
-        } else if (status === VotingStatusOrOutcome.CLOSED) {
+        if (status === VotingStatusOrOutcome.CLOSED) {
           return proposal.state === status
         } else if (status === VotingStatusOrOutcome.ACTIVE) {
           return proposal.state === status
-        } else {
-          const highestVotedIndex = proposal?.scores.indexOf(
-            Math.max(...proposal?.scores)
+        } else if (status !== VotingStatusOrOutcome.ALL && proposal.scores) {
+          const highestVotedIndex = proposal.scores.indexOf(
+            Math.max(...proposal.scores)
           )
           if (status === VotingStatusOrOutcome.PASSED) {
-            return proposal?.choices[highestVotedIndex] === VotingChoices.FOR
+            return proposal.choices[highestVotedIndex] === VotingChoices.FOR
           } else if (status === VotingStatusOrOutcome.FAILED) {
-            return (
-              proposal?.choices[highestVotedIndex] === VotingChoices.AGAINST
-            )
+            return proposal.choices[highestVotedIndex] === VotingChoices.AGAINST
           } else {
-            return (
-              proposal?.choices[highestVotedIndex] === VotingChoices.ABSTAIN
-            )
+            return proposal.choices[highestVotedIndex] === VotingChoices.ABSTAIN
           }
+        } else {
+          return proposal
         }
       })?.length
     )
