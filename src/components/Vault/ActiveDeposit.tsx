@@ -65,10 +65,12 @@ const ActiveDeposit = ({
             loading && actionType === ACTIVE_VAULT_DEPOSIT_ACTIONS.WITHDRAW
           }
           disabled={
-            isLegacyVault ||
-            loading ||
-            !accountData?.address ||
-            Number(userVaultBalance) === 0
+            isLegacyLPVault
+              ? false
+              : isLegacyVault ||
+                loading ||
+                !accountData?.address ||
+                Number(userVaultBalance) === 0
           }
         >
           Withdraw
