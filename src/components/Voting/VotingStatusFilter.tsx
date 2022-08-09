@@ -4,6 +4,7 @@ import {
   VotingProposalProps,
   VotingStatusOrOutcome,
   VotingChoices,
+  VotingStatus,
 } from 'models/voting'
 
 interface VotingStatusFilterProps {
@@ -30,11 +31,20 @@ const VotingStatusFilter: React.FC<VotingStatusFilterProps> = ({
             Math.max(...proposal.scores)
           )
           if (status === VotingStatusOrOutcome.PASSED) {
-            return proposal.choices[highestVotedIndex] === VotingChoices.FOR
+            return (
+              proposal.state === VotingStatus.CLOSED &&
+              proposal.choices[highestVotedIndex] === VotingChoices.FOR
+            )
           } else if (status === VotingStatusOrOutcome.FAILED) {
-            return proposal.choices[highestVotedIndex] === VotingChoices.AGAINST
+            return (
+              proposal.state === VotingStatus.CLOSED &&
+              proposal.choices[highestVotedIndex] === VotingChoices.AGAINST
+            )
           } else {
-            return proposal.choices[highestVotedIndex] === VotingChoices.ABSTAIN
+            return (
+              proposal.state === VotingStatus.CLOSED &&
+              proposal.choices[highestVotedIndex] === VotingChoices.ABSTAIN
+            )
           }
         } else {
           return proposal
