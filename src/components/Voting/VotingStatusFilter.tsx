@@ -9,8 +9,8 @@ import {
 
 interface VotingStatusFilterProps {
   votingProposals: VotingProposalProps[]
-  status: VotingStatusOrOutcome
-  setStatus: (status: VotingStatusOrOutcome) => void
+  status: VotingStatusChoices
+  setStatus: (status: VotingStatusChoices) => void
 }
 
 const VotingStatusFilter: React.FC<VotingStatusFilterProps> = ({
@@ -18,7 +18,7 @@ const VotingStatusFilter: React.FC<VotingStatusFilterProps> = ({
   status,
   setStatus,
 }) => {
-  const countProposalsByStatus = (status: VotingStatusOrOutcome) => {
+  const countProposalsByStatus = (status: VotingStatusChoices) => {
     return (
       votingProposals &&
       votingProposals.filter((proposal: VotingProposalProps) => {
