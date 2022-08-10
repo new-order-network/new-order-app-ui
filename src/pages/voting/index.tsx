@@ -25,6 +25,7 @@ import {
   VotingFiltersProps,
   VotingProposalProps,
   VotingStatusOrOutcome,
+  VotingStatusChoices,
 } from 'models/voting'
 
 import { useVotingContext } from 'store/contexts/votingContext'
