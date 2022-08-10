@@ -20,6 +20,7 @@ import {
 } from 'api/snapshotApi'
 
 import {
+  VotingStatus,
   VotingChoices,
   VotingFiltersProps,
   VotingProposalProps,
@@ -219,18 +220,21 @@ const Voting = () => {
                       )
                       if (status === VotingStatusOrOutcome.PASSED) {
                         return (
+                          proposal.state === VotingStatus.CLOSED &&
                           proposal.choices[highestVotedIndex] ===
-                          VotingChoices.FOR
+                            VotingChoices.FOR
                         )
                       } else if (status === VotingStatusOrOutcome.FAILED) {
                         return (
+                          proposal.state === VotingStatus.CLOSED &&
                           proposal.choices[highestVotedIndex] ===
-                          VotingChoices.AGAINST
+                            VotingChoices.AGAINST
                         )
                       }
                       return (
+                        proposal.state === VotingStatus.CLOSED &&
                         proposal.choices[highestVotedIndex] ===
-                        VotingChoices.ABSTAIN
+                          VotingChoices.ABSTAIN
                       )
                     }
                   })
