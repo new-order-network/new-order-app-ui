@@ -5,6 +5,7 @@ import {
   VotingStatusOrOutcome,
   VotingChoices,
   VotingStatus,
+  VotingStatusChoices,
 } from 'models/voting'
 
 interface VotingStatusFilterProps {
