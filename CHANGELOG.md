@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.1.1](https://github.com/new-order-network/new-order-app-ui/compare/v1.1.0...v1.1.1) (2022-08-11)
+
+
+### Bug Fixes
+
+* fixed import ([5f7e56c](https://github.com/new-order-network/new-order-app-ui/commit/5f7e56c88e19e82ced9c48d2c18730b447e16f22))
+* fixed incorrect counting of proposals with outcome ([708eea9](https://github.com/new-order-network/new-order-app-ui/commit/708eea939f7f95d5a5d637155cf2389a24c4a8fa))
+* forgotten import ([38956aa](https://github.com/new-order-network/new-order-app-ui/commit/38956aae99d3a7ba12c8d0fd13a10c90b0a7941a))
+* issue with type/enum ([5b18431](https://github.com/new-order-network/new-order-app-ui/commit/5b184312d89d3a28741e3763d104b27045230006))
+* passed filter doesn't display active proposals anymore ([d7bcdd1](https://github.com/new-order-network/new-order-app-ui/commit/d7bcdd121204108e7ad1c90586100f554ffa915b))
+
+
+### Miscellaneous
+
+* cleaned up a condition ([5b377b3](https://github.com/new-order-network/new-order-app-ui/commit/5b377b37d5068bd5cd9709c1171b56acea9c9a85))
+* code cleanup ([dacaebd](https://github.com/new-order-network/new-order-app-ui/commit/dacaebda8fd3ec8b5a01a9f6f0260bbb7f29b245))
+* reworked state setting ([2d9c24b](https://github.com/new-order-network/new-order-app-ui/commit/2d9c24b776c5a5692d9bb64057a05dbe44883cbc))
+
 ## [1.1.0](https://github.com/new-order-network/new-order-app-ui/compare/v1.0.5...v1.1.0) (2022-08-08)
 
 
