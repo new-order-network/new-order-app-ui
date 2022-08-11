@@ -23,9 +23,10 @@ const VotingStatusFilter: React.FC<VotingStatusFilterProps> = ({
     return (
       votingProposals &&
       votingProposals.filter((proposal: VotingProposalProps) => {
-        if (status === VotingStatusOrOutcome.CLOSED) {
-          return proposal.state === status
-        } else if (status === VotingStatusOrOutcome.ACTIVE) {
+        if (
+          status === VotingStatusOrOutcome.CLOSED ||
+          status === VotingStatusOrOutcome.ACTIVE
+        ) {
           return proposal.state === status
         } else if (status !== VotingStatusOrOutcome.ALL && proposal.scores) {
           const highestVotedIndex = proposal.scores.indexOf(
