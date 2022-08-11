@@ -1,5 +1,6 @@
 import { Button, Flex, Link, Text } from '@chakra-ui/react'
 import RemoveMarkdown from 'remove-markdown'
+import { useEffect, useState } from 'react'
 
 import Card from 'components/Card'
 import FormattedDate from 'components/Voting/FormattedDate'
@@ -18,17 +19,20 @@ interface VotingCardProps {
 const VotingCard: React.FC<VotingCardProps> = ({
   proposal: { state, title, body, start, id, choices, scores },
 }) => {
-  let stateText = state
-  if (state === VotingStatus.CLOSED) {
-    const highestVotedIndex = scores?.indexOf(Math.max(...scores))
-    if (choices[highestVotedIndex] === VotingChoices.FOR) {
-      stateText = VotingOutcomes.PASSED
-    } else if (choices[highestVotedIndex] === VotingChoices.AGAINST) {
-      stateText = VotingOutcomes.FAILED
-    } else {
-      stateText = VotingOutcomes.ABSTAINED
+  const [stateText, setStateText] = useState(state)
+
+  useEffect(() => {
+    if (state === VotingStatus.CLOSED) {
+      const highestVotedIndex = scores?.indexOf(Math.max(...scores))
+      if (choices[highestVotedIndex] === VotingChoices.FOR) {
+        setStateText(VotingOutcomes.PASSED)
+      } else if (choices[highestVotedIndex] === VotingChoices.AGAINST) {
+        setStateText(VotingOutcomes.FAILED)
+      } else {
+        setStateText(VotingOutcomes.ABSTAINED)
+      }
     }
-  }
+  }, [state])
 
   return (
     <Card variant="simple">

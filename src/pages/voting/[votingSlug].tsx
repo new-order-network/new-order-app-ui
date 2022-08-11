@@ -70,6 +70,7 @@ const VotingDetail = () => {
     useState(proposalData)
   const [result, setResult] = useState(null)
   const [votingPower, setVotingPower] = useState(0)
+  const [stateText, setStateText] = useState(votingProposalDetails?.state)
 
   const voteHref = `https://snapshot.org/#/${env.NEXT_PUBLIC_SNAPSHOT_SPACE}/proposal/${votingSlug}`
   const snapshotClient = new snapshot.Client712(env.NEXT_PUBLIC_HUB_URL)
@@ -184,24 +185,27 @@ const VotingDetail = () => {
     }
   })
 
-  let stateText = votingProposalDetails?.state
-  if (votingProposalDetails?.state === VotingStatus.CLOSED) {
-    const highestVotedIndex = votingProposalDetails?.scores.indexOf(
-      Math.max(...votingProposalDetails?.scores)
-    )
-    if (
-      votingProposalDetails?.choices[highestVotedIndex] === VotingChoices.FOR
-    ) {
-      stateText = VotingOutcomes.PASSED
-    } else if (
-      votingProposalDetails?.choices[highestVotedIndex] ===
-      VotingChoices.AGAINST
-    ) {
-      stateText = VotingOutcomes.FAILED
+  useEffect(() => {
+    if (votingProposalDetails?.state === VotingStatus.CLOSED) {
+      const highestVotedIndex = votingProposalDetails?.scores.indexOf(
+        Math.max(...votingProposalDetails?.scores)
+      )
+      if (
+        votingProposalDetails.choices[highestVotedIndex] === VotingChoices.FOR
+      ) {
+        setStateText(VotingOutcomes.PASSED)
+      } else if (
+        votingProposalDetails.choices[highestVotedIndex] ===
+        VotingChoices.AGAINST
+      ) {
+        setStateText(VotingOutcomes.FAILED)
+      } else {
+        setStateText(VotingOutcomes.ABSTAINED)
+      }
     } else {
-      stateText = VotingOutcomes.ABSTAINED
+      setStateText(votingProposalDetails?.state)
     }
-  }
+  }, [votingProposalDetails?.state])
 
   return (
     <Layout>
