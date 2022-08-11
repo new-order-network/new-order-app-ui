@@ -1,18 +1,39 @@
 import { Button, Flex, Link, Text } from '@chakra-ui/react'
 import RemoveMarkdown from 'remove-markdown'
+import { useEffect, useState } from 'react'
 
 import Card from 'components/Card'
 import FormattedDate from 'components/Voting/FormattedDate'
 
-import { VotingProposalProps } from 'models/voting'
+import {
+  VotingChoices,
+  VotingProposalProps,
+  VotingOutcomes,
+  VotingStatus,
+} from 'models/voting'
 
 interface VotingCardProps {
   proposal: VotingProposalProps
 }
 
 const VotingCard: React.FC<VotingCardProps> = ({
-  proposal: { state, title, body, start, id },
+  proposal: { state, title, body, start, id, choices, scores },
 }) => {
+  const [stateText, setStateText] = useState(state)
+
+  useEffect(() => {
+    if (state === VotingStatus.CLOSED) {
+      const highestVotedIndex = scores?.indexOf(Math.max(...scores))
+      if (choices[highestVotedIndex] === VotingChoices.FOR) {
+        setStateText(VotingOutcomes.PASSED)
+      } else if (choices[highestVotedIndex] === VotingChoices.AGAINST) {
+        setStateText(VotingOutcomes.FAILED)
+      } else {
+        setStateText(VotingOutcomes.ABSTAINED)
+      }
+    }
+  }, [state])
+
   return (
     <Card variant="simple">
       <Link href={`/voting/${id}`}>
@@ -28,7 +49,7 @@ const VotingCard: React.FC<VotingCardProps> = ({
               variant={state === 'active' ? 'greenSmallButton' : 'outlineGreen'}
               textTransform="uppercase"
             >
-              {state}
+              {stateText}
             </Button>
           </Flex>
           <Flex alignItems="center" justifyContent="space-between" mt="2">

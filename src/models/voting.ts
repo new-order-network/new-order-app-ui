@@ -1,7 +1,8 @@
 export interface VotingProposalProps {
   author: string //address
   body: string
-  choices: number[]
+  choices: string[]
+  scores: number[]
   end: number
   id: string
   snapshot: string
@@ -20,10 +21,27 @@ export enum VotingStatus {
   ACTIVE = 'active',
 }
 
+export enum VotingChoices {
+  FOR = 'For',
+  AGAINST = 'Against',
+  ABSTAIN = 'Abstain',
+}
+
+export enum VotingOutcomes {
+  PASSED = 'PASSED',
+  FAILED = 'FAILED',
+  ABSTAINED = 'ABSTAINED',
+}
+
+export const VotingStatusOrOutcome = { ...VotingStatus, ...VotingOutcomes }
+
 export type VotingStatusChoices =
   | VotingStatus.ALL
   | VotingStatus.ACTIVE
   | VotingStatus.CLOSED
+  | VotingOutcomes.PASSED
+  | VotingOutcomes.FAILED
+  | VotingOutcomes.ABSTAINED
 
 export interface VotingFiltersProps {
   startDateFilter: Date | null

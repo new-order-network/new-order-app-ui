@@ -38,7 +38,12 @@ import {
 
 import { env } from 'lib/environment'
 
-import { Voter } from 'models/voting'
+import {
+  Voter,
+  VotingStatus,
+  VotingOutcomes,
+  VotingChoices,
+} from 'models/voting'
 
 import Layout from 'layout'
 
@@ -65,6 +70,7 @@ const VotingDetail = () => {
     useState(proposalData)
   const [result, setResult] = useState(null)
   const [votingPower, setVotingPower] = useState(0)
+  const [stateText, setStateText] = useState(votingProposalDetails?.state)
 
   const voteHref = `https://snapshot.org/#/${env.NEXT_PUBLIC_SNAPSHOT_SPACE}/proposal/${votingSlug}`
   const snapshotClient = new snapshot.Client712(env.NEXT_PUBLIC_HUB_URL)
@@ -179,6 +185,28 @@ const VotingDetail = () => {
     }
   })
 
+  useEffect(() => {
+    if (votingProposalDetails?.state === VotingStatus.CLOSED) {
+      const highestVotedIndex = votingProposalDetails?.scores.indexOf(
+        Math.max(...votingProposalDetails?.scores)
+      )
+      if (
+        votingProposalDetails.choices[highestVotedIndex] === VotingChoices.FOR
+      ) {
+        setStateText(VotingOutcomes.PASSED)
+      } else if (
+        votingProposalDetails.choices[highestVotedIndex] ===
+        VotingChoices.AGAINST
+      ) {
+        setStateText(VotingOutcomes.FAILED)
+      } else {
+        setStateText(VotingOutcomes.ABSTAINED)
+      }
+    } else {
+      setStateText(votingProposalDetails?.state)
+    }
+  }, [votingProposalDetails?.state])
+
   return (
     <Layout>
       <Flex
@@ -263,7 +291,7 @@ const VotingDetail = () => {
                       variant="greenSmallButton"
                       textTransform="uppercase"
                     >
-                      {votingProposalDetails?.state}
+                      {stateText}
                     </Button>
                   </Box>
                 </Flex>

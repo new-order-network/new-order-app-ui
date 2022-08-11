@@ -11,7 +11,8 @@ exports[`VotingStatusFilter.tsx component match to snapshot all active proposals
     class="chakra-button css-19xffvm"
     type="button"
   >
-    All 
+    All
+     
     <p
       class="chakra-text css-14gt3bc"
     >
@@ -22,7 +23,8 @@ exports[`VotingStatusFilter.tsx component match to snapshot all active proposals
     class="chakra-button css-19xffvm"
     type="button"
   >
-    Active 
+    Active
+     
     <p
       class="chakra-text css-14gt3bc"
     >
@@ -33,11 +35,48 @@ exports[`VotingStatusFilter.tsx component match to snapshot all active proposals
     class="chakra-button css-19xffvm"
     type="button"
   >
-    Closed 
+    Closed
+     
     <p
       class="chakra-text css-14gt3bc"
     >
       2
+    </p>
+  </button>
+  <button
+    class="chakra-button css-19xffvm"
+    type="button"
+  >
+    Passed
+     
+    <p
+      class="chakra-text css-14gt3bc"
+    >
+      3
+    </p>
+  </button>
+  <button
+    class="chakra-button css-19xffvm"
+    type="button"
+  >
+    Failed
+     
+    <p
+      class="chakra-text css-14gt3bc"
+    >
+      3
+    </p>
+  </button>
+  <button
+    class="chakra-button css-19xffvm"
+    type="button"
+  >
+    Abstained
+     
+    <p
+      class="chakra-text css-14gt3bc"
+    >
+      3
     </p>
   </button>
 </div>
@@ -54,7 +93,8 @@ exports[`VotingStatusFilter.tsx component match to snapshot all closed proposals
     class="chakra-button css-19xffvm"
     type="button"
   >
-    All 
+    All
+     
     <p
       class="chakra-text css-14gt3bc"
     >
@@ -65,7 +105,8 @@ exports[`VotingStatusFilter.tsx component match to snapshot all closed proposals
     class="chakra-button css-19xffvm"
     type="button"
   >
-    Active 
+    Active
+     
     <p
       class="chakra-text css-14gt3bc"
     >
@@ -76,11 +117,48 @@ exports[`VotingStatusFilter.tsx component match to snapshot all closed proposals
     class="chakra-button css-19xffvm"
     type="button"
   >
-    Closed 
+    Closed
+     
     <p
       class="chakra-text css-14gt3bc"
     >
       2
+    </p>
+  </button>
+  <button
+    class="chakra-button css-19xffvm"
+    type="button"
+  >
+    Passed
+     
+    <p
+      class="chakra-text css-14gt3bc"
+    >
+      3
+    </p>
+  </button>
+  <button
+    class="chakra-button css-19xffvm"
+    type="button"
+  >
+    Failed
+     
+    <p
+      class="chakra-text css-14gt3bc"
+    >
+      3
+    </p>
+  </button>
+  <button
+    class="chakra-button css-19xffvm"
+    type="button"
+  >
+    Abstained
+     
+    <p
+      class="chakra-text css-14gt3bc"
+    >
+      3
     </p>
   </button>
 </div>

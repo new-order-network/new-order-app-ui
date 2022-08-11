@@ -20,9 +20,11 @@ import {
 } from 'api/snapshotApi'
 
 import {
+  VotingStatus,
+  VotingChoices,
   VotingFiltersProps,
   VotingProposalProps,
-  VotingStatus,
+  VotingStatusOrOutcome,
   VotingStatusChoices,
 } from 'models/voting'
 
@@ -59,7 +61,9 @@ const Voting = () => {
 
   const [votingProposals, setVotingProposals] = useState(data?.proposals)
 
-  const [status, setStatus] = useState<VotingStatusChoices>(VotingStatus.ALL)
+  const [status, setStatus] = useState<VotingStatusChoices>(
+    VotingStatusOrOutcome.ALL
+  )
   const [filters, setFilters] = useState<VotingFiltersProps>({
     startDateFilter: null,
     endDateFilter: null,
@@ -204,10 +208,35 @@ const Voting = () => {
             {votingProposals?.length > 0
               ? votingProposals
                   ?.filter((proposal: VotingProposalProps) => {
-                    if (status === VotingStatus.ALL) {
+                    if (status === VotingStatusOrOutcome.ALL) {
                       return proposal
-                    } else {
+                    } else if (
+                      status === VotingStatusOrOutcome.ACTIVE ||
+                      status === VotingStatusOrOutcome.CLOSED
+                    ) {
                       return proposal.state === status
+                    } else {
+                      const highestVotedIndex = proposal.scores.indexOf(
+                        Math.max(...proposal.scores)
+                      )
+                      if (status === VotingStatusOrOutcome.PASSED) {
+                        return (
+                          proposal.state === VotingStatus.CLOSED &&
+                          proposal.choices[highestVotedIndex] ===
+                            VotingChoices.FOR
+                        )
+                      } else if (status === VotingStatusOrOutcome.FAILED) {
+                        return (
+                          proposal.state === VotingStatus.CLOSED &&
+                          proposal.choices[highestVotedIndex] ===
+                            VotingChoices.AGAINST
+                        )
+                      }
+                      return (
+                        proposal.state === VotingStatus.CLOSED &&
+                        proposal.choices[highestVotedIndex] ===
+                          VotingChoices.ABSTAIN
+                      )
                     }
                   })
                   .map((proposal: VotingProposalProps) => {

@@ -37,6 +37,7 @@ query Proposals($first: Int!, $skip: Int!) {
 		title
 		body
 		choices
+    scores
 		start
 		end
 		snapshot
@@ -69,6 +70,7 @@ export const snapshotSingleProposalQuery = gql`
       start
       end
       snapshot
+      scores
       state
       author
       space {
