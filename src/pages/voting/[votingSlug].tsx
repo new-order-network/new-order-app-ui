@@ -345,6 +345,13 @@ const VotingDetail = () => {
                     <ReactMarkdown
                       className="react-markdown"
                       remarkPlugins={[gfm]}
+                      transformImageUri={(uri) => {
+                        const coreURI = uri.split('ipfs://')
+
+                        return uri.startsWith('ipfs')
+                          ? `${env.NEXT_PUBLIC_IMAGE_BASE_URL}/ipfs/${coreURI[1]}`
+                          : uri
+                      }}
                     >
                       {votingProposalDetails?.body}
                     </ReactMarkdown>
