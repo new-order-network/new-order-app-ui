@@ -32,7 +32,7 @@ const VotingCard: React.FC<VotingCardProps> = ({
         setStateText(VotingOutcomes.ABSTAINED)
       }
     }
-  }, [state])
+  }, [choices, scores, state])
 
   return (
     <Card variant="simple">
