@@ -47,3 +47,7 @@ a:active {
 .react-markdown ol li {
   margin-bottom: 10px;
 }
+.react-markdown img {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
