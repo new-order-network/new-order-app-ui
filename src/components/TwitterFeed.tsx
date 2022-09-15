@@ -11,7 +11,6 @@ import {
   Text,
 } from '@chakra-ui/react'
 import { TwitterTimelineEmbed } from 'react-twitter-embed'
-import { useTheme } from '@chakra-ui/react'
 
 import Card from 'components/Card'
 import TwitterLoader from 'components/Loaders/TwitterLoader'
@@ -19,8 +18,6 @@ import TwitterLoader from 'components/Loaders/TwitterLoader'
 import TwitterFeedIcon from 'assets/icons/TwitterFeed.svg'
 
 const TwitterFeed = () => {
-  const theme = useTheme()
-
   return (
     <Tabs w="full" variant="greenTab">
       <Card
@@ -73,16 +70,8 @@ const TwitterFeed = () => {
                 screenName="neworderDAO"
                 theme="dark"
                 noFooter
-                transparent
-                linkColor={theme.colors.green[100]}
-                borderColor={theme.colors.gray[80]}
-                onLoad={(element) => {
-                  const htmlElement =
-                    element.contentWindow.document.getElementsByTagName(
-                      'html'
-                    )[0]
-                  htmlElement.style.background = theme.colors.gray[90]
-                }}
+                noScrollbar
+                noBorders
                 placeholder={
                   <Stack>
                     <TwitterLoader />
