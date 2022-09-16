@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.1.2](https://github.com/new-order-network/new-order-app-ui/compare/v1.1.1...v1.1.2) (2022-09-16)
+
+
+### Bug Fixes
+
+* add the fucntion to withdraw all locked tokens ([9964fa4](https://github.com/new-order-network/new-order-app-ui/commit/9964fa420b42e7fbadc022c949f0567022c4b558))
+* image not showing on voting detail page ([25b718e](https://github.com/new-order-network/new-order-app-ui/commit/25b718ee4b9aa3c92bc3a6926731cbf9393b8f5a))
+* white background on the twitter timeline embed ([96eb672](https://github.com/new-order-network/new-order-app-ui/commit/96eb672acb12b8c63f401e2524971ed1236a7f2c))
+
 ## [1.1.1](https://github.com/new-order-network/new-order-app-ui/compare/v1.1.0...v1.1.1) (2022-08-11)
 
 
