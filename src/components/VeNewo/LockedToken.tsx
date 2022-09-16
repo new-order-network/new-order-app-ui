@@ -4,11 +4,22 @@ import { useAccount } from 'wagmi'
 
 import { Td, Tr } from 'components/Table'
 
+import useVeToken from 'hooks/useVeToken'
+
 import { useVeNewoContext } from 'store/contexts/veNewoContext'
 
-const LockedToken = () => {
+interface LockedTokenProps {
+  veTokenAddress: string
+  tokenAddress: string
+}
+
+const LockedToken: React.FC<LockedTokenProps> = ({
+  veTokenAddress,
+  tokenAddress,
+}) => {
   const { data: accountData } = useAccount()
   const { assetBalance, unlockDate } = useVeNewoContext()
+  const veToken = useVeToken(veTokenAddress, tokenAddress)
 
   return (
     <Tr>
@@ -24,8 +35,12 @@ const LockedToken = () => {
           <Button
             variant="greenButton"
             isDisabled={
-              !accountData?.address || dayjs().isBefore(dayjs.unix(unlockDate))
+              !accountData?.address ||
+              dayjs().isBefore(dayjs.unix(unlockDate)) ||
+              Number(assetBalance) <= 0
             }
+            onClick={veToken.exit}
+            isLoading={veToken.loading}
           >
             Withdraw
           </Button>

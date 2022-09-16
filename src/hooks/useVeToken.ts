@@ -162,6 +162,40 @@ const useVeToken = (veTokenAddress: string, tokenAddress: string) => {
     }
   }
 
+  const exit = async () => {
+    setLoading(true)
+
+    try {
+      const tx = await veTokenInstance?.exit()
+      const receipt = await tx.wait()
+
+      if (receipt.status === 1) {
+        toast({
+          title: 'Withdraw Successful',
+          description: 'You have successfully withdrew your tokens.',
+          isClosable: true,
+          position: 'top-right',
+          status: 'success',
+          variant: 'success',
+        })
+      }
+    } catch (err) {
+      console.error('[EXIT ERROR]', err)
+      toast({
+        title: 'Withdraw Failed',
+        description: 'Something went wrong! Please try again later.',
+        isClosable: true,
+        position: 'top-right',
+        status: 'error',
+        variant: 'error',
+      })
+    } finally {
+      await updateVeNewoState?.()
+      await updateNewoState?.()
+      setLoading(false)
+    }
+  }
+
   return {
     approveVeToken,
     veTokenAllowance,
@@ -171,6 +205,7 @@ const useVeToken = (veTokenAddress: string, tokenAddress: string) => {
     totalAssets,
     balanceOf,
     assetBalanceOf,
+    exit,
     loading,
     veTokenInstance,
   }
