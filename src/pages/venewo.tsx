@@ -291,7 +291,10 @@ const Page = () => {
                           </Tr>
                         </Thead>
                         <Tbody>
-                          <LockedToken />
+                          <LockedToken
+                            veTokenAddress={contracts.VENEWO}
+                            tokenAddress={contracts.NEWO}
+                          />
                         </Tbody>
                       </Table>
                     </Box>
