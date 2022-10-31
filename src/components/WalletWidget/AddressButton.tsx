@@ -23,7 +23,7 @@ import { useNewoContext } from 'store/contexts/newoContext'
 
 const AddressButton: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const { data: accountData } = useAccount()
+  const accountData = useAccount()
   const { data: ensName } = useEnsName()
   const { newoBalance, disconnectWallet } = useNewoContext()
 

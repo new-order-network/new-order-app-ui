@@ -58,9 +58,9 @@ export const ContractProvider: React.FC<ContractProviderProps> = ({
 }) => {
   const toast = useToast()
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const { activeChain } = useNetwork()
+  const { chain } = useNetwork()
 
-  const { data: accountData } = useAccount()
+  const accountData = useAccount()
 
   const [contracts, setContracts] = useState(
     contractAddresses[DEFAULT_ACTIVE_NETWORK]
@@ -72,18 +72,17 @@ export const ContractProvider: React.FC<ContractProviderProps> = ({
   const [hasNetworkError, setHasNetworkError] = useState(false)
 
   useEffect(() => {
-    if (activeChain?.id) {
-      setContracts(contractAddresses[activeChain.id])
-      setVaults(Vaults[activeChain.id])
-      setAirdrops(Airdrops[activeChain.id])
+    if (chain?.id) {
+      setContracts(contractAddresses[chain.id])
+      setVaults(Vaults[chain.id])
+      setAirdrops(Airdrops[chain.id])
     }
-  }, [activeChain, accountData])
+  }, [chain, accountData])
 
   useEffect(() => {
-    const isSupportedChain =
-      activeChain?.id && isChainSupported(activeChain?.id)
+    const isSupportedChain = chain?.id && isChainSupported(chain?.id)
 
-    if (activeChain && !isSupportedChain) {
+    if (chain && !isSupportedChain) {
       setHasNetworkError(true)
       onOpen()
       toast({
@@ -99,7 +98,7 @@ export const ContractProvider: React.FC<ContractProviderProps> = ({
       setHasNetworkError(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeChain])
+  }, [chain])
 
   return (
     <ContractContext.Provider

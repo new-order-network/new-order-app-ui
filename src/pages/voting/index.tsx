@@ -36,7 +36,7 @@ import Layout from 'layout'
 const Voting = () => {
   const { onOpen, isOpen, onClose } = useDisclosure()
   const [overlay, setOverlay] = useState(<ModalOverlay />)
-  const { data: accountData } = useAccount()
+  const accountData = useAccount()
   const { stakedTokens } = useVotingContext()
   const { contracts } = useContractContext()
   const pageSize = 30

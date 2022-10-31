@@ -15,7 +15,7 @@ import {
   useToast,
 } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
-import { useNetwork } from 'wagmi'
+import { useNetwork, useSwitchNetwork } from 'wagmi'
 
 import ModalOverlay from 'components/ModalOverlay'
 
@@ -31,12 +31,12 @@ const NetworkButton = () => {
   const { isOpen, onOpen, onClose, hasNetworkError } = useContractContext()
   const [overlay, setOverlay] = useState(<ModalOverlay />)
 
+  const { chain: networkData } = useNetwork()
   const {
-    activeChain: networkData,
     error: switchNetworkError,
     isLoading,
     switchNetwork,
-  } = useNetwork()
+  } = useSwitchNetwork()
 
   const changeNetworkAndClose = (networkId: number) => {
     if (switchNetwork) {

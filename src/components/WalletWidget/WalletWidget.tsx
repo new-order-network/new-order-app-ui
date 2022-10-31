@@ -26,11 +26,11 @@ import { useNewoContext } from 'store/contexts/newoContext'
 
 const WalletWidget = ({ ...rest }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const { data: accountData } = useAccount()
+  const accountData = useAccount()
   const { metamaskIsInstalled } = useNewoContext()
 
   const [overlay, setOverlay] = useState(<ModalOverlay />)
-  const { connectors, isConnecting, connectAsync } = useConnect()
+  const { connectors, isLoading, connectAsync } = useConnect()
 
   const getBrowserPlugin = () => {
     const onboarding = new MetaMaskOnboarding()
@@ -51,7 +51,7 @@ const WalletWidget = ({ ...rest }) => {
               onOpen()
             }}
             loadingText="Connecting Wallet"
-            isLoading={isConnecting}
+            isLoading={isLoading}
           >
             Connect Wallet
           </Button>
@@ -102,7 +102,7 @@ const WalletWidget = ({ ...rest }) => {
                     if (!connector.ready && !metamaskIsInstalled) {
                       getBrowserPlugin()
                     } else {
-                      connectAsync(connector)
+                      connectAsync({ connector })
                     }
                     onClose()
                   }}
@@ -119,7 +119,7 @@ const WalletWidget = ({ ...rest }) => {
                         {connectorName}
                       </Text>
                       {!connector.ready && ' (unsupported)'}
-                      {isConnecting &&
+                      {isLoading &&
                         connector.name === connector?.name &&
                         '(connecting)'}
                     </>

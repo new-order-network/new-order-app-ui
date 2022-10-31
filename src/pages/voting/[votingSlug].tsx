@@ -65,7 +65,7 @@ const VotingDetail = () => {
     handleSubmit,
     formState: { isSubmitting },
   } = useForm()
-  const { data: accountData } = useAccount()
+  const accountData = useAccount()
   const [votingProposalDetails, setVotingProposalDetails] =
     useState(proposalData)
   const [result, setResult] = useState(null)

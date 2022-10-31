@@ -5,11 +5,12 @@ import { InjectedConnector } from 'wagmi/connectors/injected'
 import { configureChains, Connector } from 'wagmi'
 import { providers } from 'ethers'
 import { alchemyProvider } from 'wagmi/providers/alchemy'
+import { infuraProvider } from 'wagmi/providers/infura'
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 
 import { env } from 'lib/environment'
 
-import { DEFAULT_NETWORK, SUPPORTED_NETWORKS } from 'constants/network'
+import { SUPPORTED_NETWORKS } from 'constants/network'
 
 type ProviderConfig = { chainId?: number; connector?: Connector }
 
@@ -19,35 +20,39 @@ export const isChainSupported = (chainId?: number) => {
   })
 }
 
-export const connectors = ({ chainId }: { chainId?: number }) => {
-  const rpcUrl =
-    SUPPORTED_NETWORKS.find((x) => {
-      return x.id === chainId
-    })?.rpcUrls?.default ?? DEFAULT_NETWORK.rpcUrls.default
+export const { chains, provider } = configureChains(SUPPORTED_NETWORKS, [
+  alchemyProvider({ apiKey: env.NEXT_PUBLIC_ALCHEMY_ID }),
+  infuraProvider({ apiKey: env.NEXT_PUBLIC_INFURA_ID }),
+  jsonRpcProvider({
+    rpc: (chain) => {
+      return { http: chain.rpcUrls.default }
+    },
+  }),
+])
 
+export const connectors = () => {
   return [
     new MetaMaskConnector({
-      chains: SUPPORTED_NETWORKS,
+      chains,
       options: {
         shimDisconnect: true,
       },
     }),
     new WalletConnectConnector({
-      chains: SUPPORTED_NETWORKS,
+      chains,
       options: {
         infuraId: env.NEXT_PUBLIC_INFURA_ID,
         qrcode: true,
       },
     }),
     new CoinbaseWalletConnector({
-      chains: SUPPORTED_NETWORKS,
+      chains,
       options: {
         appName: 'new-order',
-        jsonRpcUrl: `${rpcUrl}/${env.NEXT_PUBLIC_INFURA_ID}`,
       },
     }),
     new InjectedConnector({
-      chains: SUPPORTED_NETWORKS,
+      chains,
       options: {
         shimDisconnect: true,
         name: (detectedName) => {
@@ -61,15 +66,6 @@ export const connectors = ({ chainId }: { chainId?: number }) => {
     }),
   ]
 }
-
-export const { provider } = configureChains(SUPPORTED_NETWORKS, [
-  alchemyProvider({ alchemyId: env.NEXT_PUBLIC_ALCHEMY_ID }),
-  jsonRpcProvider({
-    rpc: (chain) => {
-      return { http: chain.rpcUrls.default }
-    },
-  }),
-])
 
 export const webSocketProvider = ({ chainId }: ProviderConfig) => {
   return isChainSupported(chainId)

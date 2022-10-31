@@ -22,7 +22,7 @@ const RegisteredReward: React.FC<RegisteredRewardProps> = ({
   token0,
   token1,
 }) => {
-  const { data: accountData } = useAccount()
+  const accountData = useAccount()
   const { multiplier } = useVeNewoContext()
   const token = useToken(tokenAddress)
   const veVault = useVeVault(veVaultAddress, tokenAddress, token0, token1)

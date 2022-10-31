@@ -44,8 +44,8 @@ import Layout from 'layout'
 
 const Page = () => {
   const { contracts } = useContractContext()
-  const { activeChain } = useNetwork()
-  const { data: accountData } = useAccount()
+  const { chain } = useNetwork()
+  const accountData = useAccount()
   const { totalLocked, totalBalance, assetBalance, balance, multiplier } =
     useVeNewoContext()
 
@@ -55,12 +55,12 @@ const Page = () => {
 
   useEffect(() => {
     let blockExplorerUrl = DEFAULT_NETWORK.blockExplorers?.default.url
-    if (activeChain) {
-      blockExplorerUrl = activeChain?.blockExplorers?.default?.url
+    if (chain) {
+      blockExplorerUrl = chain?.blockExplorers?.default?.url
     }
 
     setBlockExplorer(blockExplorerUrl)
-  }, [activeChain])
+  }, [chain])
 
   return (
     <Layout pageTitle="New Order | veNEWO">

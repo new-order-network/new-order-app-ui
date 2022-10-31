@@ -38,7 +38,7 @@ const Vault = ({
     APRLoading,
     loading,
   } = useVault(vaultAddress, tokenAddress, token0, token1)
-  const { data: accountData } = useAccount()
+  const accountData = useAccount()
   const token = useToken(tokenAddress)
 
   const [userVaultBalance, setUserVaultBalance] = useState('')

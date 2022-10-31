@@ -29,7 +29,7 @@ const ActiveDeposit = ({
   const { onOpen, isOpen, onClose } = useDisclosure()
   const [overlay, setOverlay] = useState(<ModalOverlay />)
   const token = useToken(tokenAddress)
-  const { data: accountData } = useAccount()
+  const accountData = useAccount()
   const {
     balanceOf,
     earned,

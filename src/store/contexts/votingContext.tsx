@@ -36,7 +36,7 @@ export const VotingContext = createContext<VotingStateProps>({
 export const VotingProvider: React.FC<VotingProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer(votingReducer, initialVotingState)
   const { contracts } = useContractContext()
-  const { data: accountData } = useAccount()
+  const accountData = useAccount()
   const governanceVault = useGovernanceVault(
     contracts?.NEWO,
     contracts?.GOVERNANCE_VAULT
