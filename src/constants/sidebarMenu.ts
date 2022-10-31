@@ -1,5 +1,3 @@
-import ExternalLink from 'constants/externalLink'
-
 import HomeIcon from 'assets/icons/Home.svg'
 import VotingIcon from 'assets/icons/Voting.svg'
 import AirdropIcon from 'assets/icons/Airdrop.svg'

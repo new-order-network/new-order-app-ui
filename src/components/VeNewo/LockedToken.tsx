@@ -17,7 +17,7 @@ const LockedToken: React.FC<LockedTokenProps> = ({
   veTokenAddress,
   tokenAddress,
 }) => {
-  const { data: accountData } = useAccount()
+  const accountData = useAccount()
   const { assetBalance, unlockDate } = useVeNewoContext()
   const veToken = useVeToken(veTokenAddress, tokenAddress)
 

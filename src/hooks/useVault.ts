@@ -39,7 +39,7 @@ const useVault = (
 ): UseVaultProps => {
   const toast = useToast()
   const { data: signer } = useSigner()
-  const { activeChain } = useNetwork()
+  const { chain } = useNetwork()
   const { updateState } = useNewoContext()
   const token = useToken(tokenAddress)
   const [vaultInstance, setVaultInstance] = useState<ethers.Contract | null>(
@@ -104,14 +104,8 @@ const useVault = (
       const token1Instance = new ethers.Contract(token1, erc20ABI, provider)
 
       // Get the usd price of token0 and token1 and rewards token
-      const token0Price = await getTokenPriceByAddress(
-        token0,
-        activeChain?.name
-      )
-      const token1Price = await getTokenPriceByAddress(
-        token1,
-        activeChain?.name
-      )
+      const token0Price = await getTokenPriceByAddress(token0, chain?.name)
+      const token1Price = await getTokenPriceByAddress(token1, chain?.name)
 
       // Get the balance of the LP contract on token0
       const lpTokenBalance0 = await token0Instance?.balanceOf(tokenAddress)
@@ -170,7 +164,7 @@ const useVault = (
 
         const rewardTokenPrice = await getTokenPriceByAddress(
           rewardsToken,
-          activeChain?.name
+          chain?.name
         )
 
         const lpTvl = await getTvl()

@@ -15,7 +15,7 @@ const useGovernanceVault = (
 ) => {
   const toast = useToast()
   const { data: signer } = useSigner()
-  const { data: account } = useAccount()
+  const accountData = useAccount()
   const { updateState: updateNewoState } = useNewoContext()
 
   const token = useToken(tokenAddress)
@@ -50,7 +50,7 @@ const useGovernanceVault = (
   }, [signer])
 
   const stake = async (amount: string) => {
-    if (!account) {
+    if (!accountData) {
       return
     }
     setLoading(true)
@@ -58,7 +58,7 @@ const useGovernanceVault = (
     try {
       const parsedAmount = ethers.utils.parseUnits(amount, 'ether')
       const tx = await governanceVaultInstance?.stake(parsedAmount, {
-        from: account?.address,
+        from: accountData?.address,
       })
       const receipt = await tx?.wait()
 
@@ -89,7 +89,7 @@ const useGovernanceVault = (
   }
 
   const unstake = async (amount: string) => {
-    if (!account) {
+    if (!accountData) {
       return
     }
     setLoading(true)
@@ -97,7 +97,7 @@ const useGovernanceVault = (
     try {
       const parsedAmount = ethers.utils.parseUnits(amount, 'ether')
       const tx = await governanceVaultInstance?.unstake(parsedAmount, {
-        from: account?.address,
+        from: accountData?.address,
       })
       const receipt = await tx.wait()
 

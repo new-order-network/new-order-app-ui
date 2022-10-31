@@ -14,7 +14,7 @@ import { useContractContext } from 'store/contexts/contractContext'
 import { DEFAULT_NETWORK, NETWORK_API_URL } from 'constants/network'
 
 const Transaction = () => {
-  const { activeChain } = useNetwork()
+  const { chain } = useNetwork()
   const { contracts } = useContractContext()
   const [transactions, setTransactions] = useState([])
   const [blockExplorer, setBlockExplorer] = useState(
@@ -25,8 +25,8 @@ const Transaction = () => {
     let apiUrl =
       NETWORK_API_URL[DEFAULT_NETWORK.id as keyof typeof NETWORK_API_URL]
 
-    if (activeChain) {
-      apiUrl = NETWORK_API_URL[activeChain.id as keyof typeof NETWORK_API_URL]
+    if (chain) {
+      apiUrl = NETWORK_API_URL[chain.id as keyof typeof NETWORK_API_URL]
     }
 
     axios
@@ -41,16 +41,16 @@ const Transaction = () => {
       .catch((err) => {
         console.error('[TRANSACTION ERROR]', err)
       })
-  }, [activeChain, contracts.VENEWO])
+  }, [chain, contracts.VENEWO])
 
   useEffect(() => {
     let blockExplorerUrl = DEFAULT_NETWORK.blockExplorers?.default.url
-    if (activeChain) {
-      blockExplorerUrl = activeChain?.blockExplorers?.default?.url
+    if (chain) {
+      blockExplorerUrl = chain?.blockExplorers?.default?.url
     }
 
     setBlockExplorer(blockExplorerUrl)
-  }, [activeChain])
+  }, [chain])
 
   return (
     <Stack>

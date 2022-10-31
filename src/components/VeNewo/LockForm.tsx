@@ -45,7 +45,7 @@ const LockForm = () => {
   const { allowance, unlockDate, totalSupply, totalAssets } = useVeNewoContext()
   const { newoBalance } = useNewoContext()
   const { contracts } = useContractContext()
-  const { data: accountData } = useAccount()
+  const accountData = useAccount()
   const veNewo = useVeToken(contracts.VENEWO, contracts.NEWO)
 
   const veNewoUsdcVault = useVeVault(

@@ -28,7 +28,7 @@ const RegistrationReward: React.FC<RegistrationRewardProps> = ({
   token1,
 }) => {
   const router = useRouter()
-  const { data: accountData } = useAccount()
+  const accountData = useAccount()
   const { multiplier, unlockDate } = useVeNewoContext()
   const veVault = useVeVault(veVaultAddress, tokenAddress, token0, token1)
   const token = useToken(tokenAddress)

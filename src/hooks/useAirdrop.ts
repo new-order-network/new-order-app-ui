@@ -32,7 +32,7 @@ const useAirdrop = (
 ): UseAirdropProps => {
   const toast = useToast()
   const { data: signer } = useSigner()
-  const { data: accountData } = useAccount()
+  const accountData = useAccount()
   const newoContext = useNewoContext()
   const [airdropInstance, setAirdropInstance] =
     useState<ethers.Contract | null>(null)

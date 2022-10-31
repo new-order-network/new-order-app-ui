@@ -48,7 +48,7 @@ const useVeVault = (
 ): UseVeVaultProps => {
   const toast = useToast()
   const { data: signer } = useSigner()
-  const { activeChain } = useNetwork()
+  const { chain } = useNetwork()
   const { updateState } = useNewoContext()
   const { totalAssets: veNewoTotalAssets } = useVeNewoContext()
   const token = useToken(tokenAddress)
@@ -104,7 +104,7 @@ const useVeVault = (
 
         const rewardTokenPrice = await getTokenPriceByAddress(
           rewardsToken,
-          activeChain?.name
+          chain?.name
         )
 
         const lpTvl = await getTvl()

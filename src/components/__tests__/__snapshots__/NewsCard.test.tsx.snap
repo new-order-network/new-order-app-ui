@@ -6,7 +6,7 @@ exports[`NewsCard.tsx component match to snapshot 1`] = `
     class="css-r0wi4o"
   >
     <div
-      class="css-0"
+      class="css-1gvp5h0"
     >
       <div
         class="css-13rbvqk"
@@ -23,7 +23,7 @@ exports[`NewsCard.tsx component match to snapshot 1`] = `
       </div>
     </div>
     <div
-      class="css-0"
+      class="css-1gvp5h0"
     >
       <div
         class="css-1lyhfau"

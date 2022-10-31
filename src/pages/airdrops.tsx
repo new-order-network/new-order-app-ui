@@ -10,7 +10,7 @@ import { AirdropProps } from 'constants/airdrop/airdrops'
 import Layout from 'layout'
 
 const Airdrops = () => {
-  const { data: accountData } = useAccount()
+  const accountData = useAccount()
   const { airdrops } = useContractContext()
 
   const noAirdropContent = () => {

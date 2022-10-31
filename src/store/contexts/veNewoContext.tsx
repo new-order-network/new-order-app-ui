@@ -39,9 +39,9 @@ export const VeNewoContext = createContext<VeNewoContextStateProps>({
 
 export const VeNewoProvider: React.FC<VeNewoProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer(veNewoReducer, initialVeNewoState)
-  const { data: accountData } = useAccount()
+  const accountData = useAccount()
   const { contracts } = useContractContext()
-  const { activeChain } = useNetwork()
+  const { chain } = useNetwork()
   const veNewo = useVeToken(contracts?.VENEWO, contracts?.NEWO)
 
   const updateMetrics = async () => {
@@ -165,7 +165,7 @@ export const VeNewoProvider: React.FC<VeNewoProviderProps> = ({ children }) => {
   useEffect(() => {
     updateState()
     // eslint-disable-next-line
-  }, [accountData?.address, contracts, activeChain?.id, veNewo.veTokenInstance])
+  }, [accountData?.address, contracts, chain?.id, veNewo.veTokenInstance])
 
   return (
     <VeNewoContext.Provider

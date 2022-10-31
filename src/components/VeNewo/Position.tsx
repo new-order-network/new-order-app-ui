@@ -7,7 +7,7 @@ import ConnectOverlay from 'components/ConnectOverlay'
 import { useVeNewoContext } from 'store/contexts/veNewoContext'
 
 const Position = () => {
-  const { data: accountData } = useAccount()
+  const accountData = useAccount()
   const { balance, assetBalance, multiplier } = useVeNewoContext()
 
   if (!balance && !assetBalance && !multiplier) {

@@ -27,7 +27,7 @@ const VeActiveDeposit = ({
 }: VaultProps) => {
   const { onOpen, isOpen, onClose } = useDisclosure()
   const [overlay, setOverlay] = useState(<ModalOverlay />)
-  const { data: accountData } = useAccount()
+  const accountData = useAccount()
   const token = useToken(tokenAddress)
   const {
     assetBalanceOf,

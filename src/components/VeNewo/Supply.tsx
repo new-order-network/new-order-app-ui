@@ -12,7 +12,7 @@ import { convertToChartData } from 'lib/utils/data'
 import { ChartData, SupplyType } from 'models/chart'
 
 const Supply = () => {
-  const { activeChain } = useNetwork()
+  const { chain } = useNetwork()
   const [supplyType, setSupplyType] = useState<SupplyType>(SupplyType.VENEWO)
   const [chartData, setChartData] = useState<ChartData[]>([])
 
@@ -53,7 +53,7 @@ const Supply = () => {
     return () => {
       isMounted = false
     }
-  }, [activeChain, supplyType])
+  }, [chain, supplyType])
 
   return (
     <Card border="1px solid" borderColor="gray.80" p="5">
