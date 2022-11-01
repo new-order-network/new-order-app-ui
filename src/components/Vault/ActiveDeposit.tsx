@@ -29,7 +29,7 @@ const ActiveDeposit = ({
   const { onOpen, isOpen, onClose } = useDisclosure()
   const [overlay, setOverlay] = useState(<ModalOverlay />)
   const token = useToken(tokenAddress)
-  const accountData = useAccount()
+  const { address } = useAccount()
   const {
     balanceOf,
     earned,
@@ -67,7 +67,7 @@ const ActiveDeposit = ({
           disabled={
             (isLegacyVault && !isLegacyLPVault) ||
             loading ||
-            !accountData?.address ||
+            !address ||
             Number(userVaultBalance) === 0
           }
         >
@@ -85,14 +85,11 @@ const ActiveDeposit = ({
           }
           loadingText="Claiming"
           disabled={
-            isLegacyVault ||
-            loading ||
-            !accountData?.address ||
-            Number(earnedRewards) === 0
+            isLegacyVault || loading || !address || Number(earnedRewards) === 0
           }
           onClick={async () => {
             setActionType(ACTIVE_VAULT_DEPOSIT_ACTIONS.CLAIM)
-            if (accountData?.address) {
+            if (address) {
               await getReward()
               await updateState()
             }
@@ -113,13 +110,13 @@ const ActiveDeposit = ({
           disabled={
             isLegacyLPVault ||
             loading ||
-            !accountData?.address ||
+            !address ||
             (Number(userVaultBalance) === 0 && Number(earnedRewards) === 0)
           }
           loadingText="Withdrawing & Claiming"
           onClick={async () => {
             setActionType(ACTIVE_VAULT_DEPOSIT_ACTIONS.WITHDRAW_AND_CLAIM)
-            if (accountData?.address) {
+            if (address) {
               await exit()
               await updateState()
             }
@@ -132,7 +129,7 @@ const ActiveDeposit = ({
   }
 
   const withdrawTokens = async () => {
-    if (accountData?.address) {
+    if (address) {
       await withdraw(withdrawAmount)
       await updateState()
       setWithdrawAmount('')
@@ -141,16 +138,16 @@ const ActiveDeposit = ({
   }
 
   const updateUserVaultBalance = async () => {
-    if (accountData?.address) {
-      const balance = await balanceOf(accountData?.address)
+    if (address) {
+      const balance = await balanceOf(address)
 
       setUserVaultBalance(balance)
     }
   }
 
   const updateEarnedRewards = async () => {
-    if (accountData?.address) {
-      const rewards = await earned(accountData?.address)
+    if (address) {
+      const rewards = await earned(address)
       setEarnedRewards(rewards)
     }
   }
@@ -162,7 +159,7 @@ const ActiveDeposit = ({
   useEffect(() => {
     updateState()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token, accountData?.address])
+  }, [token, address])
 
   return (
     <>

@@ -24,8 +24,6 @@ import { env } from 'lib/environment'
 
 import { useContractContext } from 'store/contexts/contractContext'
 
-import { SUPPORTED_NETWORKS } from 'constants/network'
-
 const NetworkButton = () => {
   const toast = useToast()
   const { isOpen, onOpen, onClose, hasNetworkError } = useContractContext()
@@ -33,6 +31,7 @@ const NetworkButton = () => {
 
   const { chain: networkData } = useNetwork()
   const {
+    chains,
     error: switchNetworkError,
     isLoading,
     switchNetwork,
@@ -40,7 +39,7 @@ const NetworkButton = () => {
 
   const changeNetworkAndClose = (networkId: number) => {
     if (switchNetwork) {
-      switchNetwork(networkId)
+      switchNetwork?.(networkId)
     }
 
     onClose()
@@ -139,45 +138,47 @@ const NetworkButton = () => {
                   )
                 })
               : switchNetwork &&
-                SUPPORTED_NETWORKS.filter((x) => {
-                  if (env.isDev || env.isDevelopment || env.isTest) {
-                    return x
-                  } else if (env.isProd || env.isProduction) {
+                chains
+                  .filter((x) => {
+                    if (env.isDev || env.isDevelopment || env.isTest) {
+                      return x
+                    } else if (env.isProd || env.isProduction) {
+                      return x.testnet === false
+                    }
                     return x.testnet === false
-                  }
-                  return x.testnet === false
-                }).map((x) => {
-                  return x.id === networkData?.id ? null : (
-                    <HStack
-                      onClick={() => {
-                        changeNetworkAndClose(x.id)
-                      }}
-                      key={x.id}
-                      _hover={{
-                        backgroundColor: 'gray.85',
-                      }}
-                      transition="0.3s ease all"
-                      cursor="pointer"
-                      p="4"
-                      borderRadius="md"
-                    >
-                      <Box w="2rem" h="2rem" mr="2">
-                        <AspectRatio ratio={1 / 1} position="relative">
-                          <Image
-                            borderRadius="md"
-                            bg="gray.85"
-                            src={getIconForNetwork(x.id, 'source')}
-                            alt={getIconForNetwork(x.id, 'alt')}
-                          />
-                        </AspectRatio>
-                      </Box>
-                      <Text fontSize="0.9rem">
-                        {'Switch to '}
-                        {x.name}
-                      </Text>
-                    </HStack>
-                  )
-                })}
+                  })
+                  .map((x) => {
+                    return x.id === networkData?.id ? null : (
+                      <HStack
+                        onClick={() => {
+                          changeNetworkAndClose(x.id)
+                        }}
+                        key={x.id}
+                        _hover={{
+                          backgroundColor: 'gray.85',
+                        }}
+                        transition="0.3s ease all"
+                        cursor="pointer"
+                        p="4"
+                        borderRadius="md"
+                      >
+                        <Box w="2rem" h="2rem" mr="2">
+                          <AspectRatio ratio={1 / 1} position="relative">
+                            <Image
+                              borderRadius="md"
+                              bg="gray.85"
+                              src={getIconForNetwork(x.id, 'source')}
+                              alt={getIconForNetwork(x.id, 'alt')}
+                            />
+                          </AspectRatio>
+                        </Box>
+                        <Text fontSize="0.9rem">
+                          {'Switch to '}
+                          {x.name}
+                        </Text>
+                      </HStack>
+                    )
+                  })}
           </ModalBody>
         </ModalContent>
       </Modal>

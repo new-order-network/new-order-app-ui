@@ -10,7 +10,7 @@ import { AirdropProps } from 'constants/airdrop/airdrops'
 import Layout from 'layout'
 
 const Airdrops = () => {
-  const accountData = useAccount()
+  const { address } = useAccount()
   const { airdrops } = useContractContext()
 
   const noAirdropContent = () => {
@@ -58,7 +58,7 @@ const Airdrops = () => {
           Airdrops
         </Text>
         <Grid templateColumns={['1fr', '1fr', '1fr', '2fr 1fr', '1fr 1fr']}>
-          {!accountData?.address
+          {!address
             ? walletNotConnected()
             : airdrops && airdrops.length > 0
             ? airdrops.map((airdrop: AirdropProps) => {

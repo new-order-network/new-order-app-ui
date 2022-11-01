@@ -65,7 +65,7 @@ const VotingDetail = () => {
     handleSubmit,
     formState: { isSubmitting },
   } = useForm()
-  const accountData = useAccount()
+  const { address } = useAccount()
   const [votingProposalDetails, setVotingProposalDetails] =
     useState(proposalData)
   const [result, setResult] = useState(null)
@@ -99,7 +99,7 @@ const VotingDetail = () => {
 
     // eslint-disable-next-line
     await strategies.forEach(async (strategy: any) => {
-      if (accountData?.address) {
+      if (address) {
         let strategyScore
 
         try {
@@ -107,7 +107,7 @@ const VotingDetail = () => {
             env.NEXT_PUBLIC_SNAPSHOT_SPACE,
             [strategy],
             strategy.network,
-            [accountData?.address],
+            [address],
             Number(proposalData?.proposal.snapshot)
           )
         } catch (err) {
@@ -115,13 +115,13 @@ const VotingDetail = () => {
             env.NEXT_PUBLIC_SNAPSHOT_SPACE,
             [strategy],
             strategy.network,
-            [accountData?.address],
+            [address],
             proposalData?.proposal.snapshot
           )
         }
 
-        if (strategyScore[0][accountData?.address]) {
-          totalVotingPower += strategyScore[0][accountData?.address]
+        if (strategyScore[0][address]) {
+          totalVotingPower += strategyScore[0][address]
         }
         setVotingPower(totalVotingPower)
       }
@@ -135,7 +135,7 @@ const VotingDetail = () => {
     }
 
     // eslint-disable-next-line
-  }, [proposalData, accountData?.address])
+  }, [proposalData, address])
 
   useEffect(() => {
     if (votesData && proposalData) {
@@ -147,7 +147,7 @@ const VotingDetail = () => {
   const onSubmit = handleSubmit(async (data) => {
     // This submit function should cast a vote on snapshot
 
-    if (accountData?.address && window.ethereum) {
+    if (address && window.ethereum) {
       const choiceIndex = votingProposalDetails?.choices.indexOf(data.choice)
       const web3 = new Web3Provider(window.ethereum as ExternalProvider)
       const [account] = await web3.listAccounts()

@@ -26,7 +26,7 @@ import { useNewoContext } from 'store/contexts/newoContext'
 
 const WalletWidget = ({ ...rest }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const accountData = useAccount()
+  const { address } = useAccount()
   const { metamaskIsInstalled } = useNewoContext()
 
   const [overlay, setOverlay] = useState(<ModalOverlay />)
@@ -41,7 +41,7 @@ const WalletWidget = ({ ...rest }) => {
   return (
     <>
       <Box {...rest}>
-        {accountData?.address ? (
+        {address ? (
           <AddressButton />
         ) : (
           <Button

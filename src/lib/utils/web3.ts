@@ -41,7 +41,6 @@ export const connectors = () => {
     new WalletConnectConnector({
       chains,
       options: {
-        infuraId: env.NEXT_PUBLIC_INFURA_ID,
         qrcode: true,
       },
     }),

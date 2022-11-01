@@ -7,7 +7,7 @@ import ConnectOverlay from 'components/ConnectOverlay'
 import { useVeNewoContext } from 'store/contexts/veNewoContext'
 
 const Position = () => {
-  const accountData = useAccount()
+  const { address } = useAccount()
   const { balance, assetBalance, multiplier } = useVeNewoContext()
 
   if (!balance && !assetBalance && !multiplier) {
@@ -17,7 +17,7 @@ const Position = () => {
   return (
     <Stack spacing="3">
       <Text fontSize="lg">My Position</Text>
-      <ConnectOverlay isConnected={!!accountData?.address}>
+      <ConnectOverlay isConnected={!!address}>
         <Card border="1px solid" borderColor="brand.green" p="5">
           <Stack spacing="1">
             <Flex align="center" justify="space-between">

@@ -39,7 +39,7 @@ export const VeNewoContext = createContext<VeNewoContextStateProps>({
 
 export const VeNewoProvider: React.FC<VeNewoProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer(veNewoReducer, initialVeNewoState)
-  const accountData = useAccount()
+  const { address: accountAddress } = useAccount()
   const { contracts } = useContractContext()
   const { chain } = useNetwork()
   const veNewo = useVeToken(contracts?.VENEWO, contracts?.NEWO)
@@ -88,15 +88,15 @@ export const VeNewoProvider: React.FC<VeNewoProviderProps> = ({ children }) => {
   }
 
   const updateAllowance = async () => {
-    if (accountData?.address) {
-      const allowance = await veNewo.veTokenAllowance(accountData?.address)
+    if (accountAddress) {
+      const allowance = await veNewo.veTokenAllowance(accountAddress)
       dispatch({ type: UPDATE_ALLOWANCE, payload: allowance })
     }
   }
 
   const updateUnlockDate = async () => {
-    if (accountData?.address) {
-      const unlockDate = await veNewo.unlockDate(accountData?.address)
+    if (accountAddress) {
+      const unlockDate = await veNewo.unlockDate(accountAddress)
       dispatch({ type: UPDATE_UNLOCK_DATE, payload: unlockDate })
     }
   }
@@ -118,15 +118,15 @@ export const VeNewoProvider: React.FC<VeNewoProviderProps> = ({ children }) => {
   }
 
   const updateBalance = async () => {
-    if (accountData?.address) {
-      const balance = await veNewo.balanceOf(accountData?.address)
+    if (accountAddress) {
+      const balance = await veNewo.balanceOf(accountAddress)
       dispatch({ type: UPDATE_BALANCE, payload: Number(balance).toFixed(4) })
     }
   }
 
   const updateAssetBalance = async () => {
-    if (accountData?.address) {
-      const assetBalance = await veNewo.assetBalanceOf(accountData?.address)
+    if (accountAddress) {
+      const assetBalance = await veNewo.assetBalanceOf(accountAddress)
       dispatch({
         type: UPDATE_ASSET_BALANCE,
         payload: Number(assetBalance).toFixed(4),
@@ -135,9 +135,9 @@ export const VeNewoProvider: React.FC<VeNewoProviderProps> = ({ children }) => {
   }
 
   const updateMultiplier = async () => {
-    if (accountData?.address) {
-      const balance = await veNewo.balanceOf(accountData?.address)
-      const assetBalance = await veNewo.assetBalanceOf(accountData?.address)
+    if (accountAddress) {
+      const balance = await veNewo.balanceOf(accountAddress)
+      const assetBalance = await veNewo.assetBalanceOf(accountAddress)
       const multiplier = Number(balance) / Number(assetBalance)
 
       if (Number.isFinite(multiplier)) {
@@ -165,7 +165,7 @@ export const VeNewoProvider: React.FC<VeNewoProviderProps> = ({ children }) => {
   useEffect(() => {
     updateState()
     // eslint-disable-next-line
-  }, [accountData?.address, contracts, chain?.id, veNewo.veTokenInstance])
+  }, [accountAddress, contracts, chain?.id, veNewo.veTokenInstance])
 
   return (
     <VeNewoContext.Provider

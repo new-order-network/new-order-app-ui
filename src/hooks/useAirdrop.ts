@@ -32,7 +32,7 @@ const useAirdrop = (
 ): UseAirdropProps => {
   const toast = useToast()
   const { data: signer } = useSigner()
-  const accountData = useAccount()
+  const { address } = useAccount()
   const newoContext = useNewoContext()
   const [airdropInstance, setAirdropInstance] =
     useState<ethers.Contract | null>(null)
@@ -103,7 +103,7 @@ const useAirdrop = (
 
         const tx = await airdropInstance?.claim(
           index,
-          accountData?.address,
+          address,
           decAmount,
           proof
         )
@@ -136,15 +136,12 @@ const useAirdrop = (
   }
 
   useEffect(() => {
-    if (airdropInstance && accountData?.address) {
+    if (airdropInstance && address) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const merkleRootClaims: any = merkleRoot.claims
 
       const isFound = Object.keys(merkleRootClaims).find((claim) => {
-        return (
-          accountData.address &&
-          claim.toLowerCase() === accountData?.address.toLowerCase()
-        )
+        return address && claim.toLowerCase() === address.toLowerCase()
       })
       if (isFound) {
         setIsEligible(true)
@@ -158,7 +155,7 @@ const useAirdrop = (
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [airdropInstance, accountData, getAmount])
+  }, [airdropInstance, address, getAmount])
 
   return {
     isClaimed,

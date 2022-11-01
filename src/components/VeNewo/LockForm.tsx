@@ -45,7 +45,7 @@ const LockForm = () => {
   const { allowance, unlockDate, totalSupply, totalAssets } = useVeNewoContext()
   const { newoBalance } = useNewoContext()
   const { contracts } = useContractContext()
-  const accountData = useAccount()
+  const { address } = useAccount()
   const veNewo = useVeToken(contracts.VENEWO, contracts.NEWO)
 
   const veNewoUsdcVault = useVeVault(
@@ -72,15 +72,11 @@ const LockForm = () => {
   const [actionType, setActionType] = useState<LOCK_ACTIONS>()
 
   const getNewoShare = async () => {
-    if (veNewoUsdcVault && accountData?.address) {
-      const newoShare = await veNewoUsdcVault?.getNewoShare(
-        accountData?.address
-      )
+    if (veNewoUsdcVault && address) {
+      const newoShare = await veNewoUsdcVault?.getNewoShare(address)
       setNewoShare(newoShare)
-    } else if (veNewoWavaxVault && accountData?.address) {
-      const newoShare = await veNewoWavaxVault?.getNewoShare(
-        accountData?.address
-      )
+    } else if (veNewoWavaxVault && address) {
+      const newoShare = await veNewoWavaxVault?.getNewoShare(address)
       setNewoShare(newoShare)
     }
   }
@@ -88,7 +84,7 @@ const LockForm = () => {
   useEffect(() => {
     getNewoShare()
     // eslint-disable-next-line
-  }, [accountData?.address])
+  }, [address])
 
   useEffect(() => {
     if (unlockDate !== 0 && dayjs.unix(unlockDate).isAfter(lockTime)) {
@@ -129,8 +125,8 @@ const LockForm = () => {
 
   const onSubmit = async () => {
     setActionType(LOCK_ACTIONS.LOCK)
-    if (accountData?.address) {
-      await veNewo.deposit(amount, accountData?.address, lockTime)
+    if (address) {
+      await veNewo.deposit(amount, address, lockTime)
     }
   }
 
@@ -163,7 +159,7 @@ const LockForm = () => {
       <Text color="gray.50" fontSize="md">
         Maximize yield and voting power by locking NEWO.
       </Text>
-      <ConnectOverlay isConnected={!!accountData?.address}>
+      <ConnectOverlay isConnected={!!address}>
         <Card border="1px solid" borderColor="gray.80" p="5">
           <Box as="form">
             <Stack spacing="1">
@@ -181,7 +177,7 @@ const LockForm = () => {
                 setActionType(LOCK_ACTIONS.APPROVE)
                 veNewo.approveVeToken()
               }}
-              isDisabled={Number(allowance) > 0 || !accountData?.address}
+              isDisabled={Number(allowance) > 0 || !address}
               loadingText="Approving"
               isLoading={veNewo.loading && actionType === LOCK_ACTIONS.APPROVE}
               rightIcon={
@@ -325,7 +321,7 @@ const LockForm = () => {
                   onClick={onSubmit}
                   loadingText="Creating Lock"
                   isLoading={veNewo.loading && actionType === LOCK_ACTIONS.LOCK}
-                  isDisabled={!amount || !accountData?.address}
+                  isDisabled={!amount || !address}
                 >
                   Create Lock
                 </Button>
