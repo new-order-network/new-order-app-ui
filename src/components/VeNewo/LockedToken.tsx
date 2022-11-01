@@ -17,7 +17,7 @@ const LockedToken: React.FC<LockedTokenProps> = ({
   veTokenAddress,
   tokenAddress,
 }) => {
-  const accountData = useAccount()
+  const { address } = useAccount()
   const { assetBalance, unlockDate } = useVeNewoContext()
   const veToken = useVeToken(veTokenAddress, tokenAddress)
 
@@ -35,7 +35,7 @@ const LockedToken: React.FC<LockedTokenProps> = ({
           <Button
             variant="greenButton"
             isDisabled={
-              !accountData?.address ||
+              !address ||
               dayjs().isBefore(dayjs.unix(unlockDate)) ||
               Number(assetBalance) <= 0
             }

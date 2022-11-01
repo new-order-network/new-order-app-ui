@@ -23,7 +23,7 @@ import { useNewoContext } from 'store/contexts/newoContext'
 
 const AddressButton: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const accountData = useAccount()
+  const { address, connector } = useAccount()
   const { data: ensName } = useEnsName()
   const { newoBalance, disconnectWallet } = useNewoContext()
 
@@ -53,15 +53,15 @@ const AddressButton: React.FC = () => {
             <Center mx="4" height="30px">
               <Divider orientation="vertical" />
             </Center>
-            {accountData?.connector?.id && (
+            {connector?.id && (
               <Icon
                 fontSize="20"
                 fill="white"
-                as={getIconForConnector(accountData?.connector?.id)}
+                as={getIconForConnector(connector?.id)}
               />
             )}
             <Text fontSize={['0.8rem', '1rem']} pl="3" pr="6">
-              {shortAddress(ensName ?? accountData?.address)}
+              {shortAddress(ensName ?? address)}
             </Text>
 
             <Icon
@@ -85,7 +85,7 @@ const AddressButton: React.FC = () => {
               color: 'brand.orange',
             }}
           >
-            Disconnect from {accountData?.connector?.name || 'Wallet'}
+            Disconnect from {connector?.name || 'Wallet'}
           </MenuItem>
           <BuyNewoButton />
         </MenuList>

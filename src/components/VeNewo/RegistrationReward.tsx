@@ -28,7 +28,7 @@ const RegistrationReward: React.FC<RegistrationRewardProps> = ({
   token1,
 }) => {
   const router = useRouter()
-  const accountData = useAccount()
+  const { address } = useAccount()
   const { multiplier, unlockDate } = useVeNewoContext()
   const veVault = useVeVault(veVaultAddress, tokenAddress, token0, token1)
   const token = useToken(tokenAddress)
@@ -36,9 +36,9 @@ const RegistrationReward: React.FC<RegistrationRewardProps> = ({
   const [isRegistered, setIsRegistered] = useState(false)
 
   const calculateBoost = async () => {
-    if (accountData?.address) {
-      const assetBalance = await veVault.assetBalanceOf(accountData?.address)
-      const balance = await veVault.balanceOf(accountData?.address)
+    if (address) {
+      const assetBalance = await veVault.assetBalanceOf(address)
+      const balance = await veVault.balanceOf(address)
       const boost = Number(balance) / Number(assetBalance)
 
       if (Number.isFinite(boost)) {
@@ -48,11 +48,11 @@ const RegistrationReward: React.FC<RegistrationRewardProps> = ({
   }
 
   const checkRegistrationStatus = async () => {
-    if (accountData?.address) {
+    if (address) {
       if (token0 && token1 && Number(multiplier) === Number(boost)) {
         setIsRegistered(true)
       } else if (!token0 && !token1) {
-        const accounts = await veVault?.accounts(accountData?.address)
+        const accounts = await veVault?.accounts(address)
 
         if (accounts) {
           const dueDate = accounts?.dueDate?.toNumber()
@@ -69,12 +69,12 @@ const RegistrationReward: React.FC<RegistrationRewardProps> = ({
   useEffect(() => {
     calculateBoost()
     // eslint-disable-next-line
-  }, [accountData?.address, veVault])
+  }, [address, veVault])
 
   useEffect(() => {
     checkRegistrationStatus()
     // eslint-disable-next-line
-  }, [multiplier, boost, unlockDate, accountData?.address])
+  }, [multiplier, boost, unlockDate, address])
 
   const register = async () => {
     await veVault.notifyDeposit()
@@ -103,9 +103,7 @@ const RegistrationReward: React.FC<RegistrationRewardProps> = ({
               <Button
                 onClick={register}
                 isLoading={veVault.loading}
-                disabled={
-                  !accountData?.address || isRegistered || veVault.loading
-                }
+                disabled={!address || isRegistered || veVault.loading}
                 isDisabled={veVault.loading}
                 variant="greenButton"
               >

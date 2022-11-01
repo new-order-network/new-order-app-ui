@@ -36,23 +36,23 @@ export const VotingContext = createContext<VotingStateProps>({
 export const VotingProvider: React.FC<VotingProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer(votingReducer, initialVotingState)
   const { contracts } = useContractContext()
-  const accountData = useAccount()
+  const { address: accountAddress } = useAccount()
   const governanceVault = useGovernanceVault(
     contracts?.NEWO,
     contracts?.GOVERNANCE_VAULT
   )
 
   const updateStakedTokens = async () => {
-    if (accountData?.address) {
-      const stakedTokens = await governanceVault.stakes(accountData?.address)
+    if (accountAddress) {
+      const stakedTokens = await governanceVault.stakes(accountAddress)
       dispatch({ type: UPDATE_STAKED_TOKENS, payload: stakedTokens })
     }
   }
 
   const updateAllowance = async () => {
-    if (accountData?.address) {
+    if (accountAddress) {
       const vaultAllowance = await governanceVault.vaultAllowance(
-        accountData?.address
+        accountAddress
       )
 
       dispatch({ type: UPDATE_VAULT_ALLOWANCE, payload: vaultAllowance })
@@ -77,11 +77,11 @@ export const VotingProvider: React.FC<VotingProviderProps> = ({ children }) => {
   }
 
   useEffect(() => {
-    if (accountData?.address) {
+    if (accountAddress) {
       updateState()
     }
     // eslint-disable-next-line
-  }, [accountData, contracts])
+  }, [accountAddress, contracts])
 
   return (
     <VotingContext.Provider value={{ ...state, updateState }}>

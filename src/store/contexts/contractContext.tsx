@@ -60,7 +60,7 @@ export const ContractProvider: React.FC<ContractProviderProps> = ({
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { chain } = useNetwork()
 
-  const accountData = useAccount()
+  const { address: accountAddress } = useAccount()
 
   const [contracts, setContracts] = useState(
     contractAddresses[DEFAULT_ACTIVE_NETWORK]
@@ -77,7 +77,7 @@ export const ContractProvider: React.FC<ContractProviderProps> = ({
       setVaults(Vaults[chain.id])
       setAirdrops(Airdrops[chain.id])
     }
-  }, [chain, accountData])
+  }, [chain, accountAddress])
 
   useEffect(() => {
     const isSupportedChain = chain?.id && isChainSupported(chain?.id)

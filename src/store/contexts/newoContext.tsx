@@ -32,13 +32,13 @@ export const NewoProvider: React.FC<NewoProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer(newoReducer, initialNewoState)
   const { contracts } = useContractContext()
   const newoToken = useToken(contracts?.NEWO)
-  const accountData = useAccount()
+  const { address: accountAddress } = useAccount()
   const { chain } = useNetwork()
   const { disconnect } = useDisconnect()
 
   const updateNewoBalance = async () => {
-    if (accountData?.address) {
-      const newoBalance = await newoToken?.balanceOf(accountData?.address)
+    if (accountAddress) {
+      const newoBalance = await newoToken?.balanceOf(accountAddress)
 
       if (newoBalance) {
         dispatch({
@@ -64,12 +64,12 @@ export const NewoProvider: React.FC<NewoProviderProps> = ({ children }) => {
   }
 
   useEffect(() => {
-    if (accountData?.address && newoToken.tokenInstance) {
+    if (accountAddress && newoToken.tokenInstance) {
       updateState()
     }
 
     // eslint-disable-next-line
-  }, [accountData, contracts, chain?.id, newoToken.tokenInstance])
+  }, [accountAddress, contracts, chain?.id, newoToken.tokenInstance])
 
   useEffect(() => {
     if (typeof window?.ethereum === 'undefined') {

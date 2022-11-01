@@ -38,7 +38,7 @@ const Vault = ({
     APRLoading,
     loading,
   } = useVault(vaultAddress, tokenAddress, token0, token1)
-  const accountData = useAccount()
+  const { address } = useAccount()
   const token = useToken(tokenAddress)
 
   const [userVaultBalance, setUserVaultBalance] = useState('')
@@ -47,29 +47,29 @@ const Vault = ({
   const [allowance, setAllowance] = useState('')
 
   const onMax = async () => {
-    if (accountData?.address) {
-      const tokenBalance = await token?.balanceOf(accountData?.address)
+    if (address) {
+      const tokenBalance = await token?.balanceOf(address)
       setDeposit(tokenBalance)
     }
   }
 
   const updateTokenBalance = async () => {
-    if (accountData?.address) {
-      const tokenBalance = await token?.balanceOf(accountData?.address)
+    if (address) {
+      const tokenBalance = await token?.balanceOf(address)
       setTokenBalance(tokenBalance)
     }
   }
 
   const updateAllowance = async () => {
-    if (accountData?.address) {
-      const vaultAllowanceBalance = await vaultAllowance(accountData?.address)
+    if (address) {
+      const vaultAllowanceBalance = await vaultAllowance(address)
       setAllowance(vaultAllowanceBalance)
     }
   }
 
   const getUserVaultBalance = async () => {
-    if (accountData?.address) {
-      const balance = await balanceOf(accountData?.address)
+    if (address) {
+      const balance = await balanceOf(address)
 
       setUserVaultBalance(balance)
     }
@@ -86,15 +86,15 @@ const Vault = ({
   useEffect(() => {
     updateState()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token, accountData?.address])
+  }, [token, address])
 
   const onSubmit = async () => {
     if (Number(deposit) > Number(allowance) || Number(allowance) === 0) {
       await approveVault()
       await updateState()
     } else {
-      if (accountData?.address) {
-        await stake(deposit, accountData?.address)
+      if (address) {
+        await stake(deposit, address)
         await updateState()
         setDeposit('')
       }
@@ -146,9 +146,7 @@ const Vault = ({
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               return setDeposit(e.target.value)
             }}
-            isDisabled={
-              !accountData?.address || loading || isLegacyVault ? true : false
-            }
+            isDisabled={!address || loading || isLegacyVault ? true : false}
             type="number"
             formLabelFontSize="0.8rem"
             label={`Amount(${token?.tokenSymbol})`}
@@ -157,7 +155,7 @@ const Vault = ({
                 onClick={async () => {
                   await onMax()
                 }}
-                pointerEvents={accountData?.address ? 'all' : 'none'}
+                pointerEvents={address ? 'all' : 'none'}
                 fontSize="0.7rem"
                 cursor="pointer"
                 _hover={{
@@ -191,7 +189,7 @@ const Vault = ({
             fontWeight="bold"
             variant="greenButton"
             disabled={
-              !accountData?.address ||
+              !address ||
               loading ||
               (!deposit && Number(allowance) > 0) ||
               (Number(deposit) > Number(allowance) || Number(allowance) === 0

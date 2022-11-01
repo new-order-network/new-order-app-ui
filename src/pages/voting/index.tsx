@@ -36,7 +36,7 @@ import Layout from 'layout'
 const Voting = () => {
   const { onOpen, isOpen, onClose } = useDisclosure()
   const [overlay, setOverlay] = useState(<ModalOverlay />)
-  const accountData = useAccount()
+  const { address } = useAccount()
   const { stakedTokens } = useVotingContext()
   const { contracts } = useContractContext()
   const pageSize = 30
@@ -163,7 +163,7 @@ const Voting = () => {
               fontSize="0.8rem"
               fontWeight="bold"
               variant="greenButton"
-              disabled={!accountData?.address || !contracts.GOVERNANCE_VAULT}
+              disabled={!address || !contracts.GOVERNANCE_VAULT}
               onClick={() => {
                 setOverlay(<ModalOverlay />)
                 onOpen()

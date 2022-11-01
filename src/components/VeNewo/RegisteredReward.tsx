@@ -22,7 +22,7 @@ const RegisteredReward: React.FC<RegisteredRewardProps> = ({
   token0,
   token1,
 }) => {
-  const accountData = useAccount()
+  const { address } = useAccount()
   const { multiplier } = useVeNewoContext()
   const token = useToken(tokenAddress)
   const veVault = useVeVault(veVaultAddress, tokenAddress, token0, token1)
@@ -30,9 +30,9 @@ const RegisteredReward: React.FC<RegisteredRewardProps> = ({
   const [earned, setEarned] = useState('')
 
   const calculateBoost = async () => {
-    if (accountData?.address) {
-      const assetBalance = await veVault.assetBalanceOf(accountData?.address)
-      const balance = await veVault.balanceOf(accountData?.address)
+    if (address) {
+      const assetBalance = await veVault.assetBalanceOf(address)
+      const balance = await veVault.balanceOf(address)
       const boost = Number(balance) / Number(assetBalance)
 
       if (Number.isFinite(boost)) {
@@ -42,8 +42,8 @@ const RegisteredReward: React.FC<RegisteredRewardProps> = ({
   }
 
   const getEarned = async () => {
-    if (accountData?.address) {
-      const earned = await veVault?.earned(accountData?.address)
+    if (address) {
+      const earned = await veVault?.earned(address)
       setEarned(earned)
     }
   }
@@ -52,7 +52,7 @@ const RegisteredReward: React.FC<RegisteredRewardProps> = ({
     calculateBoost()
     getEarned()
     // eslint-disable-next-line
-  }, [accountData?.address, veVault])
+  }, [address, veVault])
 
   return (
     <Tr>

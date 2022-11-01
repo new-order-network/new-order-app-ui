@@ -45,7 +45,7 @@ import Layout from 'layout'
 const Page = () => {
   const { contracts } = useContractContext()
   const { chain } = useNetwork()
-  const accountData = useAccount()
+  const { address } = useAccount()
   const { totalLocked, totalBalance, assetBalance, balance, multiplier } =
     useVeNewoContext()
 
@@ -239,7 +239,7 @@ const Page = () => {
               </TabPanel>
 
               <TabPanel p={['4', '4', '8']}>
-                <ConnectOverlay isConnected={!!accountData?.address}>
+                <ConnectOverlay isConnected={!!address}>
                   <Grid
                     templateColumns={['1fr', '1fr', '1fr', 'repeat(3,1fr)']}
                     gap="3"
