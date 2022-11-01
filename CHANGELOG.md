@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.2.0](https://github.com/new-order-network/new-order-app-ui/compare/v1.1.1...v1.2.0) (2022-11-01)
+
+
+### Features
+
+* update wagmi and refactor code ([8fd24e8](https://github.com/new-order-network/new-order-app-ui/commit/8fd24e8851e038d4a51cca3466509f7504a54dc9))
+
+
+### Bug Fixes
+
+* add the fucntion to withdraw all locked tokens ([9964fa4](https://github.com/new-order-network/new-order-app-ui/commit/9964fa420b42e7fbadc022c949f0567022c4b558))
+* app crash when trying to change network ([760d829](https://github.com/new-order-network/new-order-app-ui/commit/760d829e6e350389fd6c61559cfe8acc86503e18))
+* image not showing on voting detail page ([25b718e](https://github.com/new-order-network/new-order-app-ui/commit/25b718ee4b9aa3c92bc3a6926731cbf9393b8f5a))
+* linting issues on sidebar constants ([53761b5](https://github.com/new-order-network/new-order-app-ui/commit/53761b5c857b51fb10a4ec33c6396ca12d1e3618))
+* next config warnings ([6b9f9f9](https://github.com/new-order-network/new-order-app-ui/commit/6b9f9f9ba488e8cb2dc31c3ea92230a711a9224f))
+* white background on the twitter timeline embed ([96eb672](https://github.com/new-order-network/new-order-app-ui/commit/96eb672acb12b8c63f401e2524971ed1236a7f2c))
+
 ## [1.1.1](https://github.com/new-order-network/new-order-app-ui/compare/v1.1.0...v1.1.1) (2022-08-11)
 
 
