@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.2.1](https://github.com/new-order-network/new-order-app-ui/compare/v1.2.0...v1.2.1) (2022-11-02)
+
+
+### Bug Fixes
+
+* claim function on venewo rewards and vaults ([024af9a](https://github.com/new-order-network/new-order-app-ui/commit/024af9a54009e6e5c5b9b3f8745f78fe57859664))
+
+
+### Miscellaneous
+
+* reconfigure setup of contract hooks ([4b307a4](https://github.com/new-order-network/new-order-app-ui/commit/4b307a44698ea5c9a6be93771fa1d01a1466afbb))
+
 ## [1.2.0](https://github.com/new-order-network/new-order-app-ui/compare/v1.1.1...v1.2.0) (2022-11-01)
 
 
