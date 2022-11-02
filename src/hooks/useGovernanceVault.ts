@@ -27,16 +27,24 @@ const useGovernanceVault = (
   const provider = useProvider()
 
   useEffect(() => {
-    if (governanceVaultAddress && provider) {
-      const instance = new ethers.Contract(
-        governanceVaultAddress,
-        stakingAbi,
-        provider
-      )
-      setGovernanceVaultInstance(instance)
+    if (governanceVaultAddress) {
+      if (provider) {
+        const instance = new ethers.Contract(
+          governanceVaultAddress,
+          stakingAbi,
+          provider
+        )
+
+        if (signer) {
+          const instanceWithSigner = instance?.connect(signer)
+          setGovernanceVaultInstance(instanceWithSigner)
+        } else {
+          setGovernanceVaultInstance(instance)
+        }
+      }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [provider, governanceVaultAddress])
+    // eslint-disable-next-line
+  }, [governanceVaultAddress, provider, signer])
 
   useEffect(() => {
     if (signer) {

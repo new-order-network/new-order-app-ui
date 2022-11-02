@@ -54,13 +54,14 @@ const useVault = (
 
   useEffect(() => {
     if (vaultAddress) {
-      if (provider && !signer) {
+      if (provider) {
         const instance = new ethers.Contract(vaultAddress, vaultAbi, provider)
-        setVaultInstance(instance)
-      } else if (provider && signer) {
-        const instanceWithSigner = vaultInstance?.connect(signer)
-        if (instanceWithSigner) {
+
+        if (signer) {
+          const instanceWithSigner = instance?.connect(signer)
           setVaultInstance(instanceWithSigner)
+        } else {
+          setVaultInstance(instance)
         }
       }
     }

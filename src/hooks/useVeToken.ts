@@ -27,17 +27,18 @@ const useVeToken = (veTokenAddress: string, tokenAddress: string) => {
 
   useEffect(() => {
     if (veTokenAddress) {
-      if (provider && !signer) {
+      if (provider) {
         const instance = new ethers.Contract(
           veTokenAddress,
           veTokenAbi,
           provider
         )
-        setVeTokenInstance(instance)
-      } else if (provider && signer) {
-        const instanceWithSigner = veTokenInstance?.connect(signer)
-        if (instanceWithSigner) {
+
+        if (signer) {
+          const instanceWithSigner = instance?.connect(signer)
           setVeTokenInstance(instanceWithSigner)
+        } else {
+          setVeTokenInstance(instance)
         }
       }
     }

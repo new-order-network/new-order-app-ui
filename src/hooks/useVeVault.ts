@@ -74,23 +74,20 @@ const useVeVault = (
   const provider = useProvider()
 
   useEffect(() => {
-    if (vaultAddress && provider) {
-      const instance = new ethers.Contract(vaultAddress, veVaultAbi, provider)
-      setVeVaultInstance(instance)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [provider, vaultAddress])
+    if (vaultAddress) {
+      if (provider) {
+        const instance = new ethers.Contract(vaultAddress, veVaultAbi, provider)
 
-  useEffect(() => {
-    if (signer) {
-      const instanceWithSigner = veVaultInstance?.connect(signer)
-      if (instanceWithSigner) {
-        setVeVaultInstance(instanceWithSigner)
+        if (signer) {
+          const instanceWithSigner = instance?.connect(signer)
+          setVeVaultInstance(instanceWithSigner)
+        } else {
+          setVeVaultInstance(instance)
+        }
       }
     }
-
     // eslint-disable-next-line
-  }, [signer])
+  }, [vaultAddress, provider, signer])
 
   const getAPR = async () => {
     let calculatedApr = 0
