@@ -26,21 +26,23 @@ const useVeToken = (veTokenAddress: string, tokenAddress: string) => {
   const token = useToken(tokenAddress)
 
   useEffect(() => {
-    if (veTokenAddress && provider) {
-      const instance = new ethers.Contract(veTokenAddress, veTokenAbi, provider)
-      setVeTokenInstance(instance)
-    }
-  }, [veTokenAddress, provider])
-
-  useEffect(() => {
-    if (signer) {
-      const instanceWithSigner = veTokenInstance?.connect(signer)
-      if (instanceWithSigner) {
-        setVeTokenInstance(instanceWithSigner)
+    if (veTokenAddress) {
+      if (provider && !signer) {
+        const instance = new ethers.Contract(
+          veTokenAddress,
+          veTokenAbi,
+          provider
+        )
+        setVeTokenInstance(instance)
+      } else if (provider && signer) {
+        const instanceWithSigner = veTokenInstance?.connect(signer)
+        if (instanceWithSigner) {
+          setVeTokenInstance(instanceWithSigner)
+        }
       }
     }
     // eslint-disable-next-line
-  }, [signer])
+  }, [veTokenAddress, provider, signer])
 
   const totalSupply = async () => {
     try {
