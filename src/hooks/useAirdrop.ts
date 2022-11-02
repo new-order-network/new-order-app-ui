@@ -46,27 +46,24 @@ const useAirdrop = (
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    if (merkleDistributorAddress && provider) {
-      const instance = new ethers.Contract(
-        merkleDistributorAddress,
-        merkleDistributorAbi,
-        provider
-      )
-      setAirdropInstance(instance)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [provider, merkleDistributorAddress])
+    if (merkleDistributorAddress) {
+      if (provider) {
+        const instance = new ethers.Contract(
+          merkleDistributorAddress,
+          merkleDistributorAbi,
+          provider
+        )
 
-  useEffect(() => {
-    if (signer) {
-      const instanceWithSigner = airdropInstance?.connect(signer)
-      if (instanceWithSigner) {
-        setAirdropInstance(instanceWithSigner)
+        if (signer) {
+          const instanceWithSigner = instance?.connect(signer)
+          setAirdropInstance(instanceWithSigner)
+        } else {
+          setAirdropInstance(instance)
+        }
       }
     }
-
     // eslint-disable-next-line
-  }, [signer])
+  }, [merkleDistributorAddress, provider, signer])
 
   const getIsClaimed = async (index: number) => {
     if (airdropInstance) {

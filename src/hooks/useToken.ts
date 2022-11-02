@@ -25,21 +25,20 @@ const useToken = (tokenAddress?: string): UseTokenResponse => {
   const { data: signer } = useSigner()
 
   useEffect(() => {
-    if (tokenAddress && provider) {
-      const instance = new ethers.Contract(tokenAddress, erc20ABI, provider)
-      setTokenInstance(instance)
-    }
-  }, [provider, tokenAddress])
+    if (tokenAddress) {
+      if (provider) {
+        const instance = new ethers.Contract(tokenAddress, erc20ABI, provider)
 
-  useEffect(() => {
-    if (signer) {
-      const instanceWithSigner = tokenInstance?.connect(signer)
-      if (instanceWithSigner) {
-        setTokenInstance(instanceWithSigner)
+        if (signer) {
+          const instanceWithSigner = instance?.connect(signer)
+          setTokenInstance(instanceWithSigner)
+        } else {
+          setTokenInstance(instance)
+        }
       }
     }
     // eslint-disable-next-line
-  }, [signer])
+  }, [tokenAddress, provider, signer])
 
   const balanceOf = async (address: string) => {
     try {

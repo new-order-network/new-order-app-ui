@@ -53,23 +53,20 @@ const useVault = (
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    if (vaultAddress && provider) {
-      const instance = new ethers.Contract(vaultAddress, vaultAbi, provider)
-      setVaultInstance(instance)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [provider, vaultAddress])
+    if (vaultAddress) {
+      if (provider) {
+        const instance = new ethers.Contract(vaultAddress, vaultAbi, provider)
 
-  useEffect(() => {
-    if (signer) {
-      const instanceWithSigner = vaultInstance?.connect(signer)
-      if (instanceWithSigner) {
-        setVaultInstance(instanceWithSigner)
+        if (signer) {
+          const instanceWithSigner = instance?.connect(signer)
+          setVaultInstance(instanceWithSigner)
+        } else {
+          setVaultInstance(instance)
+        }
       }
     }
-
     // eslint-disable-next-line
-  }, [signer])
+  }, [vaultAddress, provider, signer])
 
   const balanceOf = async (address: string) => {
     // Returns the user vault balance
