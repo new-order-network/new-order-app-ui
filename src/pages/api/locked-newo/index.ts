@@ -1,16 +1,11 @@
-import { ethers } from 'ethers'
 import dayjs from 'dayjs'
 
 import { env } from 'lib/environment'
 import redis from 'lib/redis'
+import { getTotalLockedNewo } from 'lib/utils/venewo'
 
 import { VeNewoChartData } from 'models/chart'
 import { API_METHOD } from 'models/types'
-
-import { contractAddresses } from 'constants/contractAddresses'
-import { SUPPORTED_NETWORKS } from 'constants/network'
-
-import veTokenAbi from 'contracts/abi/veToken.json'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default async function handler(req: any, res: any) {
@@ -18,18 +13,25 @@ export default async function handler(req: any, res: any) {
 
   switch (method) {
     case API_METHOD.GET:
-      // Get all Locked Newo Supplies
-      const lockedNewoSupplies = await redis.hvals('combined_locked_newo')
+      const query = req.query
 
-      const lockedNewoSortedSupplies = lockedNewoSupplies.sort(function (
-        a: VeNewoChartData,
-        b: VeNewoChartData
-      ) {
-        const diff = +new Date(a.date) - +new Date(b.date)
-        return diff
-      })
+      if (query && !!query.latest) {
+        const totalLocked = await getTotalLockedNewo()
+        return res.status(200).json(totalLocked)
+      } else {
+        // Get all Locked Newo Supplies
+        const lockedNewoSupplies = await redis.hvals('combined_locked_newo')
 
-      return res.status(200).json(lockedNewoSortedSupplies)
+        const lockedNewoSortedSupplies = lockedNewoSupplies.sort(function (
+          a: VeNewoChartData,
+          b: VeNewoChartData
+        ) {
+          const diff = +new Date(a.date) - +new Date(b.date)
+          return diff
+        })
+
+        return res.status(200).json(lockedNewoSortedSupplies)
+      }
     case API_METHOD.POST:
       // Trigger venewo supply creation
 
@@ -40,32 +42,7 @@ export default async function handler(req: any, res: any) {
           .send({ message: 'You are not authorized to call this API.' })
       }
 
-      const networks = SUPPORTED_NETWORKS.filter((network) => {
-        return !network.testnet && network
-      })
-
-      let totalLocked = 0
-
-      for (let index = 0; index < networks.length; index++) {
-        const provider = new ethers.providers.JsonRpcProvider(
-          networks[index].rpcUrls.default
-        )
-        const veNewoAddress = contractAddresses[networks[index].id].VENEWO
-        const veNewoInstance = new ethers.Contract(
-          veNewoAddress,
-          veTokenAbi,
-          provider
-        )
-        const decimals = await veNewoInstance.decimals()
-
-        // Get the totalAssets and add to totalLocked
-        const totalAssets = await veNewoInstance.totalAssets()
-        const formattedTotalAssets = ethers.utils.formatUnits(
-          totalAssets,
-          decimals
-        )
-        totalLocked += Number(formattedTotalAssets)
-      }
+      const totalLocked = await getTotalLockedNewo()
 
       // Set Redis Database
       const DATABASE = 'combined_locked_newo' //ETH and AVAX veNEWO Supplies DB
