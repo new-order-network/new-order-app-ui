@@ -42,7 +42,8 @@ import { useNewoContext } from 'store/contexts/newoContext'
 import { lockTimeTable } from 'constants/venewo'
 
 const LockForm = () => {
-  const { allowance, unlockDate, totalSupply, totalAssets } = useVeNewoContext()
+  const { allowance, unlockDate, totalSupply, totalAssets, updateState } =
+    useVeNewoContext()
   const { newoBalance } = useNewoContext()
   const { contracts } = useContractContext()
   const { address } = useAccount()
@@ -153,6 +154,12 @@ const LockForm = () => {
     setLockTimeDuration(value)
   }
 
+  const handleApproveVeNewo = async () => {
+    setActionType(LOCK_ACTIONS.APPROVE)
+    await veNewo.approveVeToken()
+    await updateState?.()
+  }
+
   return (
     <Stack spacing="1">
       <Text fontSize="lg">Lock your tokens</Text>
@@ -173,10 +180,7 @@ const LockForm = () => {
               w="full"
               mt="2"
               variant="greenButton"
-              onClick={() => {
-                setActionType(LOCK_ACTIONS.APPROVE)
-                veNewo.approveVeToken()
-              }}
+              onClick={handleApproveVeNewo}
               isDisabled={Number(allowance) > 0 || !address}
               loadingText="Approving"
               isLoading={veNewo.loading && actionType === LOCK_ACTIONS.APPROVE}
