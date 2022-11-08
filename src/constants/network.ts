@@ -7,8 +7,8 @@ export const ethereumMainnet: Chain = {
   testnet: false,
 }
 
-export const ethereumRinkeby: Chain = {
-  ...chain.rinkeby,
+export const ethereumGoerli: Chain = {
+  ...chain.goerli,
   testnet: true,
 }
 
@@ -58,7 +58,7 @@ export const avalancheTestnet: Chain = {
 
 export const SUPPORTED_NETWORKS = [
   ethereumMainnet,
-  ethereumRinkeby,
+  ethereumGoerli,
   avalancheMainnet,
   avalancheTestnet,
 ]
@@ -67,7 +67,7 @@ export const DEFAULT_NETWORK = chain.mainnet
 
 export const NETWORK_API_URL = {
   1: `https://api.etherscan.io/api?api_key=${env.NEXT_PUBLIC_ETHERSCAN_API_KEY}`,
-  4: `https://api-rinkeby.etherscan.io/api?api_key=${env.NEXT_PUBLIC_ETHERSCAN_API_KEY}`,
+  5: `https://api-goerli.etherscan.io/api?api_key=${env.NEXT_PUBLIC_ETHERSCAN_API_KEY}`,
   43114: `https://api.snowtrace.io/api?apikey=${env.NEXT_PUBLIC_SNOWTRACE_API_KEY}`,
   43113: `https://api-testnet.snowtrace.io/api?apikey=${env.NEXT_PUBLIC_SNOWTRACE_API_KEY}`,
 }

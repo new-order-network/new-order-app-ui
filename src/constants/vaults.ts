@@ -43,19 +43,13 @@ export const Vaults: VaultsProps = {
       isActive: true,
     },
   ],
-  4: [
+  5: [
     {
       label: 've LP Vault',
-      vaultAddress: contractAddresses[4].VE_NEWO_USDC_LP_VAULT,
-      tokenAddress: contractAddresses[4].NEWO_USDC_LP,
-      token0: contractAddresses[4].NEWO,
-      token1: contractAddresses[4].USDC,
-      isActive: true,
-    },
-    {
-      label: 'NEWO Single-Side',
-      vaultAddress: contractAddresses[4].NEWO_SINGLE_SIDE_VAULT,
-      tokenAddress: contractAddresses[4].NEWO,
+      vaultAddress: contractAddresses[5].VE_NEWO_USDC_LP_VAULT,
+      tokenAddress: contractAddresses[5].NEWO_USDC_LP,
+      token0: contractAddresses[5].NEWO,
+      token1: contractAddresses[5].USDC,
       isActive: true,
     },
   ],
