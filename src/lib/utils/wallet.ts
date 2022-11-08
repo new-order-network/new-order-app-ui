@@ -31,11 +31,11 @@ export const getIconForNetwork = (
       } else if (type === 'alt') {
         return 'Ethereum'
       }
-    case 4:
+    case 5:
       if (type === 'source') {
         return '/images/network/Ethereum.jpeg'
       } else if (type === 'alt') {
-        return 'Rinkeby'
+        return 'Goerli'
       }
     case 43113:
     case 43114:

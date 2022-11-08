@@ -1,5 +1,4 @@
 import ethereumMainnetMerkleRoot from 'constants/airdrop/ethereumMainnetMerkleRoot.json'
-import ethereumRinkebyMerkleRoot from 'constants/airdrop/ethereumRinkebyMerkleRoot.json'
 import { contractAddresses } from 'constants/contractAddresses'
 
 export interface AirdropProps {
@@ -21,13 +20,7 @@ export const Airdrops: AirdropsProps = {
       merkleRoot: ethereumMainnetMerkleRoot,
     },
   ],
-  4: [
-    {
-      distributorAddress: contractAddresses[4].AIRDROP,
-      tokenAddress: contractAddresses[4].NEWO,
-      merkleRoot: ethereumRinkebyMerkleRoot,
-    },
-  ],
+  5: [],
   43114: [],
   43113: [],
 }
