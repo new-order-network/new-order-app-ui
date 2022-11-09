@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.3.0](https://github.com/new-order-network/new-order-app-ui/compare/v1.2.1...v1.3.0) (2022-11-08)
+
+
+### Features
+
+* add the api endpoint to return latest locked newo ([6cd5740](https://github.com/new-order-network/new-order-app-ui/commit/6cd574049f8123a38685f50b4abd1c747857c358))
+* update contract addresses to goerli contracts ([76858ea](https://github.com/new-order-network/new-order-app-ui/commit/76858ea9942170784f5ec1c2905d145331513070))
+
+
+### Bug Fixes
+
+* disable venewo button after approval function ([48aa59f](https://github.com/new-order-network/new-order-app-ui/commit/48aa59f0cb8408eefff53e588b459e74678ba6dc))
+
 ## [1.2.1](https://github.com/new-order-network/new-order-app-ui/compare/v1.2.0...v1.2.1) (2022-11-02)
 
 
