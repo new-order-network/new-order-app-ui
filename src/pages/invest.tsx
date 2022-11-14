@@ -10,6 +10,7 @@ import {
   Tabs,
   Text,
 } from '@chakra-ui/react'
+import { useEffect, useState } from 'react'
 
 import { Table, Tbody, Th, Thead, Tr } from 'components/Table'
 import Vault from 'components/Vault/Vault'
@@ -24,7 +25,15 @@ import { VaultProps } from 'constants/vaults'
 import Layout from 'layout'
 
 const Invest = () => {
-  const { vaults } = useContractContext()
+  const { vaults: vaultsData } = useContractContext()
+
+  const [vaults, setVaults] = useState<VaultProps[]>()
+
+  useEffect(() => {
+    if (vaultsData) {
+      setVaults(vaultsData)
+    }
+  }, [vaultsData])
 
   return (
     <Layout

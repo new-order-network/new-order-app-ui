@@ -4,11 +4,9 @@ import { useAccount, useDisconnect, useNetwork } from 'wagmi'
 import useToken from 'hooks/useToken'
 
 import {
-  DISCONNECT_WALLET,
   initialNewoState,
+  NewoChangeType,
   newoReducer,
-  UPDATE_METAMASK_STATUS,
-  UPDATE_NEWO_BALANCE,
 } from 'store/reducers/newoReducer'
 import { useContractContext } from 'store/contexts/contractContext'
 
@@ -20,29 +18,31 @@ interface NewoContextProps {
   disconnectWallet?: () => void
   newoBalance: string
   metamaskIsInstalled: boolean
+  accountAddress: string
   updateState?: () => Promise<void>
 }
 
 export const NewoContext = createContext<NewoContextProps>({
   newoBalance: '0.0',
   metamaskIsInstalled: false,
+  accountAddress: '',
 })
 
 export const NewoProvider: React.FC<NewoProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer(newoReducer, initialNewoState)
   const { contracts } = useContractContext()
   const newoToken = useToken(contracts?.NEWO)
-  const { address: accountAddress } = useAccount()
+  const { address } = useAccount()
   const { chain } = useNetwork()
   const { disconnect } = useDisconnect()
 
   const updateNewoBalance = async () => {
-    if (accountAddress) {
-      const newoBalance = await newoToken?.balanceOf(accountAddress)
+    if (address) {
+      const newoBalance = await newoToken?.balanceOf(address)
 
       if (newoBalance) {
         dispatch({
-          type: UPDATE_NEWO_BALANCE,
+          type: NewoChangeType.UPDATE_NEWO_BALANCE,
           payload: newoBalance,
         })
       }
@@ -51,10 +51,13 @@ export const NewoProvider: React.FC<NewoProviderProps> = ({ children }) => {
 
   const disconnectWallet = async () => {
     dispatch({
-      type: DISCONNECT_WALLET,
+      type: NewoChangeType.DISCONNECT_WALLET,
       payload: null,
     })
-
+    dispatch({
+      type: NewoChangeType.UPDATE_ACCOUNT_ADDRESS,
+      payload: '',
+    })
     disconnect()
   }
 
@@ -64,22 +67,36 @@ export const NewoProvider: React.FC<NewoProviderProps> = ({ children }) => {
   }
 
   useEffect(() => {
-    if (accountAddress && newoToken.tokenInstance) {
+    if (address && newoToken.tokenInstance) {
       updateState()
     }
 
     // eslint-disable-next-line
-  }, [accountAddress, contracts, chain?.id, newoToken.tokenInstance])
+  }, [address, contracts, chain?.id, newoToken.tokenInstance])
+
+  useEffect(() => {
+    if (address) {
+      dispatch({
+        type: NewoChangeType.UPDATE_ACCOUNT_ADDRESS,
+        payload: address,
+      })
+    } else {
+      dispatch({
+        type: NewoChangeType.UPDATE_ACCOUNT_ADDRESS,
+        payload: '',
+      })
+    }
+  }, [address])
 
   useEffect(() => {
     if (typeof window?.ethereum === 'undefined') {
       dispatch({
-        type: UPDATE_METAMASK_STATUS,
+        type: NewoChangeType.UPDATE_METAMASK_STATUS,
         payload: false,
       })
     } else {
       dispatch({
-        type: UPDATE_METAMASK_STATUS,
+        type: NewoChangeType.UPDATE_METAMASK_STATUS,
         payload: true,
       })
     }

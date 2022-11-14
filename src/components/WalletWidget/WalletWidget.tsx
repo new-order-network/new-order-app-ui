@@ -14,7 +14,7 @@ import {
   ModalCloseButton,
 } from '@chakra-ui/react'
 import { useState } from 'react'
-import { useAccount, useConnect } from 'wagmi'
+import { useConnect } from 'wagmi'
 import MetaMaskOnboarding from '@metamask/onboarding'
 
 import AddressButton from 'components/WalletWidget/AddressButton'
@@ -26,8 +26,7 @@ import { useNewoContext } from 'store/contexts/newoContext'
 
 const WalletWidget = ({ ...rest }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const { address } = useAccount()
-  const { metamaskIsInstalled } = useNewoContext()
+  const { metamaskIsInstalled, accountAddress } = useNewoContext()
 
   const [overlay, setOverlay] = useState(<ModalOverlay />)
   const { connectors, isLoading, connectAsync } = useConnect()
@@ -41,7 +40,7 @@ const WalletWidget = ({ ...rest }) => {
   return (
     <>
       <Box {...rest}>
-        {address ? (
+        {accountAddress ? (
           <AddressButton />
         ) : (
           <Button

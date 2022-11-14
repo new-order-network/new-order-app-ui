@@ -1,13 +1,21 @@
-export const UPDATE_NEWO_BALANCE = 'UPDATE_NEWO_BALANCE'
-export const DISCONNECT_WALLET = 'DISCONNECT_WALLET'
-export const UPDATE_METAMASK_STATUS = 'UPDATE_METAMASK_STATUS'
+export enum NewoChangeType {
+  UPDATE_NEWO_BALANCE = 'UPDATE_NEWO_BALANCE',
+  DISCONNECT_WALLET = 'DISCONNECT_WALLET',
+  UPDATE_METAMASK_STATUS = 'UPDATE_METAMASK_STATUS',
+  UPDATE_ACCOUNT_ADDRESS = 'UPDATE_ACCOUNT_ADDRESS',
+}
 
 interface NewoStateProps {
   newoBalance: string
   metamaskIsInstalled: boolean
+  accountAddress: string
 }
 interface NewoTypeProps {
-  type: 'UPDATE_NEWO_BALANCE' | 'DISCONNECT_WALLET' | 'UPDATE_METAMASK_STATUS'
+  type:
+    | 'UPDATE_NEWO_BALANCE'
+    | 'DISCONNECT_WALLET'
+    | 'UPDATE_METAMASK_STATUS'
+    | 'UPDATE_ACCOUNT_ADDRESS'
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   payload: any
 }
@@ -15,6 +23,7 @@ interface NewoTypeProps {
 export const initialNewoState = {
   newoBalance: '0.0',
   metamaskIsInstalled: false,
+  accountAddress: '',
 }
 
 export const newoReducer = (
@@ -22,20 +31,25 @@ export const newoReducer = (
   { type, payload }: NewoTypeProps
 ) => {
   switch (type) {
-    case UPDATE_NEWO_BALANCE:
+    case NewoChangeType.UPDATE_NEWO_BALANCE:
       return {
         ...state,
         newoBalance: payload,
       }
-    case DISCONNECT_WALLET:
+    case NewoChangeType.DISCONNECT_WALLET:
       return {
         ...state,
         newoBalance: null,
       }
-    case UPDATE_METAMASK_STATUS:
+    case NewoChangeType.UPDATE_METAMASK_STATUS:
       return {
         ...state,
         metamaskIsInstalled: payload,
+      }
+    case NewoChangeType.UPDATE_ACCOUNT_ADDRESS:
+      return {
+        ...state,
+        accountAddress: payload,
       }
     default:
       return state
