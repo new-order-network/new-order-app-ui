@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.3.1](https://github.com/new-order-network/new-order-app-ui/compare/v1.3.0...v1.3.1) (2022-11-14)
+
+
+### Bug Fixes
+
+* hydration message on header components ([1b5c133](https://github.com/new-order-network/new-order-app-ui/commit/1b5c1339f5dea908cdb2585e67e43f71cf627215))
+* hydration message on invest page ([98d6b91](https://github.com/new-order-network/new-order-app-ui/commit/98d6b91f6f56f6e7a3e88c341fa4afbab1c31601))
+
 ## [1.3.0](https://github.com/new-order-network/new-order-app-ui/compare/v1.2.1...v1.3.0) (2022-11-08)
 
 
