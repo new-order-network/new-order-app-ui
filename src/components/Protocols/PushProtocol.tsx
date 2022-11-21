@@ -135,8 +135,8 @@ export const PushProtocolButton = () => {
       label={
         <Box>
           <Text>
-            Subscribe to our push (previously EPNS) notifications. Simply click
-            this button and sign the message.
+            {isSubscribed ? 'Unsubscribe' : 'Subscribe'} to our push (previously
+            EPNS) notifications. Simply click this button and sign the message.
           </Text>
 
           {!accountAddress && (
