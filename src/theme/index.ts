@@ -34,6 +34,12 @@ const theme = extendTheme({
       pink: '#e85ef6',
       green: '#36ff7a',
     },
+    protocols: {
+      push: {
+        pink: '#e03dc1',
+        purple: '#8247e5',
+      },
+    },
     blue: {
       '10': '#D5F0FF',
       '20': '#AAE0FF',

@@ -20,6 +20,10 @@ export const env = cleanEnv(
       process.env.NEXT_PUBLIC_UPSTASH_REDIS_REST_TOKEN,
     SECRET_API_KEY: process.env.SECRET_API_KEY,
     NEXT_PUBLIC_IMAGE_BASE_URL: process.env.NEXT_PUBLIC_IMAGE_BASE_URL,
+    NEXT_PUBLIC_PUSH_CHANNEL_ADDRESS:
+      process.env.NEXT_PUBLIC_PUSH_CHANNEL_ADDRESS,
+    NEXT_PUBLIC_PUSH_ENV: process.env.NEXT_PUBLIC_PUSH_ENV,
+    PUSH_CHANNEL_PRIVATE_KEY: process.env.PUSH_CHANNEL_PRIVATE_KEY,
   },
   {
     NODE_ENV: str({
@@ -39,5 +43,8 @@ export const env = cleanEnv(
     NEXT_PUBLIC_UPSTASH_REDIS_REST_TOKEN: str({ default: '' }),
     SECRET_API_KEY: str({ default: '' }),
     NEXT_PUBLIC_IMAGE_BASE_URL: url({ default: '' }),
+    NEXT_PUBLIC_PUSH_CHANNEL_ADDRESS: str({ default: '' }),
+    NEXT_PUBLIC_PUSH_ENV: str({ default: 'prod' }),
+    PUSH_CHANNEL_PRIVATE_KEY: str({ default: '' }),
   }
 )

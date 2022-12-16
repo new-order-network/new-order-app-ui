@@ -106,7 +106,6 @@ const Button = {
       },
     },
   },
-
   defaultProps: {},
 }
 
