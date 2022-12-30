@@ -13,6 +13,7 @@ import VotingDateRangeFilter from 'components/Voting/VotingDateRangeFilter'
 import Pagination from 'components/Pagination'
 import ModalOverlay from 'components/ModalOverlay'
 import StakingModal from 'components/Voting/StakingModal'
+import ProposalForm from 'components/Forms/ProposalForm'
 
 import {
   snapshotProposalCountQuery,
@@ -35,6 +36,11 @@ import Layout from 'layout'
 
 const Voting = () => {
   const { onOpen, isOpen, onClose } = useDisclosure()
+  const {
+    isOpen: isProposalOpen,
+    onOpen: onProposalOpen,
+    onClose: onProposalClose,
+  } = useDisclosure()
   const [overlay, setOverlay] = useState(<ModalOverlay />)
   const { address } = useAccount()
   const { stakedTokens } = useVotingContext()
@@ -171,6 +177,17 @@ const Voting = () => {
             >
               Staking
             </Button>
+            <Button
+              fontSize="0.8rem"
+              fontWeight="bold"
+              variant="greenButton"
+              disabled={!address}
+              onClick={() => {
+                return onProposalOpen()
+              }}
+            >
+              Create Proposal
+            </Button>
           </Flex>
         </Flex>
         <VotingSearchFilter filters={filters} setFilters={setFilters} />
@@ -186,6 +203,7 @@ const Voting = () => {
               status={status}
               setStatus={setStatus}
             />
+
             <VotingDateRangeFilter filters={filters} setFilters={setFilters} />
           </Flex>
           <Pagination
@@ -252,6 +270,7 @@ const Voting = () => {
           stakeAmount={stakeAmount}
           setStakeAmount={setStakeAmount}
         />
+        <ProposalForm isOpen={isProposalOpen} onClose={onProposalClose} />
       </Flex>
     </Layout>
   )

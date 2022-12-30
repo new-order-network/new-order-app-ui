@@ -4,7 +4,9 @@ import { createClient, createStorage, WagmiConfig } from 'wagmi'
 import { ApolloProvider } from '@apollo/client'
 import NextNProgress from 'nextjs-progressbar'
 import { ErrorBoundary } from 'react-error-boundary'
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 import 'react-datepicker/dist/react-datepicker.css'
+import 'react-quill/dist/quill.snow.css'
 
 import { ErrorFallback } from 'components/ErrorFallback'
 import Fonts from 'components/Fonts'
@@ -19,7 +21,6 @@ import { VotingProvider } from 'store/contexts/votingContext'
 import { VeNewoProvider } from 'store/contexts/veNewoContext'
 
 import 'styles/date-range-picker.css'
-import 'styles/react-markdown.css'
 import 'styles/custom-table.css'
 
 import theme from 'theme'
