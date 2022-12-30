@@ -62,13 +62,13 @@ export const ProposalModal = ({
         .required('Required'),
       start: Yup.number()
         .min(
-          Date.parse(`${new Date()}`) - 10000,
+          Date.parse(`${new Date()}`) - 1000000,
           `Date must be greater than ${new Date()}`
         )
         .required('Required'),
       end: Yup.number()
         .min(
-          Date.parse(`${new Date()}`) - 10000,
+          Date.parse(`${new Date()}`) - 1000000,
           `Date must be greater than ${new Date()}`
         )
         .required('Required'),
@@ -81,7 +81,53 @@ export const ProposalModal = ({
           const web3 = new Web3Provider(window.ethereum as ExternalProvider)
           const [account] = await web3.listAccounts()
 
+          if (values.title === '' || values.body === '') {
+            toast({
+              title: 'input error',
+              description:
+                'Please check if all your inputs fields are filled in',
+              isClosable: true,
+              position: 'top-right',
+              status: 'error',
+              variant: 'error',
+            })
+
+            return null
+          } else if (!checkDate(values.end, values.start)) {
+            toast({
+              title: 'Date Error',
+              description:
+                'Please check if your date fields are filled in or that the start date is not greater than the end date',
+              isClosable: true,
+              position: 'top-right',
+              status: 'error',
+              variant: 'error',
+            })
+
+            return null
+          } else if (values.choices.length <= 1) {
+            toast({
+              title: 'input error',
+              description: 'two or more choices are required',
+              isClosable: true,
+              position: 'top-right',
+              status: 'error',
+              variant: 'error',
+            })
+
+            return null
+          }
+
           await client.proposal(web3, account, values)
+
+          toast({
+            title: 'Proposal Failed',
+            description: 'You have successfully submited your proposal.',
+            isClosable: true,
+            position: 'top-right',
+            status: 'success',
+            variant: 'success',
+          })
         }
       } catch (error) {
         toast({
@@ -117,6 +163,13 @@ export const ProposalModal = ({
     }
 
     return null
+  }
+
+  const checkDate = (end: number, start: number) => {
+    if (start < end) {
+      return true
+    }
+    return false
   }
 
   const remove = (id: number) => {
