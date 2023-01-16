@@ -50,7 +50,10 @@ const RegistrationReward: React.FC<RegistrationRewardProps> = ({
   const checkRegistrationStatus = async () => {
     if (address) {
       if (token0 && token1 && Number(multiplier) === Number(boost)) {
-        setIsRegistered(true)
+        const assetBalance = await veVault.assetBalanceOf(address)
+        if (Number(assetBalance) > 0) {
+          setIsRegistered(true)
+        }
       } else if (!token0 && !token1) {
         const accounts = await veVault?.accounts(address)
 
