@@ -103,7 +103,7 @@ const RegistrationReward: React.FC<RegistrationRewardProps> = ({
             )}
             {actions.includes('register') && (
               <Tooltip
-                label="You have updated your veNEWO lock information and will need to register again"
+                label="You have updated your veNEWO lock information and will need to register for rewards"
                 isDisabled={isRegistered || !!!unlockDate}
               >
                 <Button
