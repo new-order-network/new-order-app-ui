@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.3.1](https://github.com/new-order-network/new-order-app-ui/compare/v1.3.0...v1.3.1) (2023-01-16)
+
+
+### Bug Fixes
+
+* disable button when no venewo is on the wallet ([8cd24ed](https://github.com/new-order-network/new-order-app-ui/commit/8cd24ed9e6de9acfe9c79e32c479d5a49a48495f))
+* hydration message on header components ([1b5c133](https://github.com/new-order-network/new-order-app-ui/commit/1b5c1339f5dea908cdb2585e67e43f71cf627215))
+* hydration message on invest page ([98d6b91](https://github.com/new-order-network/new-order-app-ui/commit/98d6b91f6f56f6e7a3e88c341fa4afbab1c31601))
+* register button is disabled on lp when boost is 1 ([8758a8f](https://github.com/new-order-network/new-order-app-ui/commit/8758a8f47aac374cc6a6f680a7de7c2aae3c8d6d))
+* registered detection failing on first visit ([6c131d5](https://github.com/new-order-network/new-order-app-ui/commit/6c131d5ca26a0a9551ea3211bb9abd4d3762da32))
+
+
+### Miscellaneous
+
+* add tooltip on the venewo register button to inform users to re-register ([7b56bef](https://github.com/new-order-network/new-order-app-ui/commit/7b56befe387bcde625c461b5a7ccb662d8f3c9fd))
+* update the tooltip message ([137f185](https://github.com/new-order-network/new-order-app-ui/commit/137f185543805ba1ffecee281b50b5169b7e4fba))
+
 ## [1.3.0](https://github.com/new-order-network/new-order-app-ui/compare/v1.2.1...v1.3.0) (2022-11-08)
 
 
