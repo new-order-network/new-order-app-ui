@@ -1,4 +1,4 @@
-import { Button, HStack } from '@chakra-ui/react'
+import { Button, HStack, Tooltip } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import { useAccount } from 'wagmi'
 import { useRouter } from 'next/router'
@@ -58,6 +58,8 @@ const RegistrationReward: React.FC<RegistrationRewardProps> = ({
           const dueDate = accounts?.dueDate?.toNumber()
           if (dueDate === unlockDate && unlockDate !== 0 && dueDate !== 0) {
             setIsRegistered(true)
+          } else {
+            setIsRegistered(false)
           }
         }
       } else {
@@ -100,15 +102,21 @@ const RegistrationReward: React.FC<RegistrationRewardProps> = ({
               </Button>
             )}
             {actions.includes('register') && (
-              <Button
-                onClick={register}
-                isLoading={veVault.loading}
-                disabled={!address || isRegistered || veVault.loading}
-                isDisabled={veVault.loading}
-                variant="greenButton"
+              <Tooltip
+                label="You have updated your veNEWO lock information and will need to register again"
+                isDisabled={isRegistered || !!!unlockDate}
               >
-                {isRegistered ? 'Registered' : 'Register'}
-              </Button>
+                <Button
+                  onClick={register}
+                  isLoading={veVault.loading}
+                  isDisabled={
+                    !address || isRegistered || veVault.loading || !!!unlockDate
+                  }
+                  variant="greenButton"
+                >
+                  {isRegistered ? 'Registered' : 'Register'}
+                </Button>
+              </Tooltip>
             )}
           </HStack>
         </Td>
