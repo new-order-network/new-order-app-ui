@@ -76,7 +76,7 @@ const RegistrationReward: React.FC<RegistrationRewardProps> = ({
   useEffect(() => {
     checkRegistrationStatus()
     // eslint-disable-next-line
-  }, [multiplier, boost, unlockDate, address])
+  }, [multiplier, boost, unlockDate, address, veVault])
 
   const register = async () => {
     await veVault.notifyDeposit()
@@ -109,9 +109,7 @@ const RegistrationReward: React.FC<RegistrationRewardProps> = ({
                 <Button
                   onClick={register}
                   isLoading={veVault.loading}
-                  isDisabled={
-                    !address || isRegistered || veVault.loading || !!!unlockDate
-                  }
+                  isDisabled={!address || isRegistered || veVault.loading}
                   variant="greenButton"
                 >
                   {isRegistered ? 'Registered' : 'Register'}
