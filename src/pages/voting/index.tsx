@@ -1,4 +1,11 @@
-import { Button, Flex, SimpleGrid, Text, useDisclosure } from '@chakra-ui/react'
+import {
+  Button,
+  Flex,
+  SimpleGrid,
+  Text,
+  Tooltip,
+  useDisclosure,
+} from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import { useQuery } from '@apollo/client'
 import { usePagination } from '@ajna/pagination'
@@ -37,7 +44,7 @@ const Voting = () => {
   const { onOpen, isOpen, onClose } = useDisclosure()
   const [overlay, setOverlay] = useState(<ModalOverlay />)
   const { address } = useAccount()
-  const { stakedTokens } = useVotingContext()
+  const { totalVotingPower, votingPowerDenomination } = useVotingContext()
   const { contracts } = useContractContext()
   const pageSize = 30
   const proposalCountData = useQuery(snapshotProposalCountQuery)
@@ -151,14 +158,19 @@ const Voting = () => {
             Voting
           </Text>
           <Flex flexWrap="wrap" gap="3" alignItems="center">
-            <Button
-              fontSize="0.8rem"
-              fontWeight="bold"
-              variant="outlineGreenRounded"
-              cursor="default"
+            <Tooltip
+              hasArrow
+              label={`${votingPowerDenomination?.sNEWO} sNEWO + ${votingPowerDenomination?.veNEWO} veNEWO + ${votingPowerDenomination?.veNEWOa} veNEWOa`}
             >
-              Staked Tokens: {Number(stakedTokens).toFixed(2)} sNEWO
-            </Button>
+              <Button
+                fontSize="0.8rem"
+                fontWeight="bold"
+                variant="outlineGreenRounded"
+                cursor="default"
+              >
+                Voting Power: {totalVotingPower.toFixed(2)}
+              </Button>
+            </Tooltip>
             <Button
               fontSize="0.8rem"
               fontWeight="bold"
