@@ -297,7 +297,7 @@ const VotingDetail = () => {
                   <Text fontSize="x-small" color="gray.50">
                     Vote completion date
                   </Text>
-                  <FormattedDate date={votingProposalDetails?.start} />
+                  <FormattedDate date={votingProposalDetails?.end} />
                 </Flex>
                 <Flex
                   flexWrap="wrap"
