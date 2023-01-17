@@ -15,6 +15,7 @@ import {
   RadioGroup,
   Stack,
   Text,
+  Tooltip,
   useToast,
 } from '@chakra-ui/react'
 import { FiChevronLeft } from 'react-icons/fi'
@@ -226,13 +227,17 @@ const VotingDetail = () => {
           </Flex>
 
           <Flex align="center" gap="4" flexWrap="wrap">
-            <Button
-              fontSize={['0.7rem', '0.9rem']}
-              variant="outlineGreenRounded"
-              h="100%"
+            <Tooltip
+              label={`This is your voting power on the block number the snapshot was posted. Block Number: ${proposalData?.proposal.snapshot}`}
             >
-              Voting Power: {votingPower.toFixed(2)}
-            </Button>
+              <Button
+                fontSize={['0.7rem', '0.9rem']}
+                variant="outlineGreenRounded"
+                h="100%"
+              >
+                Voting Power: {votingPower.toFixed(2)}
+              </Button>
+            </Tooltip>
 
             <Link isExternal href={voteHref}>
               <Button fontSize={['0.7rem', '0.9rem']} variant="greenButton">
