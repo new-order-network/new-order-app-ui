@@ -45,6 +45,8 @@ import {
   VotingChoices,
 } from 'models/voting'
 
+import { DEFAULT_NETWORK } from 'constants/network'
+
 import Layout from 'layout'
 
 const VotingDetail = () => {
@@ -95,37 +97,18 @@ const VotingDetail = () => {
   const getVotingPower = async () => {
     const strategies = proposalData?.proposal.strategies
 
-    let totalVotingPower = 0
+    const votingPower = await snapshot.utils.getVp(
+      String(address),
+      `${DEFAULT_NETWORK.id}`,
+      strategies,
+      proposalData.proposal.snapshot,
+      env.NEXT_PUBLIC_SNAPSHOT_SPACE,
+      true
+    )
 
-    // eslint-disable-next-line
-    await strategies.forEach(async (strategy: any) => {
-      if (address) {
-        let strategyScore
-
-        try {
-          strategyScore = await snapshot.utils.getScores(
-            env.NEXT_PUBLIC_SNAPSHOT_SPACE,
-            [strategy],
-            strategy.network,
-            [address],
-            Number(proposalData?.proposal.snapshot)
-          )
-        } catch (err) {
-          strategyScore = await snapshot.utils.getScores(
-            env.NEXT_PUBLIC_SNAPSHOT_SPACE,
-            [strategy],
-            strategy.network,
-            [address],
-            proposalData?.proposal.snapshot
-          )
-        }
-
-        if (strategyScore[0][address]) {
-          totalVotingPower += strategyScore[0][address]
-        }
-        setVotingPower(totalVotingPower)
-      }
-    })
+    if (votingPower) {
+      setVotingPower(votingPower.vp)
+    }
   }
 
   useEffect(() => {
@@ -205,6 +188,7 @@ const VotingDetail = () => {
     } else {
       setStateText(votingProposalDetails?.state)
     }
+    // eslint-disable-next-line
   }, [votingProposalDetails?.state])
 
   return (
