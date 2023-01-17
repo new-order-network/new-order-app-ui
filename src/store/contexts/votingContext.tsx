@@ -115,7 +115,6 @@ export const VotingProvider: React.FC<VotingProviderProps> = ({ children }) => {
           'ether'
         )
 
-        console.log('votingPower formattedVotingPower', formattedVotingPower)
         totalVotingPower += Number(formattedVotingPower)
         totalVotingPowerDenomination = {
           ...state.votingPowerDenomination,
@@ -133,7 +132,6 @@ export const VotingProvider: React.FC<VotingProviderProps> = ({ children }) => {
       const decimals = await veNewoInstance.decimals()
       const balanceOf = await veNewoInstance.balanceOf(accountAddress)
       const formattedBalanceOf = ethers.utils.formatUnits(balanceOf, decimals)
-      console.log('formattedBalanceOf', formattedBalanceOf)
 
       totalVotingPower += Number(formattedBalanceOf)
 
