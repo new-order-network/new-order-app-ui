@@ -160,7 +160,13 @@ const Voting = () => {
           <Flex flexWrap="wrap" gap="3" alignItems="center">
             <Tooltip
               hasArrow
-              label={`${votingPowerDenomination?.sNEWO} sNEWO + ${votingPowerDenomination?.veNEWO} veNEWO + ${votingPowerDenomination?.veNEWOa} veNEWOa`}
+              label={`${votingPowerDenomination?.sNEWO.toFixed(
+                2
+              )} sNEWO + ${votingPowerDenomination?.veNEWO.toFixed(
+                2
+              )} veNEWO + ${votingPowerDenomination?.veNEWOa.toFixed(
+                2
+              )} veNEWOa`}
             >
               <Button
                 fontSize="0.8rem"

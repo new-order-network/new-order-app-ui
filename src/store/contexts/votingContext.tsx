@@ -46,11 +46,8 @@ export const VotingContext = createContext<VotingStateProps>({
   totalVotingPower: 0,
   loading: false,
   votingPowerDenomination: {
-    // votingPower()
     sNEWO: 0,
-    // balanceOf() eth
     veNEWO: 0,
-    // balanceOf() avax
     veNEWOa: 0,
   },
 })
@@ -88,11 +85,8 @@ export const VotingProvider: React.FC<VotingProviderProps> = ({ children }) => {
 
     let totalVotingPower = 0
     let totalVotingPowerDenomination = {
-      // votingPower()
       sNEWO: 0,
-      // balanceOf() eth
       veNEWO: 0,
-      // balanceOf() avax
       veNEWOa: 0,
     }
 

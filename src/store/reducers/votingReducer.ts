@@ -38,11 +38,8 @@ export const initialVotingState = {
   allowance: '',
   loading: false,
   votingPowerDenomination: {
-    // votingPower()
     sNEWO: 0,
-    // balanceOf() eth
     veNEWO: 0,
-    // balanceOf() avax
     veNEWOa: 0,
   },
 }
