@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.4.1](https://github.com/new-order-network/new-order-app-ui/compare/v1.4.0...v1.4.1) (2023-01-17)
+
+
+### Bug Fixes
+
+* incorrect voting completion date ([cdf6185](https://github.com/new-order-network/new-order-app-ui/commit/cdf6185e3afeb367917d8101606d2e4ec27f25c0))
+* typos ([93e3f80](https://github.com/new-order-network/new-order-app-ui/commit/93e3f806b74b41db756b3f17d8929885a92393a0))
+* typos ([93e3f80](https://github.com/new-order-network/new-order-app-ui/commit/93e3f806b74b41db756b3f17d8929885a92393a0))
+
 ## [1.4.0](https://github.com/new-order-network/new-order-app-ui/compare/v1.3.1...v1.4.0) (2023-01-17)
 
 
