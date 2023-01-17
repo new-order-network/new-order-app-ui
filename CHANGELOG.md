@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.4.0](https://github.com/new-order-network/new-order-app-ui/compare/v1.3.1...v1.4.0) (2023-01-17)
+
+
+### Features
+
+* add tooltip on voting power to show details of block number of snapshot ([6429ab7](https://github.com/new-order-network/new-order-app-ui/commit/6429ab7873d8b70ca32eaca141cee0efe0c0597f))
+* show voting power on voting page ([9b8653d](https://github.com/new-order-network/new-order-app-ui/commit/9b8653d7f864bfb1d7d914eac799e0eda6191d45))
+
+
+### Bug Fixes
+
+* voting power not showing on the proposal ([f079653](https://github.com/new-order-network/new-order-app-ui/commit/f079653dda3164ecb2274ebb665208ecafc0380a))
+
+
+### Miscellaneous
+
+* **deps:** bump loader-utils from 1.4.0 to 1.4.2 ([20a0b49](https://github.com/new-order-network/new-order-app-ui/commit/20a0b4955b5a508fe4c51a836e8fa48ccdde1e0e))
+
 ## [1.3.1](https://github.com/new-order-network/new-order-app-ui/compare/v1.3.0...v1.3.1) (2023-01-16)
 
 
