@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useReducer } from 'react'
 import { useAccount } from 'wagmi'
+import { ethers } from 'ethers'
 
 import useGovernanceVault from 'hooks/useGovernanceVault'
 
@@ -7,10 +8,18 @@ import { useContractContext } from 'store/contexts/contractContext'
 import {
   initialVotingState,
   UPDATE_STAKED_TOKENS,
+  UPDATE_TOTAL_VOTING_POWER,
+  UPDATE_TOTAL_VOTING_POWER_DENOMINATION,
   UPDATE_VAULT_ALLOWANCE,
   // UPDATE_VOTING_POWER,
   votingReducer,
 } from 'store/reducers/votingReducer'
+
+import { contractAddresses } from 'constants/contractAddresses'
+import { SUPPORTED_NETWORKS } from 'constants/network'
+
+import stakingAbi from 'contracts/abi/votingPower.json'
+import veTokenAbi from 'contracts/abi/veToken.json'
 
 interface VotingProviderProps {
   children: React.ReactNode
@@ -22,6 +31,11 @@ export interface VotingStateProps {
   votingPower: number
   totalVotingPower: number
   loading: boolean
+  votingPowerDenomination: {
+    sNEWO: number
+    veNEWO: number
+    veNEWOa: number
+  }
   updateState?: () => Promise<void>
 }
 
@@ -31,6 +45,11 @@ export const VotingContext = createContext<VotingStateProps>({
   votingPower: 0,
   totalVotingPower: 0,
   loading: false,
+  votingPowerDenomination: {
+    sNEWO: 0,
+    veNEWO: 0,
+    veNEWOa: 0,
+  },
 })
 
 export const VotingProvider: React.FC<VotingProviderProps> = ({ children }) => {
@@ -60,11 +79,83 @@ export const VotingProvider: React.FC<VotingProviderProps> = ({ children }) => {
   }
 
   const getTotalVotingPower = async () => {
-    // TODO
-    // dispatch({
-    //   type: UPDATE_VOTING_POWER,
-    //   payload: governanceVault?.stakedTokens,
-    // })
+    const networks = SUPPORTED_NETWORKS.filter((network) => {
+      return !network.testnet && network
+    })
+
+    let totalVotingPower = 0
+    let totalVotingPowerDenomination = {
+      sNEWO: 0,
+      veNEWO: 0,
+      veNEWOa: 0,
+    }
+
+    for (let index = 0; index < networks.length; index++) {
+      const provider = new ethers.providers.JsonRpcProvider(
+        networks[index].rpcUrls.default
+      )
+
+      // VOTING POWER
+      const governanceVaultAddress =
+        contractAddresses[networks[index].id].GOVERNANCE_VAULT
+
+      if (governanceVaultAddress) {
+        const governanceVaultInstance = new ethers.Contract(
+          governanceVaultAddress,
+          stakingAbi,
+          provider
+        )
+
+        const votingPower = await governanceVaultInstance?.votingPower(
+          accountAddress
+        )
+
+        const formattedVotingPower = ethers.utils.formatUnits(
+          votingPower,
+          'ether'
+        )
+
+        totalVotingPower += Number(formattedVotingPower)
+        totalVotingPowerDenomination = {
+          ...state.votingPowerDenomination,
+          sNEWO: Number(formattedVotingPower),
+        }
+      }
+
+      // VENEWO
+      const veNewoAddress = contractAddresses[networks[index].id].VENEWO
+      const veNewoInstance = new ethers.Contract(
+        veNewoAddress,
+        veTokenAbi,
+        provider
+      )
+      const decimals = await veNewoInstance.decimals()
+      const balanceOf = await veNewoInstance.balanceOf(accountAddress)
+      const formattedBalanceOf = ethers.utils.formatUnits(balanceOf, decimals)
+
+      totalVotingPower += Number(formattedBalanceOf)
+
+      if (networks[index].id === 1) {
+        totalVotingPowerDenomination = {
+          ...state.votingPowerDenomination,
+          veNEWO: Number(formattedBalanceOf),
+        }
+      } else if (networks[index].id === 43114) {
+        totalVotingPowerDenomination = {
+          ...state.votingPowerDenomination,
+          veNEWOa: Number(formattedBalanceOf),
+        }
+      }
+    }
+
+    dispatch({
+      type: UPDATE_TOTAL_VOTING_POWER,
+      payload: totalVotingPower,
+    })
+    dispatch({
+      type: UPDATE_TOTAL_VOTING_POWER_DENOMINATION,
+      payload: totalVotingPowerDenomination,
+    })
   }
 
   const updateState = async () => {
