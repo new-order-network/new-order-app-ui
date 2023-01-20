@@ -15,7 +15,6 @@ import { connectors, provider } from 'lib/utils/web3'
 
 import { NewoProvider } from 'store/contexts/newoContext'
 import { ContractProvider } from 'store/contexts/contractContext'
-import { VotingProvider } from 'store/contexts/votingContext'
 
 import 'styles/date-range-picker.css'
 import 'styles/react-markdown.css'
@@ -42,22 +41,20 @@ const App = ({ Component, pageProps }: AppProps) => {
         <ContractProvider>
           <NewoProvider>
             <ApolloProvider client={apolloClient}>
-              <VotingProvider>
-                <Fonts />
-                <NextNProgress
-                  color="#9E00FF"
-                  startPosition={0.3}
-                  stopDelayMs={200}
-                  height={3}
-                  showOnShallow={true}
-                  options={{
-                    showSpinner: false,
-                  }}
-                />
-                <ErrorBoundary FallbackComponent={ErrorFallback}>
-                  <Component {...pageProps} />
-                </ErrorBoundary>
-              </VotingProvider>
+              <Fonts />
+              <NextNProgress
+                color="#9E00FF"
+                startPosition={0.3}
+                stopDelayMs={200}
+                height={3}
+                showOnShallow={true}
+                options={{
+                  showSpinner: false,
+                }}
+              />
+              <ErrorBoundary FallbackComponent={ErrorFallback}>
+                <Component {...pageProps} />
+              </ErrorBoundary>
             </ApolloProvider>
           </NewoProvider>
         </ContractProvider>
