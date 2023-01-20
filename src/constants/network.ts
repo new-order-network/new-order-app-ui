@@ -2,7 +2,22 @@ import { mainnet, goerli, avalanche, avalancheFuji } from 'wagmi/chains'
 
 import { env } from 'lib/environment'
 
-export const SUPPORTED_NETWORKS = [mainnet, goerli, avalanche, avalancheFuji]
+const ethereumMainnet = {
+  ...mainnet,
+  testnet: false,
+}
+
+const avalancheMainnet = {
+  ...avalanche,
+  testnet: false,
+}
+
+export const SUPPORTED_NETWORKS = [
+  ethereumMainnet,
+  goerli,
+  avalancheMainnet,
+  avalancheFuji,
+]
 
 export const DEFAULT_NETWORK = mainnet
 
