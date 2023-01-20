@@ -25,7 +25,7 @@ export const { chains, provider } = configureChains(SUPPORTED_NETWORKS, [
   infuraProvider({ apiKey: env.NEXT_PUBLIC_INFURA_ID }),
   jsonRpcProvider({
     rpc: (chain) => {
-      return { http: chain.rpcUrls.default }
+      return { http: chain.rpcUrls.default.http[0] }
     },
   }),
 ])

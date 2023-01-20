@@ -63,7 +63,7 @@ export const VeNewoProvider: React.FC<VeNewoProviderProps> = ({ children }) => {
 
     for (let index = 0; index < networks.length; index++) {
       const provider = new ethers.providers.JsonRpcProvider(
-        networks[index].rpcUrls.default
+        networks[index].rpcUrls.default.http[0]
       )
       const veNewoAddress = contractAddresses[networks[index].id].VENEWO
       const veNewoInstance = new ethers.Contract(

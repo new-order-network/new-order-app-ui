@@ -92,7 +92,7 @@ export const VotingProvider: React.FC<VotingProviderProps> = ({ children }) => {
 
     for (let index = 0; index < networks.length; index++) {
       const provider = new ethers.providers.JsonRpcProvider(
-        networks[index].rpcUrls.default
+        networks[index].rpcUrls.default.http[0]
       )
 
       // VOTING POWER
