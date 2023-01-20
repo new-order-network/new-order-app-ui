@@ -1,4 +1,10 @@
-import { createContext, useContext, useEffect, useReducer } from 'react'
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useReducer,
+} from 'react'
 import { useAccount, useNetwork } from 'wagmi'
 import { ethers } from 'ethers'
 
@@ -134,7 +140,7 @@ export const VeNewoProvider: React.FC<VeNewoProviderProps> = ({ children }) => {
     }
   }
 
-  const updateMultiplier = async () => {
+  const updateMultiplier = useCallback(async () => {
     if (accountAddress) {
       const balance = await veNewo.balanceOf(accountAddress)
       const assetBalance = await veNewo.assetBalanceOf(accountAddress)
@@ -145,9 +151,14 @@ export const VeNewoProvider: React.FC<VeNewoProviderProps> = ({ children }) => {
           type: UPDATE_MULTIPLIER,
           payload: Number(multiplier).toFixed(2),
         })
+      } else {
+        dispatch({
+          type: UPDATE_MULTIPLIER,
+          payload: Number(0).toFixed(2),
+        })
       }
     }
-  }
+  }, [accountAddress, veNewo])
 
   const updateState = async () => {
     Promise.all([
