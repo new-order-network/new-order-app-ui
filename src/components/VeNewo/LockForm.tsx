@@ -92,6 +92,9 @@ const LockForm = () => {
       const newMinLockTime = dayjs.unix(unlockDate).add(10, 'second').toDate()
       setLockTime(newMinLockTime)
       setMinLockTime(newMinLockTime)
+    } else {
+      setLockTime(dayjs().add(91, 'd').toDate())
+      setMinLockTime(dayjs().add(91, 'd').toDate())
     }
     // eslint-disable-next-line
   }, [unlockDate])
