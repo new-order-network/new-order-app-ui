@@ -1,6 +1,6 @@
 export interface ContractAddressProps {
   // TOKENS
-  NEWO: string
+  NEWO: `0x${string}`
   NEWO_USDC_LP: string
   USDC: string
   VENEWO: string

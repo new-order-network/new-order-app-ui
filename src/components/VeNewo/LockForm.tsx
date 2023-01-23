@@ -240,7 +240,9 @@ const LockForm = () => {
                   inputRightAddOn={
                     <InputRightAddon
                       onClick={async () => {
-                        setAmount(newoBalance)
+                        if (newoBalance) {
+                          setAmount(newoBalance)
+                        }
                       }}
                       fontSize="0.7rem"
                       cursor="pointer"
