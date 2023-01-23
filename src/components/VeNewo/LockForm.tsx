@@ -11,6 +11,7 @@ import {
   SliderFilledTrack,
   SliderThumb,
   SliderTrack,
+  Spinner,
   Stack,
   Text,
   Tooltip,
@@ -44,7 +45,7 @@ import { lockTimeTable } from 'constants/venewo'
 const LockForm = () => {
   const { allowance, unlockDate, totalSupply, totalAssets, updateState } =
     useVeNewoContext()
-  const { newoBalance } = useNewoContext()
+  const { newoBalance, newoBalanceIsLoading } = useNewoContext()
   const { contracts } = useContractContext()
   const { address } = useAccount()
   const veNewo = useVeToken(contracts.VENEWO, contracts.NEWO)
@@ -212,7 +213,12 @@ const LockForm = () => {
                 <Flex align="center" justify="space-between">
                   <Text>Amount</Text>
                   <Text fontSize="sm">
-                    Balance: {numberFormatter(newoBalance, 4)}
+                    Balance:{' '}
+                    {newoBalanceIsLoading ? (
+                      <Spinner size="xs" />
+                    ) : (
+                      numberFormatter(newoBalance, 4)
+                    )}
                   </Text>
                 </Flex>
 
@@ -240,7 +246,9 @@ const LockForm = () => {
                   inputRightAddOn={
                     <InputRightAddon
                       onClick={async () => {
-                        setAmount(newoBalance)
+                        if (newoBalance) {
+                          setAmount(newoBalance)
+                        }
                       }}
                       fontSize="0.7rem"
                       cursor="pointer"
