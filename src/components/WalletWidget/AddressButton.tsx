@@ -8,6 +8,7 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  Spinner,
   Text,
   useDisclosure,
 } from '@chakra-ui/react'
@@ -25,7 +26,8 @@ const AddressButton: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { address, connector } = useAccount()
   const { data: ensName } = useEnsName()
-  const { newoBalance, disconnectWallet } = useNewoContext()
+  const { newoBalance, newoBalanceIsLoading, disconnectWallet } =
+    useNewoContext()
 
   return (
     <Flex flexWrap="wrap" gap={['4', '1']} ml={['3', 0]}>
@@ -48,7 +50,12 @@ const AddressButton: React.FC = () => {
         >
           <Flex alignItems="center">
             <Text fontSize={['0.8rem', '1rem']} px="3" fontWeight="extrabold">
-              {numberFormatter(newoBalance, 4)} NEWO
+              {newoBalanceIsLoading ? (
+                <Spinner size="sm" />
+              ) : (
+                numberFormatter(newoBalance, 4)
+              )}{' '}
+              NEWO
             </Text>
             <Center mx="4" height="30px">
               <Divider orientation="vertical" />

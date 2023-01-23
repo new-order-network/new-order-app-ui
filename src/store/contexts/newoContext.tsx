@@ -15,6 +15,7 @@ interface NewoProviderProps {
 interface NewoContextProps {
   disconnectWallet?: () => void
   newoBalance?: string
+  newoBalanceIsLoading: boolean
   metamaskIsInstalled: boolean
   accountAddress: string
   updateState?: () => Promise<void>
@@ -22,6 +23,7 @@ interface NewoContextProps {
 
 export const NewoContext = createContext<NewoContextProps>({
   newoBalance: '0.0',
+  newoBalanceIsLoading: false,
   metamaskIsInstalled: false,
   accountAddress: '',
 })
@@ -31,7 +33,11 @@ export const NewoProvider: React.FC<NewoProviderProps> = ({ children }) => {
   const { contracts } = useContractContext()
   const { address } = useAccount()
   const { disconnect } = useDisconnect()
-  const { data: newoBalance, refetch: refetchNewoBalance } = useBalance({
+  const {
+    data: newoBalance,
+    refetch: refetchNewoBalance,
+    isLoading: newoBalanceIsLoading,
+  } = useBalance({
     address,
     token: contracts.NEWO,
   })
@@ -87,6 +93,7 @@ export const NewoProvider: React.FC<NewoProviderProps> = ({ children }) => {
       value={{
         ...state,
         newoBalance: newoBalance?.formatted,
+        newoBalanceIsLoading,
         disconnectWallet,
         updateState,
       }}
