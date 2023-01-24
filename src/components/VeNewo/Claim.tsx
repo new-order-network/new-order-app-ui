@@ -34,7 +34,7 @@ const Claim = () => {
           <Stat>
             <StatLabel fontSize="lg">Your locked NEWO</StatLabel>
             <StatNumber color="brand.green" fontSize="2xl">
-              {assetBalance}
+              {Number(assetBalance).toFixed(4)}
             </StatNumber>
           </Stat>
         </Card>
@@ -42,7 +42,7 @@ const Claim = () => {
           <Stat>
             <StatLabel fontSize="lg">Your veNEWO balance</StatLabel>
             <StatNumber color="brand.green" fontSize="2xl">
-              {balance}
+              {Number(balance).toFixed(4)}
             </StatNumber>
           </Stat>
         </Card>
@@ -113,23 +113,25 @@ const Claim = () => {
                 tokenAddress={contracts.NEWO}
               />
 
-              {contracts.VE_NEWO_USDC_LP_VAULT && (
-                <RegisteredReward
-                  veVaultAddress={contracts.VE_NEWO_USDC_LP_VAULT}
-                  tokenAddress={contracts.NEWO_USDC_LP}
-                  token0={contracts.NEWO}
-                  token1={contracts.USDC}
-                />
-              )}
+              {contracts.VE_NEWO_USDC_LP_VAULT &&
+                contracts.VE_NEWO_USDC_LP_VAULT !== '0x' && (
+                  <RegisteredReward
+                    veVaultAddress={contracts.VE_NEWO_USDC_LP_VAULT}
+                    tokenAddress={contracts.NEWO_USDC_LP}
+                    token0={contracts.NEWO}
+                    token1={contracts.USDC}
+                  />
+                )}
 
-              {contracts.VE_NEWO_WAVAX_LP_VAULT && (
-                <RegisteredReward
-                  veVaultAddress={contracts.VE_NEWO_WAVAX_LP_VAULT}
-                  tokenAddress={contracts.NEWO_WAVAX_LP}
-                  token0={contracts.NEWO}
-                  token1={contracts.WAVAX}
-                />
-              )}
+              {contracts.VE_NEWO_WAVAX_LP_VAULT &&
+                contracts.VE_NEWO_WAVAX_LP_VAULT !== '0x' && (
+                  <RegisteredReward
+                    veVaultAddress={contracts.VE_NEWO_WAVAX_LP_VAULT}
+                    tokenAddress={contracts.NEWO_WAVAX_LP}
+                    token0={contracts.NEWO}
+                    token1={contracts.WAVAX}
+                  />
+                )}
             </Tbody>
           </Table>
         </Box>

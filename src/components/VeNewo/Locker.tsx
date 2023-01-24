@@ -134,33 +134,35 @@ const Locker = () => {
                   </Flex>
                 )}
 
-                {contracts?.VE_NEWO_USDC_LP_VAULT && (
-                  <Flex align="center" justify="space-between">
-                    <Text>NEWO/USDC LP vault</Text>
-                    <Link
-                      href={`${blockExplorer}/address/${contracts?.VE_NEWO_USDC_LP_VAULT}`}
-                      variant="whiteTransition"
-                      color="brand.green"
-                      isExternal
-                    >
-                      {shortAddress(contracts?.VE_NEWO_USDC_LP_VAULT)}
-                    </Link>
-                  </Flex>
-                )}
+                {contracts?.VE_NEWO_USDC_LP_VAULT &&
+                  contracts.VE_NEWO_USDC_LP_VAULT !== '0x' && (
+                    <Flex align="center" justify="space-between">
+                      <Text>NEWO/USDC LP vault</Text>
+                      <Link
+                        href={`${blockExplorer}/address/${contracts?.VE_NEWO_USDC_LP_VAULT}`}
+                        variant="whiteTransition"
+                        color="brand.green"
+                        isExternal
+                      >
+                        {shortAddress(contracts?.VE_NEWO_USDC_LP_VAULT)}
+                      </Link>
+                    </Flex>
+                  )}
 
-                {contracts?.VE_NEWO_WAVAX_LP_VAULT && (
-                  <Flex align="center" justify="space-between">
-                    <Text>NEWO/WAVAX LP vault</Text>
-                    <Link
-                      href={`${blockExplorer}/address/${contracts?.VE_NEWO_WAVAX_LP_VAULT}`}
-                      variant="whiteTransition"
-                      color="brand.green"
-                      isExternal
-                    >
-                      {shortAddress(contracts?.VE_NEWO_WAVAX_LP_VAULT)}
-                    </Link>
-                  </Flex>
-                )}
+                {contracts?.VE_NEWO_WAVAX_LP_VAULT &&
+                  contracts.VE_NEWO_WAVAX_LP_VAULT !== '0x' && (
+                    <Flex align="center" justify="space-between">
+                      <Text>NEWO/WAVAX LP vault</Text>
+                      <Link
+                        href={`${blockExplorer}/address/${contracts?.VE_NEWO_WAVAX_LP_VAULT}`}
+                        variant="whiteTransition"
+                        color="brand.green"
+                        isExternal
+                      >
+                        {shortAddress(contracts?.VE_NEWO_WAVAX_LP_VAULT)}
+                      </Link>
+                    </Flex>
+                  )}
               </Stack>
             </Card>
           </Stack>
