@@ -54,7 +54,7 @@ const Page = () => {
               </Link>
             </Flex>
 
-            <Tabs w="full" variant="pinkTab" pt="6">
+            <Tabs w="full" variant="pinkTab" pt="6" isLazy>
               <TabList px={['4', '4', '8']}>
                 <Tab>Locker</Tab>
                 <Tab>Claim</Tab>

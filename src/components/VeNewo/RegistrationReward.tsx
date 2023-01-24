@@ -13,10 +13,10 @@ import { useVeNewoContext } from 'store/contexts/veNewoContext'
 interface RegistrationRewardProps {
   columns: string[]
   actions: string[]
-  veVaultAddress?: string
-  tokenAddress?: string
-  token0?: string
-  token1?: string
+  veVaultAddress?: `0x${string}`
+  tokenAddress?: `0x${string}`
+  token0?: `0x${string}`
+  token1?: `0x${string}`
 }
 
 const RegistrationReward: React.FC<RegistrationRewardProps> = ({

@@ -25,7 +25,7 @@ interface UseVeVaultProps {
   balanceOf: (address: string) => Promise<string>
   approveVault: () => Promise<void>
   assetBalanceOf: (address: string) => Promise<string>
-  vaultAllowance: (ownerAddress: string) => Promise<string>
+  vaultAllowance: (ownerAddress: `0x${string}`) => Promise<string>
   deposit: (amount: string, senderAddress: string) => Promise<void>
   earned: (ownerAddress: string) => Promise<string>
   withdraw: (amount: string, receiverAddress: string) => Promise<void>
@@ -41,10 +41,10 @@ interface UseVeVaultProps {
 }
 
 const useVeVault = (
-  vaultAddress?: string,
-  tokenAddress?: string,
-  token0?: string,
-  token1?: string
+  vaultAddress?: `0x${string}`,
+  tokenAddress?: `0x${string}`,
+  token0?: `0x${string}`,
+  token1?: `0x${string}`
 ): UseVeVaultProps => {
   const toast = useToast()
   const { data: signer } = useSigner()

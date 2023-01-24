@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import {
   erc20ABI,
   useAccount,
+  useContract,
   useContractRead,
   useContractReads,
   useProvider,
@@ -38,6 +39,8 @@ const useVeToken = (
   const { updateState: updateVeNewoState } = useVeNewoContext()
   const { updateState: updateNewoState } = useNewoContext()
   const { address: accountAddress } = useAccount()
+  const [loading, setLoading] = useState(false)
+  const token = useToken(tokenAddress)
 
   const { data: decimals, refetch: refetchDecimals } = useContractRead({
     ...veTokenContract,
@@ -51,7 +54,6 @@ const useVeToken = (
       const unlockDateNumber = (data as BigNumber).toNumber()
       return unlockDateNumber
     },
-
     args: [accountAddress],
   })
 
@@ -110,35 +112,15 @@ const useVeToken = (
     allowFailure: true,
   })
 
-  const [veTokenInstance, setVeTokenInstance] =
-    useState<ethers.Contract | null>(null)
-  const [loading, setLoading] = useState(false)
-  const token = useToken(tokenAddress)
+  const veTokenInstance = useContract({
+    ...veTokenContract,
+    signerOrProvider: signer || provider,
+  })
 
   useEffect(() => {
     updateState()
     // eslint-disable-next-line
   }, [veTokenAddress, tokenAddress, accountAddress])
-
-  useEffect(() => {
-    if (veTokenAddress) {
-      if (provider) {
-        const instance = new ethers.Contract(
-          veTokenAddress,
-          veTokenAbi,
-          provider
-        )
-
-        if (signer) {
-          const instanceWithSigner = instance?.connect(signer)
-          setVeTokenInstance(instanceWithSigner)
-        } else {
-          setVeTokenInstance(instance)
-        }
-      }
-    }
-    // eslint-disable-next-line
-  }, [veTokenAddress, provider, signer])
 
   const updateState = async () => {
     Promise.all([
@@ -155,36 +137,6 @@ const useVeToken = (
     setLoading(false)
   }
 
-  const balanceOf = async (ownerAddress: string) => {
-    try {
-      const balanceOf = await veTokenInstance?.balanceOf(ownerAddress)
-      const decimals = await veTokenInstance?.decimals()
-      const formattedBalanceOf = ethers.utils.formatUnits(balanceOf, decimals)
-      return formattedBalanceOf
-    } catch (err) {
-      return ''
-    }
-  }
-
-  const assetBalanceOf = async (ownerAddress: string) => {
-    try {
-      const assetBalanceOf = await veTokenInstance?.assetBalanceOf(ownerAddress)
-      const decimals = await veTokenInstance?.decimals()
-      const formattedAssetBalanceOf = ethers.utils.formatUnits(
-        assetBalanceOf,
-        decimals
-      )
-      return formattedAssetBalanceOf
-    } catch (err) {
-      return ''
-    }
-  }
-
-  const veTokenAllowance = async (ownerAddress: string) => {
-    const allowance = await token.allowance(ownerAddress, veTokenAddress)
-    return allowance
-  }
-
   const deposit = async (
     amount: string,
     receiverAddress: string,
@@ -193,14 +145,21 @@ const useVeToken = (
     setLoading(true)
 
     try {
-      const decimals = await veTokenInstance?.decimals()
-      const parsedAmount = ethers.utils.parseUnits(amount, decimals)
-
+      const parsedAmount = ethers.utils.parseUnits(
+        amount,
+        decimals as BigNumber
+      )
       const duration = dayjs().diff(dayjs(lockTime), 's')
+
+      const gas = await veTokenInstance?.estimateGas?.[
+        'deposit(uint256,address,uint256)'
+      ](parsedAmount, receiverAddress, Math.abs(duration))
+
       const tx = await veTokenInstance?.['deposit(uint256,address,uint256)'](
         parsedAmount,
         receiverAddress,
-        Math.abs(duration)
+        Math.abs(duration),
+        { gasLimit: gas }
       )
 
       const receipt = await tx.wait()
@@ -236,7 +195,8 @@ const useVeToken = (
     setLoading(true)
 
     try {
-      const tx = await veTokenInstance?.exit()
+      const gas = await veTokenInstance?.estimateGas?.exit()
+      const tx = await veTokenInstance?.exit({ gasLimit: gas })
       const receipt = await tx.wait()
 
       if (receipt.status === 1) {
@@ -268,10 +228,7 @@ const useVeToken = (
 
   return {
     approveVeToken,
-    veTokenAllowance,
     deposit,
-    balanceOf,
-    assetBalanceOf,
     exit,
     loading,
     veTokenInstance,
