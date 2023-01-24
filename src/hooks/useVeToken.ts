@@ -1,6 +1,13 @@
-import { ethers } from 'ethers'
+import { BigNumber, ethers } from 'ethers'
 import { useEffect, useState } from 'react'
-import { useProvider, useSigner } from 'wagmi'
+import {
+  erc20ABI,
+  useAccount,
+  useContractRead,
+  useContractReads,
+  useProvider,
+  useSigner,
+} from 'wagmi'
 import { useToast } from '@chakra-ui/react'
 import dayjs from 'dayjs'
 
@@ -13,17 +20,105 @@ import veTokenAbi from 'contracts/abi/veToken.json'
 
 // veTokenAddress - address of the veToken
 // tokenAddress - address of token to get veToken
-const useVeToken = (veTokenAddress: string, tokenAddress: string) => {
+const useVeToken = (
+  veTokenAddress: `0x${string}`,
+  tokenAddress: `0x${string}`
+) => {
+  const veTokenContract = {
+    address: veTokenAddress,
+    abi: veTokenAbi,
+  }
+  const tokenContract = {
+    address: tokenAddress,
+    abi: erc20ABI,
+  }
   const toast = useToast()
   const provider = useProvider()
   const { data: signer } = useSigner()
   const { updateState: updateVeNewoState } = useVeNewoContext()
   const { updateState: updateNewoState } = useNewoContext()
+  const { address: accountAddress } = useAccount()
+
+  const { data: decimals, refetch: refetchDecimals } = useContractRead({
+    ...veTokenContract,
+    functionName: 'decimals',
+  })
+
+  const { data: unlockDate, refetch: refetchUnlockDate } = useContractRead({
+    ...veTokenContract,
+    functionName: 'unlockDate',
+    select: (data) => {
+      const unlockDateNumber = (data as BigNumber).toNumber()
+      return unlockDateNumber
+    },
+
+    args: [accountAddress],
+  })
+
+  const { data: multiplier, refetch: refetchMultiplier } = useContractRead({
+    ...veTokenContract,
+    functionName: 'veMult',
+    select: (data) => {
+      const veMultNumber = (data as BigNumber).toNumber()
+      const veMultiplier = veMultNumber / 100
+      if (Number.isNaN(veMultiplier)) {
+        return 0
+      }
+      return veMultiplier
+    },
+    args: [accountAddress],
+  })
+
+  const { data: veTokenData, refetch: refetchVeTokenData } = useContractReads({
+    contracts: [
+      {
+        ...veTokenContract,
+        functionName: 'totalSupply',
+      },
+      {
+        ...veTokenContract,
+        functionName: 'totalAssets',
+      },
+      {
+        ...veTokenContract,
+        functionName: 'balanceOf',
+        args: [accountAddress],
+      },
+      {
+        ...veTokenContract,
+        functionName: 'assetBalanceOf',
+        args: [accountAddress],
+      },
+      {
+        ...tokenContract,
+        functionName: 'allowance',
+        // eslint-disable-next-line
+        args: [accountAddress!, veTokenAddress],
+      },
+    ],
+    select: (data) => {
+      const results: string[] = []
+      for (let i = 0; i < data.length; i++) {
+        results[i] = ethers.utils.formatUnits(
+          data[i] as BigNumber,
+          decimals as BigNumber
+        )
+      }
+      return results
+    },
+    enabled: !!decimals && !!accountAddress,
+    allowFailure: true,
+  })
 
   const [veTokenInstance, setVeTokenInstance] =
     useState<ethers.Contract | null>(null)
   const [loading, setLoading] = useState(false)
   const token = useToken(tokenAddress)
+
+  useEffect(() => {
+    updateState()
+    // eslint-disable-next-line
+  }, [veTokenAddress, tokenAddress, accountAddress])
 
   useEffect(() => {
     if (veTokenAddress) {
@@ -45,32 +140,13 @@ const useVeToken = (veTokenAddress: string, tokenAddress: string) => {
     // eslint-disable-next-line
   }, [veTokenAddress, provider, signer])
 
-  const totalSupply = async () => {
-    try {
-      const totalSupply = await veTokenInstance?.totalSupply()
-      const decimals = await veTokenInstance?.decimals()
-      const formattedTotalSupply = ethers.utils.formatUnits(
-        totalSupply,
-        decimals
-      )
-      return formattedTotalSupply
-    } catch (err) {
-      return ''
-    }
-  }
-
-  const totalAssets = async () => {
-    try {
-      const totalAssets = await veTokenInstance?.totalAssets()
-      const decimals = await veTokenInstance?.decimals()
-      const formattedTotalAssets = ethers.utils.formatUnits(
-        totalAssets,
-        decimals
-      )
-      return formattedTotalAssets
-    } catch (err) {
-      return ''
-    }
+  const updateState = async () => {
+    Promise.all([
+      refetchMultiplier(),
+      refetchVeTokenData(),
+      refetchDecimals(),
+      refetchUnlockDate(),
+    ])
   }
 
   const approveVeToken = async () => {
@@ -107,15 +183,6 @@ const useVeToken = (veTokenAddress: string, tokenAddress: string) => {
   const veTokenAllowance = async (ownerAddress: string) => {
     const allowance = await token.allowance(ownerAddress, veTokenAddress)
     return allowance
-  }
-
-  const unlockDate = async (ownerAddress: string) => {
-    try {
-      const unlockDate = await veTokenInstance?.unlockDate(ownerAddress)
-      return unlockDate.toNumber()
-    } catch (err) {
-      return 0
-    }
   }
 
   const deposit = async (
@@ -202,15 +269,21 @@ const useVeToken = (veTokenAddress: string, tokenAddress: string) => {
   return {
     approveVeToken,
     veTokenAllowance,
-    unlockDate,
     deposit,
-    totalSupply,
-    totalAssets,
     balanceOf,
     assetBalanceOf,
     exit,
     loading,
     veTokenInstance,
+    totalSupply: veTokenData ? veTokenData[0] : '0',
+    totalAssets: veTokenData ? veTokenData[1] : '0',
+    balance: veTokenData ? veTokenData[2] : '0',
+    assetBalance: veTokenData ? veTokenData[3] : '0',
+    allowance: veTokenData ? veTokenData[4] : '0',
+    multiplier,
+    unlockDate,
+    decimals,
+    updateState,
   }
 }
 

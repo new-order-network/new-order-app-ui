@@ -43,7 +43,7 @@ export const NewoProvider: React.FC<NewoProviderProps> = ({ children }) => {
   })
 
   useEffect(() => {
-    refetchNewoBalance()
+    updateState()
     // eslint-disable-next-line
   }, [contracts])
 

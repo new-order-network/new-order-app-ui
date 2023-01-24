@@ -34,7 +34,7 @@ const Claim = () => {
           <Stat>
             <StatLabel fontSize="lg">Your locked NEWO</StatLabel>
             <StatNumber color="brand.green" fontSize="2xl">
-              {assetBalance}
+              {Number(assetBalance).toFixed(4)}
             </StatNumber>
           </Stat>
         </Card>
@@ -42,7 +42,7 @@ const Claim = () => {
           <Stat>
             <StatLabel fontSize="lg">Your veNEWO balance</StatLabel>
             <StatNumber color="brand.green" fontSize="2xl">
-              {balance}
+              {Number(balance).toFixed(4)}
             </StatNumber>
           </Stat>
         </Card>
