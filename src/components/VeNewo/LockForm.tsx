@@ -434,27 +434,29 @@ const LockForm = () => {
                   </Tr>
                 </Thead>
                 <Tbody>
-                  {contracts.VE_NEWO_USDC_LP_VAULT && (
-                    <RegistrationReward
-                      columns={['name', 'apr', 'boost', 'actions']}
-                      actions={['deposit', 'register']}
-                      veVaultAddress={contracts.VE_NEWO_USDC_LP_VAULT}
-                      tokenAddress={contracts.NEWO_USDC_LP}
-                      token0={contracts.NEWO}
-                      token1={contracts.USDC}
-                    />
-                  )}
+                  {contracts.VE_NEWO_USDC_LP_VAULT &&
+                    contracts.VE_NEWO_USDC_LP_VAULT !== '0x' && (
+                      <RegistrationReward
+                        columns={['name', 'apr', 'boost', 'actions']}
+                        actions={['deposit', 'register']}
+                        veVaultAddress={contracts.VE_NEWO_USDC_LP_VAULT}
+                        tokenAddress={contracts.NEWO_USDC_LP}
+                        token0={contracts.NEWO}
+                        token1={contracts.USDC}
+                      />
+                    )}
 
-                  {contracts.VE_NEWO_WAVAX_LP_VAULT && (
-                    <RegistrationReward
-                      columns={['name', 'apr', 'boost', 'actions']}
-                      actions={['deposit', 'register']}
-                      veVaultAddress={contracts.VE_NEWO_WAVAX_LP_VAULT}
-                      tokenAddress={contracts.NEWO_WAVAX_LP}
-                      token0={contracts.NEWO}
-                      token1={contracts.WAVAX}
-                    />
-                  )}
+                  {contracts.VE_NEWO_WAVAX_LP_VAULT &&
+                    contracts.VE_NEWO_WAVAX_LP_VAULT !== '0x' && (
+                      <RegistrationReward
+                        columns={['name', 'apr', 'boost', 'actions']}
+                        actions={['deposit', 'register']}
+                        veVaultAddress={contracts.VE_NEWO_WAVAX_LP_VAULT}
+                        tokenAddress={contracts.NEWO_WAVAX_LP}
+                        token0={contracts.NEWO}
+                        token1={contracts.WAVAX}
+                      />
+                    )}
                 </Tbody>
               </Table>
             </Box>

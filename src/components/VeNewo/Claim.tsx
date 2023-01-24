@@ -113,23 +113,25 @@ const Claim = () => {
                 tokenAddress={contracts.NEWO}
               />
 
-              {contracts.VE_NEWO_USDC_LP_VAULT && (
-                <RegisteredReward
-                  veVaultAddress={contracts.VE_NEWO_USDC_LP_VAULT}
-                  tokenAddress={contracts.NEWO_USDC_LP}
-                  token0={contracts.NEWO}
-                  token1={contracts.USDC}
-                />
-              )}
+              {contracts.VE_NEWO_USDC_LP_VAULT &&
+                contracts.VE_NEWO_USDC_LP_VAULT !== '0x' && (
+                  <RegisteredReward
+                    veVaultAddress={contracts.VE_NEWO_USDC_LP_VAULT}
+                    tokenAddress={contracts.NEWO_USDC_LP}
+                    token0={contracts.NEWO}
+                    token1={contracts.USDC}
+                  />
+                )}
 
-              {contracts.VE_NEWO_WAVAX_LP_VAULT && (
-                <RegisteredReward
-                  veVaultAddress={contracts.VE_NEWO_WAVAX_LP_VAULT}
-                  tokenAddress={contracts.NEWO_WAVAX_LP}
-                  token0={contracts.NEWO}
-                  token1={contracts.WAVAX}
-                />
-              )}
+              {contracts.VE_NEWO_WAVAX_LP_VAULT &&
+                contracts.VE_NEWO_WAVAX_LP_VAULT !== '0x' && (
+                  <RegisteredReward
+                    veVaultAddress={contracts.VE_NEWO_WAVAX_LP_VAULT}
+                    tokenAddress={contracts.NEWO_WAVAX_LP}
+                    token0={contracts.NEWO}
+                    token1={contracts.WAVAX}
+                  />
+                )}
             </Tbody>
           </Table>
         </Box>

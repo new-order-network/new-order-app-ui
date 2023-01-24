@@ -157,7 +157,7 @@ const Voting = () => {
                 fontSize="0.8rem"
                 fontWeight="bold"
                 variant="greenButton"
-                disabled={!address || !contracts.GOVERNANCE_VAULT}
+                disabled={!address || contracts.GOVERNANCE_VAULT === '0x'}
                 onClick={() => {
                   setOverlay(<ModalOverlay />)
                   onOpen()
