@@ -2,10 +2,10 @@ import { contractAddresses } from 'constants/contractAddresses'
 
 export interface VaultProps {
   label: string
-  vaultAddress?: string
-  tokenAddress?: string
-  token0?: string
-  token1?: string
+  vaultAddress?: `0x${string}`
+  tokenAddress?: `0x${string}`
+  token0?: `0x${string}`
+  token1?: `0x${string}`
   isActive?: boolean
   isLegacyVault?: boolean //for disabling APR, Deposit and Input button, Withdraw Buton and Claims Button for Legacy Vaults (Single-Side and LP Vaults)
   isLegacyLPVault?: boolean //for disabling APR, Deposit and Input button, Rewards Column to 0, Claims, Withdraw and Claims buttons for Legacy LP Vaults

@@ -1,65 +1,91 @@
-import { useEffect, useState } from 'react'
-import { ethers } from 'ethers'
-import { erc20ABI, useProvider, useSigner } from 'wagmi'
+import { BigNumber, ethers } from 'ethers'
+import {
+  erc20ABI,
+  useAccount,
+  useContract,
+  useContractRead,
+  useContractReads,
+  useProvider,
+  useSigner,
+} from 'wagmi'
 import { useToast } from '@chakra-ui/react'
 
 interface UseTokenResponse {
+  approve: (spenderAddress: `0x${string}`) => Promise<void>
+  allowance: (
+    ownerAddress: `0x${string}`,
+    spenderAddress: `0x${string}`
+  ) => Promise<string>
+  updateState: () => Promise<void>
   tokenInstance: ethers.Contract | null
-  balanceOf: (address: string) => Promise<string>
-  approve: (spenderAddress: string) => Promise<void>
-  totalSupply: () => Promise<string>
-  allowance: (ownerAddress: string, spenderAddress: string) => Promise<string>
+  totalSupply: string
   tokenSymbol: string
   decimals: number
+  balance: string
 }
 
-const useToken = (tokenAddress?: string): UseTokenResponse => {
+const useToken = (tokenAddress?: `0x${string}`): UseTokenResponse => {
+  const tokenContract = {
+    address: tokenAddress,
+    abi: erc20ABI,
+  }
   const toast = useToast()
-  const [tokenInstance, setTokenInstance] = useState<ethers.Contract | null>(
-    null
-  )
-  const [tokenSymbol, setTokenSymbol] = useState('')
-  const [decimals, setDecimals] = useState(0)
-
   const provider = useProvider()
   const { data: signer } = useSigner()
+  const { address: accountAddress } = useAccount()
 
-  useEffect(() => {
-    if (tokenAddress) {
-      if (provider) {
-        const instance = new ethers.Contract(tokenAddress, erc20ABI, provider)
+  const tokenInstance = useContract({
+    ...tokenContract,
+    signerOrProvider: signer || provider,
+  })
 
-        if (signer) {
-          const instanceWithSigner = instance?.connect(signer)
-          setTokenInstance(instanceWithSigner)
-        } else {
-          setTokenInstance(instance)
-        }
+  const { data: decimals } = useContractRead({
+    ...tokenContract,
+    functionName: 'decimals',
+  })
+
+  const { data: tokenSymbol } = useContractRead({
+    ...tokenContract,
+    functionName: 'symbol',
+  })
+
+  const { data: tokenData, refetch: refetchTokenData } = useContractReads({
+    contracts: [
+      {
+        ...tokenContract,
+        functionName: 'totalSupply',
+      },
+      {
+        ...tokenContract,
+        functionName: 'balanceOf',
+        // eslint-disable-next-line
+        args: [accountAddress!],
+      },
+    ],
+    select: (data) => {
+      const results: string[] = []
+      for (let i = 0; i < data.length; i++) {
+        results[i] = ethers.utils.formatUnits(data[i] as BigNumber, decimals)
       }
-    }
-    // eslint-disable-next-line
-  }, [tokenAddress, provider, signer])
+      return results
+    },
+    enabled: !!decimals && !!accountAddress,
+    allowFailure: true,
+  })
 
-  const balanceOf = async (address: string) => {
+  const approve = async (spenderAddress: `0x${string}`) => {
     try {
-      const balance = await tokenInstance?.balanceOf(address)
-      const decimals = await tokenInstance?.decimals()
-      const formattedBalance = ethers.utils.formatUnits(balance, decimals)
-
-      return formattedBalance
-    } catch (err) {
-      return ''
-    }
-  }
-
-  const approve = async (spenderAddress: string) => {
-    try {
-      const tx = await tokenInstance?.approve(
+      const gas = await tokenInstance?.estimateGas.approve(
         spenderAddress,
         ethers.constants.MaxUint256
       )
-      const receipt = await tx.wait()
-      if (receipt.status === 1) {
+      const tx = await tokenInstance?.approve(
+        spenderAddress,
+        ethers.constants.MaxUint256,
+        { gasLimit: gas }
+      )
+      const receipt = await tx?.wait()
+      if (receipt?.status === 1) {
         toast({
           title: 'Approval Successful',
           description: 'You have successfully approved the use of your token.',
@@ -82,70 +108,38 @@ const useToken = (tokenAddress?: string): UseTokenResponse => {
     }
   }
 
-  const allowance = async (ownerAddress: string, spenderAddress: string) => {
+  const allowance = async (
+    ownerAddress: `0x${string}`,
+    spenderAddress: `0x${string}`
+  ) => {
     try {
       const allowance = await tokenInstance?.allowance(
         ownerAddress,
         spenderAddress
       )
-      const decimals = await tokenInstance?.decimals()
-      const formattedAllowance = ethers.utils.formatUnits(allowance, decimals)
-
+      const formattedAllowance = ethers.utils.formatUnits(
+        allowance as BigNumber,
+        decimals
+      )
       return formattedAllowance
     } catch (err) {
       return ''
     }
   }
 
-  const updateTokenSymbol = async () => {
-    try {
-      const symbol = await tokenInstance?.symbol()
-      setTokenSymbol(symbol)
-    } catch (err) {
-      return
-    }
+  const updateState = async () => {
+    Promise.all([refetchTokenData()])
   }
-
-  const updateDecimals = async () => {
-    try {
-      const decimals = await tokenInstance?.decimals()
-      setDecimals(decimals)
-    } catch (err) {
-      return
-    }
-  }
-
-  const totalSupply = async () => {
-    try {
-      const totalSupply = await tokenInstance?.totalSupply()
-      const decimals = await tokenInstance?.decimals()
-
-      const formattedTotalSupply = ethers.utils.formatUnits(
-        totalSupply,
-        decimals
-      )
-
-      return formattedTotalSupply
-    } catch (err) {
-      return ''
-    }
-  }
-
-  useEffect(() => {
-    if (tokenInstance) {
-      updateTokenSymbol(), updateDecimals()
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tokenInstance])
 
   return {
-    tokenInstance,
-    balanceOf,
     approve,
     allowance,
-    totalSupply,
-    tokenSymbol,
-    decimals,
+    updateState,
+    tokenInstance,
+    totalSupply: tokenData ? tokenData[0] : '0',
+    balance: tokenData ? tokenData[1] : '0',
+    tokenSymbol: tokenSymbol ? tokenSymbol : '',
+    decimals: decimals ? decimals : 0,
   }
 }
 

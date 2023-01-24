@@ -43,20 +43,11 @@ const VeVault = ({
 
   const [userVaultBalance, setUserVaultBalance] = useState('')
   const [deposit, setDeposit] = useState('')
-  const [tokenBalance, setTokenBalance] = useState('')
   const [allowance, setAllowance] = useState('')
 
   const onMax = async () => {
     if (address) {
-      const tokenBalance = await token?.balanceOf(address)
-      setDeposit(tokenBalance)
-    }
-  }
-
-  const updateTokenBalance = async () => {
-    if (address) {
-      const tokenBalance = await token?.balanceOf(address)
-      setTokenBalance(tokenBalance)
+      setDeposit(token.balance)
     }
   }
 
@@ -77,7 +68,7 @@ const VeVault = ({
 
   const updateState = async () => {
     await Promise.all([
-      updateTokenBalance(),
+      token.updateState(),
       updateAllowance(),
       getUserVaultBalance(),
     ])
@@ -169,7 +160,9 @@ const VeVault = ({
           <Stack spacing={2}>
             <StatusAmount
               label="Your Balance:"
-              data={`${numberFormatter(tokenBalance, 4)} ${token?.tokenSymbol}`}
+              data={`${numberFormatter(token.balance, 4)} ${
+                token?.tokenSymbol
+              }`}
             />
             <StatusAmount
               label="Your Deposit:"
