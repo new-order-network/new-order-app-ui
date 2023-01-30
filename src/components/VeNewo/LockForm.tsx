@@ -11,6 +11,7 @@ import {
   SliderFilledTrack,
   SliderThumb,
   SliderTrack,
+  Spinner,
   Stack,
   Text,
   Tooltip,
@@ -44,7 +45,7 @@ import { lockTimeTable } from 'constants/venewo'
 const LockForm = () => {
   const { allowance, unlockDate, totalSupply, totalAssets, updateState } =
     useVeNewoContext()
-  const { newoBalance } = useNewoContext()
+  const { newoBalance, newoBalanceIsLoading } = useNewoContext()
   const { contracts } = useContractContext()
   const { address } = useAccount()
   const veNewo = useVeToken(contracts.VENEWO, contracts.NEWO)
@@ -92,6 +93,9 @@ const LockForm = () => {
       const newMinLockTime = dayjs.unix(unlockDate).add(10, 'second').toDate()
       setLockTime(newMinLockTime)
       setMinLockTime(newMinLockTime)
+    } else {
+      setLockTime(dayjs().add(91, 'd').toDate())
+      setMinLockTime(dayjs().add(91, 'd').toDate())
     }
     // eslint-disable-next-line
   }, [unlockDate])
@@ -209,7 +213,12 @@ const LockForm = () => {
                 <Flex align="center" justify="space-between">
                   <Text>Amount</Text>
                   <Text fontSize="sm">
-                    Balance: {numberFormatter(newoBalance, 4)}
+                    Balance:{' '}
+                    {newoBalanceIsLoading ? (
+                      <Spinner size="xs" />
+                    ) : (
+                      numberFormatter(newoBalance, 4)
+                    )}
                   </Text>
                 </Flex>
 
@@ -237,7 +246,9 @@ const LockForm = () => {
                   inputRightAddOn={
                     <InputRightAddon
                       onClick={async () => {
-                        setAmount(newoBalance)
+                        if (newoBalance) {
+                          setAmount(newoBalance)
+                        }
                       }}
                       fontSize="0.7rem"
                       cursor="pointer"
@@ -423,27 +434,29 @@ const LockForm = () => {
                   </Tr>
                 </Thead>
                 <Tbody>
-                  {contracts.VE_NEWO_USDC_LP_VAULT && (
-                    <RegistrationReward
-                      columns={['name', 'apr', 'boost', 'actions']}
-                      actions={['deposit', 'register']}
-                      veVaultAddress={contracts.VE_NEWO_USDC_LP_VAULT}
-                      tokenAddress={contracts.NEWO_USDC_LP}
-                      token0={contracts.NEWO}
-                      token1={contracts.USDC}
-                    />
-                  )}
+                  {contracts.VE_NEWO_USDC_LP_VAULT &&
+                    contracts.VE_NEWO_USDC_LP_VAULT !== '0x' && (
+                      <RegistrationReward
+                        columns={['name', 'apr', 'boost', 'actions']}
+                        actions={['deposit', 'register']}
+                        veVaultAddress={contracts.VE_NEWO_USDC_LP_VAULT}
+                        tokenAddress={contracts.NEWO_USDC_LP}
+                        token0={contracts.NEWO}
+                        token1={contracts.USDC}
+                      />
+                    )}
 
-                  {contracts.VE_NEWO_WAVAX_LP_VAULT && (
-                    <RegistrationReward
-                      columns={['name', 'apr', 'boost', 'actions']}
-                      actions={['deposit', 'register']}
-                      veVaultAddress={contracts.VE_NEWO_WAVAX_LP_VAULT}
-                      tokenAddress={contracts.NEWO_WAVAX_LP}
-                      token0={contracts.NEWO}
-                      token1={contracts.WAVAX}
-                    />
-                  )}
+                  {contracts.VE_NEWO_WAVAX_LP_VAULT &&
+                    contracts.VE_NEWO_WAVAX_LP_VAULT !== '0x' && (
+                      <RegistrationReward
+                        columns={['name', 'apr', 'boost', 'actions']}
+                        actions={['deposit', 'register']}
+                        veVaultAddress={contracts.VE_NEWO_WAVAX_LP_VAULT}
+                        tokenAddress={contracts.NEWO_WAVAX_LP}
+                        token0={contracts.NEWO}
+                        token1={contracts.WAVAX}
+                      />
+                    )}
                 </Tbody>
               </Table>
             </Box>

@@ -10,8 +10,8 @@ import { useNewoContext } from 'store/contexts/newoContext'
 import stakingAbi from 'contracts/abi/votingPower.json'
 
 const useGovernanceVault = (
-  tokenAddress: string,
-  governanceVaultAddress?: string
+  tokenAddress: `0x${string}`,
+  governanceVaultAddress?: `0x${string}`
 ) => {
   const toast = useToast()
   const { data: signer } = useSigner()
@@ -160,7 +160,7 @@ const useGovernanceVault = (
     }
   }
 
-  const vaultAllowance = async (ownerAddress: string) => {
+  const vaultAllowance = async (ownerAddress: `0x${string}`) => {
     let allowance = ''
 
     if (governanceVaultAddress) {

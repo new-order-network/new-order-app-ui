@@ -1,5 +1,49 @@
 # Changelog
 
+## [1.4.1](https://github.com/new-order-network/new-order-app-ui/compare/v1.4.0...v1.4.1) (2023-01-17)
+
+
+### Bug Fixes
+
+* incorrect voting completion date ([cdf6185](https://github.com/new-order-network/new-order-app-ui/commit/cdf6185e3afeb367917d8101606d2e4ec27f25c0))
+* typos ([93e3f80](https://github.com/new-order-network/new-order-app-ui/commit/93e3f806b74b41db756b3f17d8929885a92393a0))
+* typos ([93e3f80](https://github.com/new-order-network/new-order-app-ui/commit/93e3f806b74b41db756b3f17d8929885a92393a0))
+
+## [1.4.0](https://github.com/new-order-network/new-order-app-ui/compare/v1.3.1...v1.4.0) (2023-01-17)
+
+
+### Features
+
+* add tooltip on voting power to show details of block number of snapshot ([6429ab7](https://github.com/new-order-network/new-order-app-ui/commit/6429ab7873d8b70ca32eaca141cee0efe0c0597f))
+* show voting power on voting page ([9b8653d](https://github.com/new-order-network/new-order-app-ui/commit/9b8653d7f864bfb1d7d914eac799e0eda6191d45))
+
+
+### Bug Fixes
+
+* voting power not showing on the proposal ([f079653](https://github.com/new-order-network/new-order-app-ui/commit/f079653dda3164ecb2274ebb665208ecafc0380a))
+
+
+### Miscellaneous
+
+* **deps:** bump loader-utils from 1.4.0 to 1.4.2 ([20a0b49](https://github.com/new-order-network/new-order-app-ui/commit/20a0b4955b5a508fe4c51a836e8fa48ccdde1e0e))
+
+## [1.3.1](https://github.com/new-order-network/new-order-app-ui/compare/v1.3.0...v1.3.1) (2023-01-16)
+
+
+### Bug Fixes
+
+* disable button when no venewo is on the wallet ([8cd24ed](https://github.com/new-order-network/new-order-app-ui/commit/8cd24ed9e6de9acfe9c79e32c479d5a49a48495f))
+* hydration message on header components ([1b5c133](https://github.com/new-order-network/new-order-app-ui/commit/1b5c1339f5dea908cdb2585e67e43f71cf627215))
+* hydration message on invest page ([98d6b91](https://github.com/new-order-network/new-order-app-ui/commit/98d6b91f6f56f6e7a3e88c341fa4afbab1c31601))
+* register button is disabled on lp when boost is 1 ([8758a8f](https://github.com/new-order-network/new-order-app-ui/commit/8758a8f47aac374cc6a6f680a7de7c2aae3c8d6d))
+* registered detection failing on first visit ([6c131d5](https://github.com/new-order-network/new-order-app-ui/commit/6c131d5ca26a0a9551ea3211bb9abd4d3762da32))
+
+
+### Miscellaneous
+
+* add tooltip on the venewo register button to inform users to re-register ([7b56bef](https://github.com/new-order-network/new-order-app-ui/commit/7b56befe387bcde625c461b5a7ccb662d8f3c9fd))
+* update the tooltip message ([137f185](https://github.com/new-order-network/new-order-app-ui/commit/137f185543805ba1ffecee281b50b5169b7e4fba))
+
 ## [1.3.0](https://github.com/new-order-network/new-order-app-ui/compare/v1.2.1...v1.3.0) (2022-11-08)
 
 

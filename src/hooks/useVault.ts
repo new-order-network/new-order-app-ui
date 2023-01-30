@@ -13,7 +13,7 @@ import vaultAbi from 'contracts/abi/stakingRewards.json'
 
 interface UseVaultProps {
   balanceOf: (address: string) => Promise<string>
-  vaultAllowance: (ownerAddress: string) => Promise<string>
+  vaultAllowance: (ownerAddress: `0x${string}`) => Promise<string>
   approveVault: () => Promise<void>
   stake: (amount: string, senderAddress: string) => Promise<void>
   setLoading: (loading: boolean) => void
@@ -32,10 +32,10 @@ interface UseVaultProps {
 const yearInSeconds = 31536000
 
 const useVault = (
-  vaultAddress?: string,
-  tokenAddress?: string,
-  token0?: string,
-  token1?: string
+  vaultAddress?: `0x${string}`,
+  tokenAddress?: `0x${string}`,
+  token0?: `0x${string}`,
+  token1?: `0x${string}`
 ): UseVaultProps => {
   const toast = useToast()
   const { data: signer } = useSigner()
@@ -128,7 +128,7 @@ const useVault = (
       )
 
       // Get the total supply of the lp token
-      const tokenTotalSupply = await token.totalSupply()
+      const tokenTotalSupply = token.totalSupply
 
       computedTvl =
         ((Number(convertedLpTokenBalance0) * token0Price +
@@ -197,7 +197,7 @@ const useVault = (
     setAPRLoading(false)
   }
 
-  const vaultAllowance = async (ownerAddress: string) => {
+  const vaultAllowance = async (ownerAddress: `0x${string}`) => {
     let allowance = ''
 
     if (vaultAddress) {

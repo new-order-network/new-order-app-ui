@@ -9,8 +9,8 @@ import useVeToken from 'hooks/useVeToken'
 import { useVeNewoContext } from 'store/contexts/veNewoContext'
 
 interface LockedTokenProps {
-  veTokenAddress: string
-  tokenAddress: string
+  veTokenAddress: `0x${string}`
+  tokenAddress: `0x${string}`
 }
 
 const LockedToken: React.FC<LockedTokenProps> = ({
@@ -24,7 +24,7 @@ const LockedToken: React.FC<LockedTokenProps> = ({
   return (
     <Tr>
       <Td>NEWO</Td>
-      <Td>{assetBalance}</Td>
+      <Td>{Number(assetBalance).toFixed(4)}</Td>
       <Td>{dayjs.unix(unlockDate).format('MMM DD YYYY')}</Td>
       <Td>
         <Tooltip

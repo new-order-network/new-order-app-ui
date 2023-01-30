@@ -13,7 +13,8 @@ import VotingDateRangeFilter from 'components/Voting/VotingDateRangeFilter'
 import Pagination from 'components/Pagination'
 import ModalOverlay from 'components/ModalOverlay'
 import StakingModal from 'components/Voting/StakingModal'
-import ProposalForm from 'components/Forms/ProposalForm'
+import VotingPower from 'components/Voting/VotingPower'
+import ProposalModal from 'components/Forms/ProposalForm'
 
 import {
   snapshotProposalCountQuery,
@@ -29,7 +30,7 @@ import {
   VotingStatusChoices,
 } from 'models/voting'
 
-import { useVotingContext } from 'store/contexts/votingContext'
+import { VotingProvider } from 'store/contexts/votingContext'
 import { useContractContext } from 'store/contexts/contractContext'
 
 import Layout from 'layout'
@@ -43,7 +44,6 @@ const Voting = () => {
   } = useDisclosure()
   const [overlay, setOverlay] = useState(<ModalOverlay />)
   const { address } = useAccount()
-  const { stakedTokens } = useVotingContext()
   const { contracts } = useContractContext()
   const pageSize = 30
   const proposalCountData = useQuery(snapshotProposalCountQuery)
@@ -139,140 +139,139 @@ const Voting = () => {
   }, [currentPage])
 
   return (
-    <Layout>
-      <Flex
-        flexDirection="column"
-        flexWrap="wrap"
-        gap="4"
-        p={['28px 24px', '28px 40px', '28px 40px']}
-      >
+    <VotingProvider>
+      <Layout>
         <Flex
-          alignItems="center"
-          justifyContent="space-between"
+          flexDirection="column"
           flexWrap="wrap"
-          gap="2"
-          mb="4"
+          gap="4"
+          p={['28px 24px', '28px 40px', '28px 40px']}
         >
-          <Text fontSize="1.5rem" fontWeight="extrabold">
-            Voting
-          </Text>
-          <Flex flexWrap="wrap" gap="3" alignItems="center">
-            <Button
-              fontSize="0.8rem"
-              fontWeight="bold"
-              variant="outlineGreenRounded"
-              cursor="default"
-            >
-              Staked Tokens: {Number(stakedTokens).toFixed(2)} sNEWO
-            </Button>
-            <Button
-              fontSize="0.8rem"
-              fontWeight="bold"
-              variant="greenButton"
-              disabled={!address || !contracts.GOVERNANCE_VAULT}
-              onClick={() => {
-                setOverlay(<ModalOverlay />)
-                onOpen()
-              }}
-            >
-              Staking
-            </Button>
-            <Button
-              fontSize="0.8rem"
-              fontWeight="bold"
-              variant="greenButton"
-              disabled={!address}
-              onClick={() => {
-                return onProposalOpen()
-              }}
-            >
-              Create Proposal
-            </Button>
-          </Flex>
-        </Flex>
-        <VotingSearchFilter filters={filters} setFilters={setFilters} />
-        <Flex
-          alignItems="center"
-          justifyContent={['center', 'space-between']}
-          flexWrap="wrap"
-          gap="2"
-        >
-          <Flex alignItems="center" flexWrap="wrap" gap="2">
-            <VotingStatusFilter
-              votingProposals={votingProposals}
-              status={status}
-              setStatus={setStatus}
-            />
-
-            <VotingDateRangeFilter filters={filters} setFilters={setFilters} />
-          </Flex>
-          <Pagination
-            pages={pages}
-            pagesCount={pagesCount}
-            isDisabled={isDisabled}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-          />
-        </Flex>
-        {loading ? (
-          <VotingLoader />
-        ) : (
-          <SimpleGrid
-            mr={[0, 0, 0, 0, '16']}
-            mt="3"
-            minChildWidth={['200px', '300px']}
-            spacing="5"
+          <Flex
+            alignItems="center"
+            justifyContent="space-between"
+            flexWrap="wrap"
+            gap="2"
+            mb="4"
           >
-            {votingProposals?.length > 0
-              ? votingProposals
-                  ?.filter((proposal: VotingProposalProps) => {
-                    if (status === VotingStatusOrOutcome.ALL) {
-                      return proposal
-                    } else if (
-                      status === VotingStatusOrOutcome.ACTIVE ||
-                      status === VotingStatusOrOutcome.CLOSED
-                    ) {
-                      return proposal.state === status
-                    } else {
-                      const highestVotedIndex = proposal.scores.indexOf(
-                        Math.max(...proposal.scores)
-                      )
-                      if (status === VotingStatusOrOutcome.PASSED) {
-                        return (
-                          proposal.state === VotingStatus.CLOSED &&
-                          proposal.choices[highestVotedIndex] ===
-                            VotingChoices.FOR
+            <Text fontSize="1.5rem" fontWeight="extrabold">
+              Voting
+            </Text>
+            <Flex flexWrap="wrap" gap="3" alignItems="center">
+              <VotingPower />
+              <Button
+                fontSize="0.8rem"
+                fontWeight="bold"
+                variant="greenButton"
+                disabled={!address || contracts.GOVERNANCE_VAULT === '0x'}
+                onClick={() => {
+                  setOverlay(<ModalOverlay />)
+                  onOpen()
+                }}
+              >
+                Staking
+              </Button>
+              <Button
+                fontSize="0.8rem"
+                fontWeight="bold"
+                variant="greenButton"
+                disabled={!address}
+                onClick={() => {
+                  return onProposalOpen()
+                }}
+              >
+                Create Proposal
+              </Button>
+            </Flex>
+          </Flex>
+          <VotingSearchFilter filters={filters} setFilters={setFilters} />
+          <Flex
+            alignItems="center"
+            justifyContent={['center', 'space-between']}
+            flexWrap="wrap"
+            gap="2"
+          >
+            <Flex alignItems="center" flexWrap="wrap" gap="2">
+              <VotingStatusFilter
+                votingProposals={votingProposals}
+                status={status}
+                setStatus={setStatus}
+              />
+              <VotingDateRangeFilter
+                filters={filters}
+                setFilters={setFilters}
+              />
+            </Flex>
+            <Pagination
+              pages={pages}
+              pagesCount={pagesCount}
+              isDisabled={isDisabled}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+            />
+          </Flex>
+          {loading ? (
+            <VotingLoader />
+          ) : (
+            <SimpleGrid
+              mr={[0, 0, 0, 0, '16']}
+              mt="3"
+              minChildWidth={['200px', '300px']}
+              spacing="5"
+            >
+              {votingProposals?.length > 0
+                ? votingProposals
+                    ?.filter((proposal: VotingProposalProps) => {
+                      if (status === VotingStatusOrOutcome.ALL) {
+                        return proposal
+                      } else if (
+                        status === VotingStatusOrOutcome.ACTIVE ||
+                        status === VotingStatusOrOutcome.CLOSED
+                      ) {
+                        return proposal.state === status
+                      } else {
+                        const highestVotedIndex = proposal.scores.indexOf(
+                          Math.max(...proposal.scores)
                         )
-                      } else if (status === VotingStatusOrOutcome.FAILED) {
+                        if (status === VotingStatusOrOutcome.PASSED) {
+                          return (
+                            proposal.state === VotingStatus.CLOSED &&
+                            proposal.choices[highestVotedIndex] ===
+                              VotingChoices.FOR
+                          )
+                        } else if (status === VotingStatusOrOutcome.FAILED) {
+                          return (
+                            proposal.state === VotingStatus.CLOSED &&
+                            proposal.choices[highestVotedIndex] ===
+                              VotingChoices.AGAINST
+                          )
+                        }
                         return (
                           proposal.state === VotingStatus.CLOSED &&
                           proposal.choices[highestVotedIndex] ===
-                            VotingChoices.AGAINST
+                            VotingChoices.ABSTAIN
                         )
                       }
+                    })
+                    .map((proposal: VotingProposalProps) => {
                       return (
-                        proposal.state === VotingStatus.CLOSED &&
-                        proposal.choices[highestVotedIndex] ===
-                          VotingChoices.ABSTAIN
+                        <VotingCard key={proposal.id} proposal={proposal} />
                       )
-                    }
-                  })
-                  .map((proposal: VotingProposalProps) => {
-                    return <VotingCard key={proposal.id} proposal={proposal} />
-                  })
-              : 'No data found.'}
-          </SimpleGrid>
-        )}
-        <StakingModal
-          isOpen={isOpen}
-          onClose={onClose}
-          overlay={overlay}
-          stakeAmount={stakeAmount}
-          setStakeAmount={setStakeAmount}
-        />
-        <ProposalForm isOpen={isProposalOpen} onClose={onProposalClose} />
-      </Flex>
-    </Layout>
+                    })
+                : 'No data found.'}
+            </SimpleGrid>
+          )}
+          <StakingModal
+            isOpen={isOpen}
+            onClose={onClose}
+            overlay={overlay}
+            stakeAmount={stakeAmount}
+            setStakeAmount={setStakeAmount}
+          />
+        </Flex>
+      </Layout>
+      <ProposalModal isOpen={isProposalOpen} onClose={onProposalClose} />
+    </VotingProvider>
   )
 }
 
