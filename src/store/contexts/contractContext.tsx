@@ -72,7 +72,7 @@ export const ContractProvider: React.FC<ContractProviderProps> = ({
   const [hasNetworkError, setHasNetworkError] = useState(false)
 
   useEffect(() => {
-    if (chain?.id) {
+    if (chain?.id && isChainSupported(chain.id)) {
       setContracts(contractAddresses[chain.id])
       setVaults(Vaults[chain.id])
       setAirdrops(Airdrops[chain.id])
