@@ -119,7 +119,10 @@ const useVeVault = (
 
         // TODO: to be removed
         // NOTE; forces the apr to be 0 when it's the avax lp vault
-        if (vaultAddress === contracts.VE_NEWO_WAVAX_LP_VAULT) {
+        if (
+          vaultAddress === contracts.VE_NEWO_WAVAX_LP_VAULT ||
+          vaultAddress === contracts.VE_NEWO_USDC_LP_VAULT
+        ) {
           calculatedApr = 0
         }
       } else {
