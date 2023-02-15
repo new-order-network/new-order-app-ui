@@ -33,7 +33,7 @@ const Home = () => {
             gap="3"
             p={['24px 24px 12px', '0', '0']}
           >
-            <Link href={ExternalLink.linktree} isExternal>
+            <Link href={ExternalLink.newOrderAcademy} isExternal>
               <Button
                 fontSize="0.8rem"
                 fontWeight="bold"
