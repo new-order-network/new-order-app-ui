@@ -1,8 +1,10 @@
 import { createContext, useContext, useEffect, useReducer } from 'react'
 import { useAccount } from 'wagmi'
-import { ethers } from 'ethers'
+import snapshot from '@snapshot-labs/snapshot.js'
 
 import useGovernanceVault from 'hooks/useGovernanceVault'
+
+import { env } from 'lib/environment'
 
 import { useContractContext } from 'store/contexts/contractContext'
 import {
@@ -15,11 +17,8 @@ import {
   votingReducer,
 } from 'store/reducers/votingReducer'
 
-import { contractAddresses } from 'constants/contractAddresses'
-import { SUPPORTED_NETWORKS } from 'constants/network'
-
-import stakingAbi from 'contracts/abi/votingPower.json'
-import veTokenAbi from 'contracts/abi/veToken.json'
+import { DEFAULT_NETWORK } from 'constants/network'
+import { snapshotStrategies } from 'constants/voting'
 
 interface VotingProviderProps {
   children: React.ReactNode
@@ -79,74 +78,26 @@ export const VotingProvider: React.FC<VotingProviderProps> = ({ children }) => {
   }
 
   const getTotalVotingPower = async () => {
-    const networks = SUPPORTED_NETWORKS.filter((network) => {
-      return !network.testnet && network
-    })
-
     let totalVotingPower = 0
-    let totalVotingPowerDenomination = {
-      sNEWO: 0,
-      veNEWO: 0,
-      veNEWOa: 0,
+    const totalVotingPowerDenomination: { [key: string]: number } = {}
+
+    const votingPower = await snapshot.utils.getVp(
+      String(accountAddress),
+      `${DEFAULT_NETWORK.id}`,
+      snapshotStrategies,
+      'latest',
+      env.NEXT_PUBLIC_SNAPSHOT_SPACE,
+      true
+    )
+
+    if (votingPower) {
+      totalVotingPower = votingPower.vp
     }
 
-    for (let index = 0; index < networks.length; index++) {
-      const provider = new ethers.providers.JsonRpcProvider(
-        networks[index].rpcUrls.default.http[0]
-      )
-
-      // VOTING POWER
-      const governanceVaultAddress =
-        contractAddresses[networks[index].id].GOVERNANCE_VAULT
-
-      if (governanceVaultAddress) {
-        const governanceVaultInstance = new ethers.Contract(
-          governanceVaultAddress,
-          stakingAbi,
-          provider
-        )
-
-        const votingPower = await governanceVaultInstance?.votingPower(
-          accountAddress
-        )
-
-        const formattedVotingPower = ethers.utils.formatUnits(
-          votingPower,
-          'ether'
-        )
-
-        totalVotingPower += Number(formattedVotingPower)
-        totalVotingPowerDenomination = {
-          ...state.votingPowerDenomination,
-          sNEWO: Number(formattedVotingPower),
-        }
-      }
-
-      // VENEWO
-      const veNewoAddress = contractAddresses[networks[index].id].VENEWO
-      const veNewoInstance = new ethers.Contract(
-        veNewoAddress,
-        veTokenAbi,
-        provider
-      )
-      const decimals = await veNewoInstance.decimals()
-      const balanceOf = await veNewoInstance.balanceOf(accountAddress)
-      const formattedBalanceOf = ethers.utils.formatUnits(balanceOf, decimals)
-
-      totalVotingPower += Number(formattedBalanceOf)
-
-      if (networks[index].id === 1) {
-        totalVotingPowerDenomination = {
-          ...state.votingPowerDenomination,
-          veNEWO: Number(formattedBalanceOf),
-        }
-      } else if (networks[index].id === 43114) {
-        totalVotingPowerDenomination = {
-          ...state.votingPowerDenomination,
-          veNEWOa: Number(formattedBalanceOf),
-        }
-      }
-    }
+    votingPower.vp_by_strategy.forEach((vpStrategy: number, index: number) => {
+      const currentStrategy = snapshotStrategies[index]
+      totalVotingPowerDenomination[currentStrategy.params.symbol] = vpStrategy
+    })
 
     dispatch({
       type: UPDATE_TOTAL_VOTING_POWER,

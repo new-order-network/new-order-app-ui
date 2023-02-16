@@ -1,9 +1,8 @@
-import { Button, Flex, SimpleGrid, Text, useDisclosure } from '@chakra-ui/react'
+import { Flex, SimpleGrid, Text } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import { useQuery } from '@apollo/client'
 import { usePagination } from '@ajna/pagination'
 import dayjs from 'dayjs'
-import { useAccount } from 'wagmi'
 
 import VotingCard from 'components/Voting/VotingCard'
 import VotingLoader from 'components/Loaders/VotingLoader'
@@ -11,8 +10,6 @@ import VotingSearchFilter from 'components/Voting/VotingSearchFilter'
 import VotingStatusFilter from 'components/Voting/VotingStatusFilter'
 import VotingDateRangeFilter from 'components/Voting/VotingDateRangeFilter'
 import Pagination from 'components/Pagination'
-import ModalOverlay from 'components/ModalOverlay'
-import StakingModal from 'components/Voting/StakingModal'
 import VotingPower from 'components/Voting/VotingPower'
 
 import {
@@ -30,15 +27,10 @@ import {
 } from 'models/voting'
 
 import { VotingProvider } from 'store/contexts/votingContext'
-import { useContractContext } from 'store/contexts/contractContext'
 
 import Layout from 'layout'
 
 const Voting = () => {
-  const { onOpen, isOpen, onClose } = useDisclosure()
-  const [overlay, setOverlay] = useState(<ModalOverlay />)
-  const { address } = useAccount()
-  const { contracts } = useContractContext()
   const pageSize = 30
   const proposalCountData = useQuery(snapshotProposalCountQuery)
   const [totalVotingProposals, setTotalVotingProposals] = useState(0)
@@ -69,8 +61,6 @@ const Voting = () => {
     endDateFilter: null,
     searchKeyFilter: '',
   })
-
-  const [stakeAmount, setStakeAmount] = useState(0)
 
   useEffect(() => {
     if (data) {
@@ -153,18 +143,6 @@ const Voting = () => {
             </Text>
             <Flex flexWrap="wrap" gap="3" alignItems="center">
               <VotingPower />
-              <Button
-                fontSize="0.8rem"
-                fontWeight="bold"
-                variant="greenButton"
-                disabled={!address || contracts.GOVERNANCE_VAULT === '0x'}
-                onClick={() => {
-                  setOverlay(<ModalOverlay />)
-                  onOpen()
-                }}
-              >
-                Staking
-              </Button>
             </Flex>
           </Flex>
           <VotingSearchFilter filters={filters} setFilters={setFilters} />
@@ -244,13 +222,6 @@ const Voting = () => {
                 : 'No data found.'}
             </SimpleGrid>
           )}
-          <StakingModal
-            isOpen={isOpen}
-            onClose={onClose}
-            overlay={overlay}
-            stakeAmount={stakeAmount}
-            setStakeAmount={setStakeAmount}
-          />
         </Flex>
       </Layout>
     </VotingProvider>
