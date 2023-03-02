@@ -10,6 +10,7 @@ import { getTokenPriceByAddress } from 'lib/utils/tokens'
 
 import { useNewoContext } from 'store/contexts/newoContext'
 import { useVeNewoContext } from 'store/contexts/veNewoContext'
+import { useContractContext } from 'store/contexts/contractContext'
 
 import { YEAR_IN_SECONDS } from 'constants/numbers'
 
@@ -50,6 +51,8 @@ const useVeVault = (
     address: vaultAddress,
     abi: veVaultAbi,
   }
+  // TODO: to be removed
+  const { contracts } = useContractContext()
   const toast = useToast()
   const { data: signer } = useSigner()
   const provider = useProvider()
@@ -101,6 +104,15 @@ const useVeVault = (
             YEAR_IN_SECONDS *
             100) /
           lpTvl
+
+        // TODO: to be removed
+        // NOTE; forces the apr to be 0 when it's the avax lp vault
+        if (
+          vaultAddress === contracts.VE_NEWO_WAVAX_LP_VAULT ||
+          vaultAddress === contracts.VE_NEWO_USDC_LP_VAULT
+        ) {
+          calculatedApr = 0
+        }
       } else {
         const rewardRate = await veVaultInstance.rewardRate()
         const convertedRewardRate = Number(
