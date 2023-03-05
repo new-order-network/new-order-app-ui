@@ -1,4 +1,4 @@
-import { Button, HStack } from '@chakra-ui/react'
+import { Button, HStack, Tooltip } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import { useAccount } from 'wagmi'
 import { useRouter } from 'next/router'
@@ -13,10 +13,10 @@ import { useVeNewoContext } from 'store/contexts/veNewoContext'
 interface RegistrationRewardProps {
   columns: string[]
   actions: string[]
-  veVaultAddress?: string
-  tokenAddress?: string
-  token0?: string
-  token1?: string
+  veVaultAddress?: `0x${string}`
+  tokenAddress?: `0x${string}`
+  token0?: `0x${string}`
+  token1?: `0x${string}`
 }
 
 const RegistrationReward: React.FC<RegistrationRewardProps> = ({
@@ -29,7 +29,7 @@ const RegistrationReward: React.FC<RegistrationRewardProps> = ({
 }) => {
   const router = useRouter()
   const { address } = useAccount()
-  const { multiplier, unlockDate } = useVeNewoContext()
+  const { multiplier, unlockDate, balance: veNewoBalance } = useVeNewoContext()
   const veVault = useVeVault(veVaultAddress, tokenAddress, token0, token1)
   const token = useToken(tokenAddress)
   const [boost, setBoost] = useState('1.00')
@@ -50,7 +50,10 @@ const RegistrationReward: React.FC<RegistrationRewardProps> = ({
   const checkRegistrationStatus = async () => {
     if (address) {
       if (token0 && token1 && Number(multiplier) === Number(boost)) {
-        setIsRegistered(true)
+        const assetBalance = await veVault.assetBalanceOf(address)
+        if (Number(assetBalance) > 0) {
+          setIsRegistered(true)
+        }
       } else if (!token0 && !token1) {
         const accounts = await veVault?.accounts(address)
 
@@ -58,6 +61,8 @@ const RegistrationReward: React.FC<RegistrationRewardProps> = ({
           const dueDate = accounts?.dueDate?.toNumber()
           if (dueDate === unlockDate && unlockDate !== 0 && dueDate !== 0) {
             setIsRegistered(true)
+          } else {
+            setIsRegistered(false)
           }
         }
       } else {
@@ -74,7 +79,7 @@ const RegistrationReward: React.FC<RegistrationRewardProps> = ({
   useEffect(() => {
     checkRegistrationStatus()
     // eslint-disable-next-line
-  }, [multiplier, boost, unlockDate, address])
+  }, [multiplier, boost, unlockDate, address, veVault])
 
   const register = async () => {
     await veVault.notifyDeposit()
@@ -100,15 +105,24 @@ const RegistrationReward: React.FC<RegistrationRewardProps> = ({
               </Button>
             )}
             {actions.includes('register') && (
-              <Button
-                onClick={register}
-                isLoading={veVault.loading}
-                disabled={!address || isRegistered || veVault.loading}
-                isDisabled={veVault.loading}
-                variant="greenButton"
+              <Tooltip
+                label="You have updated your veNEWO lock information and will need to register for rewards"
+                isDisabled={isRegistered || !!!unlockDate}
               >
-                {isRegistered ? 'Registered' : 'Register'}
-              </Button>
+                <Button
+                  onClick={register}
+                  isLoading={veVault.loading}
+                  isDisabled={
+                    !address ||
+                    isRegistered ||
+                    veVault.loading ||
+                    Number(veNewoBalance) === 0
+                  }
+                  variant="greenButton"
+                >
+                  {isRegistered ? 'Registered' : 'Register'}
+                </Button>
+              </Tooltip>
             )}
           </HStack>
         </Td>

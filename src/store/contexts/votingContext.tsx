@@ -1,16 +1,24 @@
 import { createContext, useContext, useEffect, useReducer } from 'react'
 import { useAccount } from 'wagmi'
+import snapshot from '@snapshot-labs/snapshot.js'
 
 import useGovernanceVault from 'hooks/useGovernanceVault'
+
+import { env } from 'lib/environment'
 
 import { useContractContext } from 'store/contexts/contractContext'
 import {
   initialVotingState,
   UPDATE_STAKED_TOKENS,
+  UPDATE_TOTAL_VOTING_POWER,
+  UPDATE_TOTAL_VOTING_POWER_DENOMINATION,
   UPDATE_VAULT_ALLOWANCE,
   // UPDATE_VOTING_POWER,
   votingReducer,
 } from 'store/reducers/votingReducer'
+
+import { DEFAULT_NETWORK } from 'constants/network'
+import { snapshotStrategies } from 'constants/voting'
 
 interface VotingProviderProps {
   children: React.ReactNode
@@ -22,6 +30,11 @@ export interface VotingStateProps {
   votingPower: number
   totalVotingPower: number
   loading: boolean
+  votingPowerDenomination: {
+    sNEWO: number
+    veNEWO: number
+    veNEWOa: number
+  }
   updateState?: () => Promise<void>
 }
 
@@ -31,6 +44,11 @@ export const VotingContext = createContext<VotingStateProps>({
   votingPower: 0,
   totalVotingPower: 0,
   loading: false,
+  votingPowerDenomination: {
+    sNEWO: 0,
+    veNEWO: 0,
+    veNEWOa: 0,
+  },
 })
 
 export const VotingProvider: React.FC<VotingProviderProps> = ({ children }) => {
@@ -60,11 +78,35 @@ export const VotingProvider: React.FC<VotingProviderProps> = ({ children }) => {
   }
 
   const getTotalVotingPower = async () => {
-    // TODO
-    // dispatch({
-    //   type: UPDATE_VOTING_POWER,
-    //   payload: governanceVault?.stakedTokens,
-    // })
+    let totalVotingPower = 0
+    const totalVotingPowerDenomination: { [key: string]: number } = {}
+
+    const votingPower = await snapshot.utils.getVp(
+      String(accountAddress),
+      `${DEFAULT_NETWORK.id}`,
+      snapshotStrategies,
+      'latest',
+      env.NEXT_PUBLIC_SNAPSHOT_SPACE,
+      true
+    )
+
+    if (votingPower) {
+      totalVotingPower = votingPower.vp
+    }
+
+    votingPower.vp_by_strategy.forEach((vpStrategy: number, index: number) => {
+      const currentStrategy = snapshotStrategies[index]
+      totalVotingPowerDenomination[currentStrategy.params.symbol] = vpStrategy
+    })
+
+    dispatch({
+      type: UPDATE_TOTAL_VOTING_POWER,
+      payload: totalVotingPower,
+    })
+    dispatch({
+      type: UPDATE_TOTAL_VOTING_POWER_DENOMINATION,
+      payload: totalVotingPowerDenomination,
+    })
   }
 
   const updateState = async () => {

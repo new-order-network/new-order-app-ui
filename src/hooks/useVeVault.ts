@@ -1,7 +1,7 @@
 import { useToast } from '@chakra-ui/react'
 import { BigNumber, ethers } from 'ethers'
 import { useEffect, useState } from 'react'
-import { useNetwork, useProvider, useSigner } from 'wagmi'
+import { useContract, useNetwork, useProvider, useSigner } from 'wagmi'
 
 import useVault from 'hooks/useVault'
 import useToken from 'hooks/useToken'
@@ -10,6 +10,7 @@ import { getTokenPriceByAddress } from 'lib/utils/tokens'
 
 import { useNewoContext } from 'store/contexts/newoContext'
 import { useVeNewoContext } from 'store/contexts/veNewoContext'
+import { useContractContext } from 'store/contexts/contractContext'
 
 import { YEAR_IN_SECONDS } from 'constants/numbers'
 
@@ -25,7 +26,7 @@ interface UseVeVaultProps {
   balanceOf: (address: string) => Promise<string>
   approveVault: () => Promise<void>
   assetBalanceOf: (address: string) => Promise<string>
-  vaultAllowance: (ownerAddress: string) => Promise<string>
+  vaultAllowance: (ownerAddress: `0x${string}`) => Promise<string>
   deposit: (amount: string, senderAddress: string) => Promise<void>
   earned: (ownerAddress: string) => Promise<string>
   withdraw: (amount: string, receiverAddress: string) => Promise<void>
@@ -41,19 +42,28 @@ interface UseVeVaultProps {
 }
 
 const useVeVault = (
-  vaultAddress?: string,
-  tokenAddress?: string,
-  token0?: string,
-  token1?: string
+  vaultAddress?: `0x${string}`,
+  tokenAddress?: `0x${string}`,
+  token0?: `0x${string}`,
+  token1?: `0x${string}`
 ): UseVeVaultProps => {
+  const veVaultContract = {
+    address: vaultAddress,
+    abi: veVaultAbi,
+  }
+  // TODO: to be removed
+  const { contracts } = useContractContext()
   const toast = useToast()
   const { data: signer } = useSigner()
+  const provider = useProvider()
   const { chain } = useNetwork()
   const { updateState } = useNewoContext()
   const { totalAssets: veNewoTotalAssets } = useVeNewoContext()
   const token = useToken(tokenAddress)
-  const [veVaultInstance, setVeVaultInstance] =
-    useState<ethers.Contract | null>(null)
+  const veVaultInstance = useContract({
+    ...veVaultContract,
+    signerOrProvider: signer || provider,
+  })
   const [APR, setAPR] = useState('')
 
   const {
@@ -70,24 +80,6 @@ const useVeVault = (
     totalSupplyBalance,
     loading,
   } = useVault(vaultAddress, tokenAddress, token0, token1)
-
-  const provider = useProvider()
-
-  useEffect(() => {
-    if (vaultAddress) {
-      if (provider) {
-        const instance = new ethers.Contract(vaultAddress, veVaultAbi, provider)
-
-        if (signer) {
-          const instanceWithSigner = instance?.connect(signer)
-          setVeVaultInstance(instanceWithSigner)
-        } else {
-          setVeVaultInstance(instance)
-        }
-      }
-    }
-    // eslint-disable-next-line
-  }, [vaultAddress, provider, signer])
 
   const getAPR = async () => {
     let calculatedApr = 0
@@ -112,6 +104,15 @@ const useVeVault = (
             YEAR_IN_SECONDS *
             100) /
           lpTvl
+
+        // TODO: to be removed
+        // NOTE; forces the apr to be 0 when it's the avax lp vault
+        if (
+          vaultAddress === contracts.VE_NEWO_WAVAX_LP_VAULT ||
+          vaultAddress === contracts.VE_NEWO_USDC_LP_VAULT
+        ) {
+          calculatedApr = 0
+        }
       } else {
         const rewardRate = await veVaultInstance.rewardRate()
         const convertedRewardRate = Number(
@@ -152,8 +153,13 @@ const useVeVault = (
 
     try {
       const parsedAmount = ethers.utils.parseUnits(amount, 'ether')
+      const gas = await veVaultInstance?.estimateGas.deposit(
+        parsedAmount,
+        senderAddress
+      )
       const tx = await veVaultInstance?.deposit(parsedAmount, senderAddress, {
         from: senderAddress,
+        gasLimit: gas,
       })
       const receipt = await tx?.wait()
 
@@ -191,12 +197,18 @@ const useVeVault = (
     setLoading(true)
     try {
       const parsedAmount = ethers.utils.parseUnits(amount, 'ether')
+      const gas = await veVaultInstance?.estimateGas.withdraw(
+        parsedAmount,
+        receiverAddress,
+        receiverAddress
+      )
       const tx = await veVaultInstance?.withdraw(
         parsedAmount,
         receiverAddress,
         receiverAddress,
         {
           from: receiverAddress,
+          gasLimit: gas,
         }
       )
       const receipt = await tx?.wait()
@@ -255,7 +267,8 @@ const useVeVault = (
     }
     setLoading(true)
     try {
-      const tx = await veVaultInstance?.notifyDeposit()
+      const gas = await veVaultInstance?.estimateGas.notifyDeposit()
+      const tx = await veVaultInstance?.notifyDeposit({ gasLimit: gas })
       const receipt = await tx?.wait()
 
       if (receipt?.status === 1) {

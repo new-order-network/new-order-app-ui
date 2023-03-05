@@ -13,7 +13,11 @@ export const shortAddress = (address: string | undefined | null) => {
   return address
 }
 
-export const numberFormatter = (n: string, decimals?: number) => {
+export const numberFormatter = (n?: string, decimals?: number) => {
+  if (!n) {
+    return ''
+  }
+
   const num = parseFloat(n)
 
   const notations = [
