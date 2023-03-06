@@ -101,10 +101,14 @@ const useVeToken = (
     select: (data) => {
       const results: string[] = []
       for (let i = 0; i < data.length; i++) {
-        results[i] = ethers.utils.formatUnits(
-          data[i] as BigNumber,
-          decimals as BigNumber
-        )
+        if (!data[i]) {
+          results[i] = '0'
+        } else {
+          results[i] = ethers.utils.formatUnits(
+            data[i] as BigNumber,
+            decimals as BigNumber
+          )
+        }
       }
       return results
     },

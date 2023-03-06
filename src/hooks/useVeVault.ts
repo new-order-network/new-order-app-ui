@@ -87,6 +87,9 @@ const useVeVault = (
     functionName: 'earned',
     args: [accountAddress],
     select: (data) => {
+      if (!data) {
+        return '0'
+      }
       return ethers.utils.formatUnits(data as BigNumber, token.decimals)
     },
     enabled: !!token.decimals && !!accountAddress,
@@ -127,10 +130,14 @@ const useVeVault = (
     select: (data) => {
       const results: string[] = []
       for (let i = 0; i < data.length; i++) {
-        results[i] = ethers.utils.formatUnits(
-          data[i] as BigNumber,
-          token.decimals
-        )
+        if (!data[i]) {
+          results[i] = '0'
+        } else {
+          results[i] = ethers.utils.formatUnits(
+            data[i] as BigNumber,
+            token.decimals
+          )
+        }
       }
       return results
     },
