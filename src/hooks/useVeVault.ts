@@ -1,12 +1,20 @@
 import { useToast } from '@chakra-ui/react'
 import { BigNumber, ethers } from 'ethers'
 import { useEffect, useState } from 'react'
-import { useContract, useNetwork, useProvider, useSigner } from 'wagmi'
+import {
+  erc20ABI,
+  useAccount,
+  useContract,
+  useContractReads,
+  useNetwork,
+  useProvider,
+  useSigner,
+} from 'wagmi'
 
-import useVault from 'hooks/useVault'
 import useToken from 'hooks/useToken'
 
 import { getTokenPriceByAddress } from 'lib/utils/tokens'
+import { getTvl } from 'lib/utils/vault'
 
 import { useNewoContext } from 'store/contexts/newoContext'
 import { useVeNewoContext } from 'store/contexts/veNewoContext'
@@ -23,22 +31,22 @@ interface Account {
 }
 
 interface UseVeVaultProps {
-  balanceOf: (address: string) => Promise<string>
+  balance: string
+  vaultAllowance: string
+  APR: string
+  totalSupplyBalance: string
+  loading: boolean
+  earned: string
+  assetBalance: string
+  newoShare: string
   approveVault: () => Promise<void>
-  assetBalanceOf: (address: string) => Promise<string>
-  vaultAllowance: (ownerAddress: `0x${string}`) => Promise<string>
   deposit: (amount: string, senderAddress: string) => Promise<void>
-  earned: (ownerAddress: string) => Promise<string>
   withdraw: (amount: string, receiverAddress: string) => Promise<void>
   getReward: () => Promise<void>
   exit: () => Promise<void>
   notifyDeposit: () => Promise<void>
-  getNewoShare: (ownerAddress: string) => Promise<string>
   accounts: (ownerAddress: string) => Promise<Account | null>
-  APR: string
-  APRLoading: boolean
-  totalSupplyBalance: string
-  loading: boolean
+  updateState: () => Promise<void>
 }
 
 const useVeVault = (
@@ -51,13 +59,19 @@ const useVeVault = (
     address: vaultAddress,
     abi: veVaultAbi,
   }
+  const tokenContract = {
+    address: tokenAddress,
+    abi: erc20ABI,
+  }
+
   // TODO: to be removed
   const { contracts } = useContractContext()
   const toast = useToast()
   const { data: signer } = useSigner()
+  const { address: accountAddress } = useAccount()
   const provider = useProvider()
   const { chain } = useNetwork()
-  const { updateState } = useNewoContext()
+  const { updateState: newoUpdateState } = useNewoContext()
   const { totalAssets: veNewoTotalAssets } = useVeNewoContext()
   const token = useToken(tokenAddress)
   const veVaultInstance = useContract({
@@ -65,21 +79,142 @@ const useVeVault = (
     signerOrProvider: signer || provider,
   })
   const [APR, setAPR] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const {
-    balanceOf,
-    approveVault,
-    vaultAllowance,
-    setLoading,
-    updateBalances,
-    earned,
-    getReward,
-    exit,
-    getTvl,
-    APRLoading,
-    totalSupplyBalance,
-    loading,
-  } = useVault(vaultAddress, tokenAddress, token0, token1)
+    data: veVaultData,
+    refetch: refetchVeVaultData,
+    isLoading: veVaultDataIsLoading,
+  } = useContractReads({
+    contracts: [
+      {
+        ...veVaultContract,
+        functionName: 'balanceOf',
+        args: [accountAddress],
+      },
+      {
+        ...veVaultContract,
+        functionName: 'assetBalanceOf',
+        args: [accountAddress],
+      },
+      {
+        ...veVaultContract,
+        functionName: 'earned',
+        args: [accountAddress],
+      },
+      {
+        ...veVaultContract,
+        functionName: 'getNewoShare',
+        args: [accountAddress],
+      },
+      {
+        ...veVaultContract,
+        functionName: 'totalSupply',
+      },
+      {
+        ...tokenContract,
+        functionName: 'allowance',
+        // eslint-disable-next-line
+        args: [accountAddress!, vaultAddress!],
+      },
+    ],
+    select: (data) => {
+      const results: string[] = []
+      for (let i = 0; i < data.length; i++) {
+        results[i] = ethers.utils.formatUnits(
+          data[i] as BigNumber,
+          token.decimals
+        )
+      }
+      return results
+    },
+    enabled: !!token.decimals && !!accountAddress,
+    allowFailure: true,
+  })
+
+  const approveVault = async () => {
+    // Approves the user's tokens to be used by the vault
+    if (vaultAddress) {
+      setLoading(true)
+      await token.approve(vaultAddress)
+      setLoading(false)
+    }
+  }
+
+  const exit = async () => {
+    if (!vaultAddress) {
+      return
+    }
+    setLoading(true)
+
+    try {
+      const tx = await veVaultInstance?.exit()
+      const receipt = await tx?.wait()
+
+      if (receipt?.status === 1) {
+        toast({
+          title: 'Withdraw and Claim Successful',
+          description:
+            'You have successfully withdrawn and claimed your rewards.',
+          isClosable: true,
+          position: 'top-right',
+          status: 'success',
+          variant: 'success',
+        })
+      }
+    } catch (err) {
+      console.error('[WITHDRAW AND CLAIM ERROR]', err)
+      toast({
+        title: 'Withdraw and Claim Failed',
+        description: 'Something went wrong! Please try again later.',
+        isClosable: true,
+        position: 'top-right',
+        status: 'error',
+        variant: 'error',
+      })
+    } finally {
+      await refetchVeVaultData()
+      await newoUpdateState?.()
+      setLoading(false)
+    }
+  }
+
+  const getReward = async () => {
+    if (!vaultAddress) {
+      return
+    }
+    setLoading(true)
+
+    try {
+      const tx = await veVaultInstance?.getReward()
+      const receipt = await tx?.wait()
+
+      if (receipt?.status === 1) {
+        toast({
+          title: 'Claim Successful',
+          description: 'You have successfully claimed your rewards.',
+          isClosable: true,
+          position: 'top-right',
+          status: 'success',
+          variant: 'success',
+        })
+      }
+    } catch (err) {
+      console.error('[CLAIM ERROR]', err)
+      toast({
+        title: 'Claim Failed',
+        description: 'Something went wrong! Please try again later.',
+        isClosable: true,
+        position: 'top-right',
+        status: 'error',
+        variant: 'error',
+      })
+    } finally {
+      await refetchVeVaultData()
+      await newoUpdateState?.()
+      setLoading(false)
+    }
+  }
 
   const getAPR = async () => {
     let calculatedApr = 0
@@ -96,7 +231,15 @@ const useVeVault = (
           chain?.name
         )
 
-        const lpTvl = await getTvl()
+        const lpTvl = await getTvl(
+          token,
+          veVaultInstance,
+          provider,
+          chain,
+          tokenAddress,
+          token0,
+          token1
+        )
 
         calculatedApr =
           (Number(convertedRewardRate) *
@@ -129,19 +272,6 @@ const useVeVault = (
         const finalApr = calculatedApr.toFixed(2)
         setAPR(finalApr)
       }
-    }
-  }
-
-  const assetBalanceOf = async (address: string) => {
-    // Returns the user vault balance
-    try {
-      const balance = await veVaultInstance?.assetBalanceOf(address)
-      const decimals = token?.decimals
-      const formattedBalance = ethers.utils.formatUnits(balance, decimals)
-
-      return formattedBalance
-    } catch (err) {
-      return ''
     }
   }
 
@@ -184,8 +314,8 @@ const useVeVault = (
         variant: 'error',
       })
     } finally {
-      await updateBalances()
-      await updateState?.()
+      await refetchVeVaultData()
+      await newoUpdateState?.()
       setLoading(false)
     }
   }
@@ -234,8 +364,8 @@ const useVeVault = (
         variant: 'error',
       })
     } finally {
-      await updateBalances()
-      await updateState?.()
+      await refetchVeVaultData()
+      await newoUpdateState?.()
       setLoading(false)
     }
   }
@@ -248,7 +378,7 @@ const useVeVault = (
       vaultAddress &&
       token.decimals !== 0
     ) {
-      updateBalances()
+      refetchVeVaultData()
       getAPR()
     }
 
@@ -292,22 +422,9 @@ const useVeVault = (
         variant: 'error',
       })
     } finally {
-      await updateBalances()
-      await updateState?.()
+      await refetchVeVaultData()
+      await newoUpdateState?.()
       setLoading(false)
-    }
-  }
-
-  const getNewoShare = async (ownerAddress: string) => {
-    try {
-      const newoShare = await veVaultInstance?.getNewoShare(ownerAddress)
-      const formattedNewoShare = ethers.utils.formatUnits(
-        newoShare,
-        token.decimals
-      )
-      return formattedNewoShare
-    } catch {
-      return ''
     }
   }
 
@@ -322,23 +439,27 @@ const useVeVault = (
     }
   }
 
+  const updateState = async () => {
+    Promise.all([refetchVeVaultData()])
+  }
+
   return {
-    balanceOf,
+    balance: veVaultData ? veVaultData[0] : '0',
+    assetBalance: veVaultData ? veVaultData[1] : '0',
+    earned: veVaultData ? veVaultData[2] : '0',
+    newoShare: veVaultData ? veVaultData[3] : '0',
+    totalSupplyBalance: veVaultData ? veVaultData[4] : '0',
+    vaultAllowance: veVaultData ? veVaultData[5] : '0',
+    APR,
+    loading: loading || veVaultDataIsLoading,
     approveVault,
-    assetBalanceOf,
-    vaultAllowance,
     deposit,
-    earned,
     withdraw,
     getReward,
     exit,
     notifyDeposit,
-    getNewoShare,
     accounts,
-    APR,
-    APRLoading,
-    totalSupplyBalance,
-    loading,
+    updateState,
   }
 }
 

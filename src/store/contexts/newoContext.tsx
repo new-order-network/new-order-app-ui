@@ -42,11 +42,6 @@ export const NewoProvider: React.FC<NewoProviderProps> = ({ children }) => {
     token: contracts.NEWO,
   })
 
-  useEffect(() => {
-    updateState()
-    // eslint-disable-next-line
-  }, [contracts])
-
   const disconnectWallet = async () => {
     dispatch({
       type: NewoChangeType.UPDATE_ACCOUNT_ADDRESS,

@@ -73,12 +73,12 @@ const LockForm = () => {
 
   const [actionType, setActionType] = useState<LOCK_ACTIONS>()
 
-  const getNewoShare = async () => {
+  const getNewoShare = () => {
     if (veNewoUsdcVault && address) {
-      const newoShare = await veNewoUsdcVault?.getNewoShare(address)
+      const newoShare = veNewoUsdcVault?.newoShare
       setNewoShare(newoShare)
     } else if (veNewoWavaxVault && address) {
-      const newoShare = await veNewoWavaxVault?.getNewoShare(address)
+      const newoShare = veNewoWavaxVault?.newoShare
       setNewoShare(newoShare)
     }
   }

@@ -29,21 +29,18 @@ const VeVault = ({
   isLegacyVault,
 }: VaultProps) => {
   const {
-    assetBalanceOf,
+    assetBalance,
     vaultAllowance,
     approveVault,
     deposit: depositFn,
     totalSupplyBalance,
     APR,
-    APRLoading,
     loading,
   } = useVeVault(vaultAddress, tokenAddress, token0, token1)
   const { address } = useAccount()
   const token = useToken(tokenAddress)
 
-  const [userVaultBalance, setUserVaultBalance] = useState('')
   const [deposit, setDeposit] = useState('')
-  const [allowance, setAllowance] = useState('')
 
   const onMax = async () => {
     if (address) {
@@ -51,27 +48,8 @@ const VeVault = ({
     }
   }
 
-  const updateAllowance = async () => {
-    if (address) {
-      const vaultAllowanceBalance = await vaultAllowance(address)
-      setAllowance(vaultAllowanceBalance)
-    }
-  }
-
-  const getUserVaultBalance = async () => {
-    if (address) {
-      const balance = await assetBalanceOf(address)
-
-      setUserVaultBalance(balance)
-    }
-  }
-
   const updateState = async () => {
-    await Promise.all([
-      token.updateState(),
-      updateAllowance(),
-      getUserVaultBalance(),
-    ])
+    await Promise.all([token.updateState()])
   }
 
   useEffect(() => {
@@ -80,7 +58,10 @@ const VeVault = ({
   }, [token, address])
 
   const onSubmit = async () => {
-    if (Number(deposit) > Number(allowance) || Number(allowance) === 0) {
+    if (
+      Number(deposit) > Number(vaultAllowance) ||
+      Number(vaultAllowance) === 0
+    ) {
       await approveVault()
       await updateState()
     } else {
@@ -108,7 +89,7 @@ const VeVault = ({
         </Text>
 
         <Text fontSize="3xl" fontWeight="extrabold" color="green.50" mb="4">
-          {APRLoading ? (
+          {loading ? (
             <Skeleton
               height="36px"
               w="100px"
@@ -166,9 +147,7 @@ const VeVault = ({
             />
             <StatusAmount
               label="Your Deposit:"
-              data={`${numberFormatter(userVaultBalance, 4)} ${
-                token?.tokenSymbol
-              }`}
+              data={`${numberFormatter(assetBalance, 4)} ${token?.tokenSymbol}`}
             />
             <StatusAmount
               label="Total Vault Balance:"
@@ -184,8 +163,9 @@ const VeVault = ({
             disabled={
               !address ||
               loading ||
-              (!deposit && Number(allowance) > 0) ||
-              (Number(deposit) > Number(allowance) || Number(allowance) === 0
+              (!deposit && Number(vaultAllowance) > 0) ||
+              (Number(deposit) > Number(vaultAllowance) ||
+              Number(vaultAllowance) === 0
                 ? false
                 : isLegacyVault)
             }
@@ -193,13 +173,15 @@ const VeVault = ({
               onSubmit()
             }}
             loadingText={
-              Number(deposit) > Number(allowance) || Number(allowance) === 0
+              Number(deposit) > Number(vaultAllowance) ||
+              Number(vaultAllowance) === 0
                 ? 'Approving'
                 : 'Depositing'
             }
             isLoading={loading}
           >
-            {Number(deposit) > Number(allowance) || Number(allowance) === 0
+            {Number(deposit) > Number(vaultAllowance) ||
+            Number(vaultAllowance) === 0
               ? 'Approve'
               : 'Deposit'}
           </Button>
