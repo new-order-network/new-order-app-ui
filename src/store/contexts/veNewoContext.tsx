@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { createContext, useContext, useEffect, useReducer } from 'react'
+import { createContext, useContext, useReducer } from 'react'
 import { useContractReads } from 'wagmi'
 import { BigNumber, ethers } from 'ethers'
 import { mainnet, avalanche } from 'wagmi/chains'
@@ -82,10 +82,14 @@ export const VeNewoProvider: React.FC<VeNewoProviderProps> = ({ children }) => {
     select: (data) => {
       const results: string[] = []
       for (let i = 0; i < data.length; i++) {
-        results[i] = ethers.utils.formatUnits(
-          data[i] as BigNumber,
-          veNewo.decimals as BigNumber
-        )
+        if (!data[i]) {
+          results[i] = '0'
+        } else {
+          results[i] = ethers.utils.formatUnits(
+            data[i] as BigNumber,
+            veNewo.decimals as BigNumber
+          )
+        }
       }
       return results
     },
@@ -99,11 +103,6 @@ export const VeNewoProvider: React.FC<VeNewoProviderProps> = ({ children }) => {
     },
     enabled: !!veNewo.decimals,
   })
-
-  useEffect(() => {
-    updateState()
-    // eslint-disable-next-line
-  }, [contracts])
 
   const updateState = async () => {
     Promise.all([refetchMetrics(), veNewo.updateState()])

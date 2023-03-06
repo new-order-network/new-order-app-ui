@@ -1,5 +1,5 @@
 import { BigNumber, ethers } from 'ethers'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import {
   erc20ABI,
   useAccount,
@@ -120,11 +120,6 @@ const useVeToken = (
     ...veTokenContract,
     signerOrProvider: signer || provider,
   })
-
-  useEffect(() => {
-    updateState()
-    // eslint-disable-next-line
-  }, [veTokenAddress, tokenAddress, accountAddress])
 
   const updateState = async () => {
     Promise.all([
