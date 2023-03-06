@@ -5,6 +5,7 @@ import {
   erc20ABI,
   useAccount,
   useContract,
+  useContractRead,
   useContractReads,
   useNetwork,
   useProvider,
@@ -81,6 +82,16 @@ const useVeVault = (
   const [APR, setAPR] = useState('')
   const [loading, setLoading] = useState(false)
 
+  const { data: earnedData, refetch: refetchEarnedData } = useContractRead({
+    ...veVaultContract,
+    functionName: 'earned',
+    args: [accountAddress],
+    select: (data) => {
+      return ethers.utils.formatUnits(data as BigNumber, token.decimals)
+    },
+    enabled: !!token.decimals && !!accountAddress,
+  })
+
   const {
     data: veVaultData,
     refetch: refetchVeVaultData,
@@ -95,11 +106,6 @@ const useVeVault = (
       {
         ...veVaultContract,
         functionName: 'assetBalanceOf',
-        args: [accountAddress],
-      },
-      {
-        ...veVaultContract,
-        functionName: 'earned',
         args: [accountAddress],
       },
       {
@@ -128,7 +134,7 @@ const useVeVault = (
       }
       return results
     },
-    enabled: !!token.decimals && !!accountAddress,
+    enabled: !!token.decimals && !!accountAddress && !!token0 && !!token1,
     allowFailure: true,
   })
 
@@ -173,7 +179,7 @@ const useVeVault = (
         variant: 'error',
       })
     } finally {
-      await refetchVeVaultData()
+      await updateState()
       await newoUpdateState?.()
       setLoading(false)
     }
@@ -210,7 +216,7 @@ const useVeVault = (
         variant: 'error',
       })
     } finally {
-      await refetchVeVaultData()
+      await updateState()
       await newoUpdateState?.()
       setLoading(false)
     }
@@ -314,7 +320,7 @@ const useVeVault = (
         variant: 'error',
       })
     } finally {
-      await refetchVeVaultData()
+      await updateState()
       await newoUpdateState?.()
       setLoading(false)
     }
@@ -364,7 +370,7 @@ const useVeVault = (
         variant: 'error',
       })
     } finally {
-      await refetchVeVaultData()
+      await updateState()
       await newoUpdateState?.()
       setLoading(false)
     }
@@ -378,7 +384,7 @@ const useVeVault = (
       vaultAddress &&
       token.decimals !== 0
     ) {
-      refetchVeVaultData()
+      updateState()
       getAPR()
     }
 
@@ -422,7 +428,7 @@ const useVeVault = (
         variant: 'error',
       })
     } finally {
-      await refetchVeVaultData()
+      await updateState()
       await newoUpdateState?.()
       setLoading(false)
     }
@@ -440,16 +446,16 @@ const useVeVault = (
   }
 
   const updateState = async () => {
-    Promise.all([refetchVeVaultData()])
+    Promise.all([refetchVeVaultData(), refetchEarnedData()])
   }
 
   return {
     balance: veVaultData ? veVaultData[0] : '0',
     assetBalance: veVaultData ? veVaultData[1] : '0',
-    earned: veVaultData ? veVaultData[2] : '0',
-    newoShare: veVaultData ? veVaultData[3] : '0',
-    totalSupplyBalance: veVaultData ? veVaultData[4] : '0',
-    vaultAllowance: veVaultData ? veVaultData[5] : '0',
+    earned: earnedData ? earnedData : '0',
+    newoShare: veVaultData ? veVaultData[2] : '0',
+    totalSupplyBalance: veVaultData ? veVaultData[3] : '0',
+    vaultAllowance: veVaultData ? veVaultData[4] : '0',
     APR,
     loading: loading || veVaultDataIsLoading,
     approveVault,
