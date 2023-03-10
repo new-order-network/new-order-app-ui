@@ -119,9 +119,10 @@ const NewsFeed = () => {
             dateTime: article.snippet.publishedAt,
             webLink: `https://www.youtube.com/watch?v=${article.snippet.resourceId.videoId}`,
             mediaLink: article.snippet.thumbnails.medium.url,
-            description: removeMd(article.snippet.description)
-              .replace('\n', ' ')
-              .substring(0, 200),
+            description: removeMd(article.snippet.description).replace(
+              '\n',
+              ' '
+            ),
             type: NEWS_TYPES.VIDEO,
             refSource: 'Youtube',
           }
