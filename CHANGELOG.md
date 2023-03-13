@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.6.0](https://github.com/new-order-network/new-order-app-ui/compare/v1.5.0...v1.6.0) (2023-03-13)
+
+
+### Features
+
+* integrate Youtube channel with the Videos tab on the home page ([575ddf4](https://github.com/new-order-network/new-order-app-ui/commit/575ddf45a829f2bcf950393993c8c3a7dbe72c14))
+
+
+### Bug Fixes
+
+* missing earned rewards on single side vault ([aea954a](https://github.com/new-order-network/new-order-app-ui/commit/aea954a8664ee75f630efa6fc0bc9e1810da5b97))
+* remove console warnings about non-existing contracts ([ad70523](https://github.com/new-order-network/new-order-app-ui/commit/ad7052386cccc41feaca5532b05f34ad630e5fb2))
+
+
+### Miscellaneous
+
+* add data checks on the select functions to remove errors ([6f225de](https://github.com/new-order-network/new-order-app-ui/commit/6f225dee2bde12e23146ab64eefd7cc9240c1a5d))
+* add env variables for youtube integration ([c869ec0](https://github.com/new-order-network/new-order-app-ui/commit/c869ec050384c5a11c2377d47a720139a11ca590))
+* remove unnecessary useEffect functions ([3ec5619](https://github.com/new-order-network/new-order-app-ui/commit/3ec5619e12ce12c38f983d5e33586f8d3336f19b))
+
 ## [1.5.0](https://github.com/new-order-network/new-order-app-ui/compare/v1.4.1...v1.5.0) (2023-03-02)
 
 
