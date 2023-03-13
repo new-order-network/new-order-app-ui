@@ -1,5 +1,5 @@
 import { BigNumber, ethers } from 'ethers'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import {
   erc20ABI,
   useAccount,
@@ -101,10 +101,14 @@ const useVeToken = (
     select: (data) => {
       const results: string[] = []
       for (let i = 0; i < data.length; i++) {
-        results[i] = ethers.utils.formatUnits(
-          data[i] as BigNumber,
-          decimals as BigNumber
-        )
+        if (!data[i]) {
+          results[i] = '0'
+        } else {
+          results[i] = ethers.utils.formatUnits(
+            data[i] as BigNumber,
+            decimals as BigNumber
+          )
+        }
       }
       return results
     },
@@ -116,11 +120,6 @@ const useVeToken = (
     ...veTokenContract,
     signerOrProvider: signer || provider,
   })
-
-  useEffect(() => {
-    updateState()
-    // eslint-disable-next-line
-  }, [veTokenAddress, tokenAddress, accountAddress])
 
   const updateState = async () => {
     Promise.all([

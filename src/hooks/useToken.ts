@@ -10,7 +10,7 @@ import {
 } from 'wagmi'
 import { useToast } from '@chakra-ui/react'
 
-interface UseTokenResponse {
+export interface UseTokenResponse {
   approve: (spenderAddress: `0x${string}`) => Promise<void>
   allowance: (
     ownerAddress: `0x${string}`,
