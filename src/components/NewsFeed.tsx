@@ -19,12 +19,14 @@ import NewsLoader from 'components/Loaders/NewsLoader'
 
 import mediumApi from 'api/mediumApi'
 import frogsAnonymousApi from 'api/frogsAnonymousApi'
+import youtubeApi from 'api/youtubeApi'
 
 import { NEWS_TYPES } from 'models/types'
 import {
   ArticleProps,
   FrogsAnonymousArticleProps,
   MediumArticleProps,
+  YoutubeArticleProps,
 } from 'models/article'
 
 import NewsFeedIcon from 'assets/icons/NewsFeed.svg'
@@ -101,8 +103,41 @@ const NewsFeed = () => {
         console.error('[NEWSFEED ERROR]', err)
       })
 
+    const youtubeVideos = await youtubeApi
+      .get('')
+      .then((res) => {
+        const data = res.data.items
+
+        if (!data) {
+          return null
+        }
+
+        return data.map((article: YoutubeArticleProps) => {
+          return {
+            id: article.id,
+            title: article.snippet.title,
+            dateTime: article.snippet.publishedAt,
+            webLink: `https://www.youtube.com/watch?v=${article.snippet.resourceId.videoId}`,
+            mediaLink: article.snippet.thumbnails.medium.url,
+            description: removeMd(article.snippet.description).replace(
+              '\n',
+              ' '
+            ),
+            type: NEWS_TYPES.VIDEO,
+            refSource: 'Youtube',
+          }
+        })
+      })
+      .catch((err) => {
+        console.error('[NEWSFEED ERROR]', err)
+      })
+
     // Combine all articles
-    const allArticles = [...newOrderMediumContent, ...(frogsAnonContent as [])]
+    const allArticles = [
+      ...newOrderMediumContent,
+      ...(frogsAnonContent as []),
+      ...youtubeVideos,
+    ]
 
     // Sort date from latest to oldest
     const sortedByDate = allArticles.sort(function (a, b) {
@@ -180,13 +215,14 @@ const NewsFeed = () => {
         >
           <TabPanels w="full">
             <TabPanel>
-              {/* TODO UPDATE SO IT WILL ALSO INCLUDE VIDEO HERE */}
-
               {isNewsLoading
                 ? newLoader()
                 : articles
                     ?.filter((article: ArticleProps) => {
-                      return article.type === NEWS_TYPES.ARTICLE
+                      return (
+                        article.type === NEWS_TYPES.ARTICLE ||
+                        article.type === NEWS_TYPES.VIDEO
+                      )
                     })
                     ?.map((article: ArticleProps) => {
                       return <NewsCard key={article.id} news={article} />
