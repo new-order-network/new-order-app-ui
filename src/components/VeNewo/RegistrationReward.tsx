@@ -37,8 +37,8 @@ const RegistrationReward: React.FC<RegistrationRewardProps> = ({
 
   const calculateBoost = async () => {
     if (address) {
-      const assetBalance = await veVault.assetBalanceOf(address)
-      const balance = await veVault.balanceOf(address)
+      const assetBalance = veVault.assetBalance
+      const balance = veVault.balance
       const boost = Number(balance) / Number(assetBalance)
 
       if (Number.isFinite(boost)) {
@@ -50,7 +50,7 @@ const RegistrationReward: React.FC<RegistrationRewardProps> = ({
   const checkRegistrationStatus = async () => {
     if (address) {
       if (token0 && token1 && Number(multiplier) === Number(boost)) {
-        const assetBalance = await veVault.assetBalanceOf(address)
+        const assetBalance = veVault.assetBalance
         if (Number(assetBalance) > 0) {
           setIsRegistered(true)
         }
@@ -83,6 +83,7 @@ const RegistrationReward: React.FC<RegistrationRewardProps> = ({
 
   const register = async () => {
     await veVault.notifyDeposit()
+    await veVault.updateState()
     await checkRegistrationStatus()
   }
 

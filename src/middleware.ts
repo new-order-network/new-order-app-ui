@@ -12,7 +12,7 @@ export const config = {
 }
 
 export function middleware(req: NextRequest) {
-  const country = req.geo?.country || 'US'
+  const country = req.geo?.country || ''
 
   const isCountryBlocked = BLOCKED_COUNTRIES.includes(country)
 

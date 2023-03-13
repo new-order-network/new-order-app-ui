@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Button, Flex, Icon, Skeleton, useDisclosure } from '@chakra-ui/react'
 import { useAccount } from 'wagmi'
 
@@ -30,18 +30,16 @@ const VeActiveDeposit = ({
   const { address } = useAccount()
   const token = useToken(tokenAddress)
   const {
-    assetBalanceOf,
+    assetBalance,
     earned,
     withdraw,
     getReward,
     exit,
     APR,
-    APRLoading,
     loading,
+    updateState,
   } = useVeVault(vaultAddress, tokenAddress, token0, token1)
 
-  const [earnedRewards, setEarnedRewards] = useState('')
-  const [userVaultBalance, setUserVaultBalance] = useState('')
   const [withdrawAmount, setWithdrawAmount] = useState('')
   const [actionType, setActionType] = useState<ACTIVE_VAULT_DEPOSIT_ACTIONS>()
 
@@ -63,10 +61,7 @@ const VeActiveDeposit = ({
             onOpen()
           }}
           disabled={
-            isLegacyVault ||
-            loading ||
-            !address ||
-            Number(userVaultBalance) === 0
+            isLegacyVault || loading || !address || Number(assetBalance) === 0
           }
         >
           Withdraw
@@ -83,7 +78,7 @@ const VeActiveDeposit = ({
           }
           loadingText="Claiming"
           disabled={
-            isLegacyVault || loading || !address || Number(earnedRewards) === 0
+            isLegacyVault || loading || !address || Number(earned) === 0
           }
           onClick={async () => {
             setActionType(ACTIVE_VAULT_DEPOSIT_ACTIONS.CLAIM)
@@ -109,7 +104,7 @@ const VeActiveDeposit = ({
             isLegacyLPVault ||
             loading ||
             !address ||
-            (Number(userVaultBalance) === 0 && Number(earnedRewards) === 0)
+            (Number(assetBalance) === 0 && Number(earned) === 0)
           }
           loadingText="Withdrawing & Claiming"
           onClick={async () => {
@@ -135,42 +130,16 @@ const VeActiveDeposit = ({
     }
   }
 
-  const updateUserVaultBalance = async () => {
-    if (address) {
-      const balance = await assetBalanceOf(address)
-
-      setUserVaultBalance(balance)
-    }
-  }
-
-  const updateEarnedRewards = async () => {
-    if (address) {
-      const rewards = await earned(address)
-      setEarnedRewards(rewards)
-    }
-  }
-
-  const updateState = async () => {
-    await Promise.all([updateEarnedRewards(), updateUserVaultBalance()])
-  }
-
-  useEffect(() => {
-    updateState()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token, address])
-
   return (
     <>
       <Tr>
         <Td>{label}</Td>
         <Td>
-          {numberFormatter(userVaultBalance, 4)} {token?.tokenSymbol}
+          {numberFormatter(assetBalance, 4)} {token?.tokenSymbol}
         </Td>
-        <Td>
-          {numberFormatter(isLegacyLPVault ? '0' : earnedRewards, 4)} NEWO
-        </Td>
+        <Td>{numberFormatter(isLegacyLPVault ? '0' : earned, 4)} NEWO</Td>
         <Td color="green.100">
-          {APRLoading ? (
+          {loading ? (
             <Skeleton
               height="28px"
               w="100px"
@@ -192,7 +161,7 @@ const VeActiveDeposit = ({
         isOpen={isOpen}
         onClose={onClose}
         overlay={overlay}
-        currentDeposit={userVaultBalance}
+        currentDeposit={assetBalance}
         tokenSymbol={token?.tokenSymbol}
         withdrawAmount={withdrawAmount}
         setWithdrawAmount={setWithdrawAmount}
