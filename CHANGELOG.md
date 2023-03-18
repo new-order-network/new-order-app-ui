@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.0](https://github.com/new-order-network/new-order-app-ui/compare/v1.6.0...v1.7.0) (2023-03-18)
+
+
+### Features
+
+* add warning when a user withdraws from venewo ([4f05e72](https://github.com/new-order-network/new-order-app-ui/commit/4f05e72d5a587b9f2275e288aa883c50d3f3a319))
+
 ## [1.6.0](https://github.com/new-order-network/new-order-app-ui/compare/v1.5.0...v1.6.0) (2023-03-13)
 
 
