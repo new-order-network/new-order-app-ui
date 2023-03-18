@@ -1,6 +1,12 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { createContext, useContext, useReducer } from 'react'
-import { useContractReads } from 'wagmi'
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useReducer,
+  useState,
+} from 'react'
+import { useAccount, useContractRead, useContractReads } from 'wagmi'
 import { BigNumber, ethers } from 'ethers'
 import { mainnet, avalanche } from 'wagmi/chains'
 
@@ -18,6 +24,7 @@ import {
 import { contractAddresses } from 'constants/contractAddresses'
 
 import veTokenAbi from 'contracts/abi/veToken.json'
+import veVaultAbi from 'contracts/abi/xNewo.json'
 
 interface VeNewoProviderProps {
   children: React.ReactNode
@@ -28,6 +35,7 @@ interface VeNewoContextStateProps extends VeNewoStateProps {
   totalBalance: string
   totalSupply: string
   totalAssets: string
+  totalRewardsEarned: string
   allowance: string
   unlockDate: number
   assetBalance: string
@@ -40,6 +48,7 @@ export const VeNewoContext = createContext<VeNewoContextStateProps>({
   ...initialVeNewoState,
   totalSupply: '',
   totalAssets: '',
+  totalRewardsEarned: '',
   allowance: '',
   unlockDate: 0,
   assetBalance: '',
@@ -49,8 +58,62 @@ export const VeNewoContext = createContext<VeNewoContextStateProps>({
 
 export const VeNewoProvider: React.FC<VeNewoProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer(veNewoReducer, initialVeNewoState)
+  const [totalRewardsEarned, setTotalRewardsEarned] = useState('0')
   const { contracts } = useContractContext()
   const veNewo = useVeToken(contracts?.VENEWO, contracts?.NEWO)
+  const { address: accountAddress } = useAccount()
+
+  const {
+    data: veNewoSingleSideVaultEarned,
+    refetch: refetchVeNewoSingleSideVaultEarned,
+  } = useContractRead({
+    address: contracts.VE_NEWO_SINGLE_SIDE_VAULT,
+    abi: veVaultAbi,
+    functionName: 'earned',
+    args: [accountAddress],
+    enabled: !!contracts.VE_NEWO_SINGLE_SIDE_VAULT,
+    select: (data) => {
+      const formattedData = ethers.utils.formatUnits(
+        data as BigNumber,
+        veNewo.decimals as BigNumber
+      )
+      return formattedData
+    },
+  })
+
+  const { data: veNewoUsdcVaultEarned, refetch: refetchVeNewoUsdcVaultEarned } =
+    useContractRead({
+      address: contracts.VE_NEWO_USDC_LP_VAULT,
+      abi: veVaultAbi,
+      functionName: 'earned',
+      args: [accountAddress],
+      enabled: !!contracts.VE_NEWO_USDC_LP_VAULT,
+      select: (data) => {
+        const formattedData = ethers.utils.formatUnits(
+          data as BigNumber,
+          veNewo.decimals as BigNumber
+        )
+        return formattedData
+      },
+    })
+
+  const {
+    data: veNewoWavaxVaultEarned,
+    refetch: refetchVeNewoWavaxVaultEarned,
+  } = useContractRead({
+    address: contracts.VE_NEWO_WAVAX_LP_VAULT,
+    abi: veVaultAbi,
+    functionName: 'earned',
+    args: [accountAddress],
+    enabled: !!contracts.VE_NEWO_WAVAX_LP_VAULT,
+    select: (data) => {
+      const formattedData = ethers.utils.formatUnits(
+        data as BigNumber,
+        veNewo.decimals as BigNumber
+      )
+      return formattedData
+    },
+  })
 
   const { refetch: refetchMetrics } = useContractReads({
     contracts: [
@@ -104,8 +167,27 @@ export const VeNewoProvider: React.FC<VeNewoProviderProps> = ({ children }) => {
     enabled: !!veNewo.decimals,
   })
 
+  useEffect(() => {
+    const totalEarned =
+      Number(veNewoSingleSideVaultEarned) ||
+      0 + Number(veNewoUsdcVaultEarned) ||
+      0 + Number(veNewoWavaxVaultEarned) ||
+      0
+    setTotalRewardsEarned(totalEarned.toString())
+  }, [
+    veNewoSingleSideVaultEarned,
+    veNewoUsdcVaultEarned,
+    veNewoWavaxVaultEarned,
+  ])
+
   const updateState = async () => {
-    Promise.all([refetchMetrics(), veNewo.updateState()])
+    Promise.all([
+      refetchMetrics(),
+      veNewo.updateState(),
+      refetchVeNewoSingleSideVaultEarned(),
+      refetchVeNewoUsdcVaultEarned(),
+      refetchVeNewoWavaxVaultEarned(),
+    ])
   }
 
   return (
@@ -114,6 +196,7 @@ export const VeNewoProvider: React.FC<VeNewoProviderProps> = ({ children }) => {
         ...state,
         totalSupply: veNewo.totalSupply,
         totalAssets: veNewo.totalAssets,
+        totalRewardsEarned,
         allowance: veNewo.allowance,
         unlockDate: veNewo.unlockDate!,
         assetBalance: veNewo.assetBalance,
