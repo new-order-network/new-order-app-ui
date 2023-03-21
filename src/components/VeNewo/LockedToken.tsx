@@ -23,6 +23,7 @@ import ModalOverlay from 'components/ModalOverlay'
 import useVeToken from 'hooks/useVeToken'
 
 import { useVeNewoContext } from 'store/contexts/veNewoContext'
+import { useContractContext } from 'store/contexts/contractContext'
 
 interface LockedTokenProps {
   veTokenAddress: `0x${string}`
@@ -33,14 +34,24 @@ const LockedToken: React.FC<LockedTokenProps> = ({
   veTokenAddress,
   tokenAddress,
 }) => {
+  const { contracts } = useContractContext()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { address } = useAccount()
-  const { assetBalance, unlockDate, totalRewardsEarned, updateState } =
-    useVeNewoContext()
+  const {
+    assetBalance,
+    unlockDate,
+    totalRewardsEarned,
+    exitAllRewards,
+    updateState,
+  } = useVeNewoContext()
   const veToken = useVeToken(veTokenAddress, tokenAddress)
 
   const exit = async () => {
-    await veToken.exit()
+    if (contracts.VENEWO === veTokenAddress) {
+      await exitAllRewards?.()
+    } else {
+      await veToken.exit()
+    }
     await updateState?.()
   }
 
@@ -64,40 +75,35 @@ const LockedToken: React.FC<LockedTokenProps> = ({
           <ModalBody pt="12" pb="8" h="fit-content">
             <Stack spacing="8">
               <Alert
-                status="warning"
+                status="info"
                 w="full"
                 pos="static"
                 alignItems="flex-start"
               >
                 <AlertIcon />
                 <Box>
-                  <AlertTitle>Warning!</AlertTitle>
+                  <AlertTitle>Info</AlertTitle>
                   <AlertDescription>
-                    This action will remove you from veNEWO rewards. Please
-                    claim:{' '}
+                    This action will remove you from veNEWO rewards and will
+                    claim{' '}
                     <Text as="span" fontWeight="800">
                       {Number(totalRewardsEarned).toFixed(4)} NEWO
                     </Text>{' '}
-                    before doing this action or it will be lost
+                    from the vaults
                   </AlertDescription>
                 </Box>
               </Alert>
 
-              <Stack spacing="4">
-                <Button variant="greenButton" onClick={onClose} w="full">
-                  Go to Claim
-                </Button>
-                <Button
-                  color="gray.100"
-                  bgColor="orange.400"
-                  fontWeight="400"
-                  borderRadius="full"
-                  onClick={exit}
-                  w="full"
-                >
-                  Withdraw from veNEWO anyway
-                </Button>
-              </Stack>
+              <Button
+                color="gray.100"
+                bgColor="orange.400"
+                fontWeight="400"
+                borderRadius="full"
+                onClick={exit}
+                w="full"
+              >
+                Withdraw from veNEWO
+              </Button>
             </Stack>
           </ModalBody>
         </ModalContent>

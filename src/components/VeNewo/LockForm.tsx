@@ -29,7 +29,6 @@ import RegistrationReward from 'components/VeNewo/RegistrationReward'
 import ConnectOverlay from 'components/ConnectOverlay'
 
 import useVeToken from 'hooks/useVeToken'
-import useVeVault from 'hooks/useVeVault'
 
 import { numberFormatter } from 'lib/utils/format'
 import { getKeyByValue } from 'lib/utils/data'
@@ -43,25 +42,19 @@ import { useNewoContext } from 'store/contexts/newoContext'
 import { lockTimeTable } from 'constants/venewo'
 
 const LockForm = () => {
-  const { allowance, unlockDate, totalSupply, totalAssets, updateState } =
-    useVeNewoContext()
+  const {
+    allowance,
+    unlockDate,
+    totalSupply,
+    totalAssets,
+    loading: veNewoLoading,
+    notifyAllDeposit,
+    updateState,
+  } = useVeNewoContext()
   const { newoBalance, newoBalanceIsLoading } = useNewoContext()
   const { contracts } = useContractContext()
   const { address } = useAccount()
   const veNewo = useVeToken(contracts.VENEWO, contracts.NEWO)
-
-  const veNewoUsdcVault = useVeVault(
-    contracts.VE_NEWO_USDC_LP_VAULT,
-    contracts.NEWO_USDC_LP,
-    contracts.NEWO,
-    contracts.USDC
-  )
-  const veNewoWavaxVault = useVeVault(
-    contracts.VE_NEWO_WAVAX_LP_VAULT,
-    contracts.NEWO_WAVAX_LP,
-    contracts.NEWO,
-    contracts.WAVAX
-  )
 
   const [amount, setAmount] = useState('')
   const [lockTime, setLockTime] = useState(dayjs().add(91, 'd').toDate())
@@ -69,24 +62,8 @@ const LockForm = () => {
   const [minLockTime, setMinLockTime] = useState(dayjs().add(91, 'd').toDate())
   const [projectedMultiplier, setProjectedMultiplier] = useState('1.00')
   const [averageLockTime, setAverageLockTime] = useState('0')
-  const [newoShare, setNewoShare] = useState('')
 
   const [actionType, setActionType] = useState<LOCK_ACTIONS>()
-
-  const getNewoShare = () => {
-    if (veNewoUsdcVault && address) {
-      const newoShare = veNewoUsdcVault?.newoShare
-      setNewoShare(newoShare)
-    } else if (veNewoWavaxVault && address) {
-      const newoShare = veNewoWavaxVault?.newoShare
-      setNewoShare(newoShare)
-    }
-  }
-
-  useEffect(() => {
-    getNewoShare()
-    // eslint-disable-next-line
-  }, [address])
 
   useEffect(() => {
     if (unlockDate !== 0 && dayjs.unix(unlockDate).isAfter(lockTime)) {
@@ -380,6 +357,16 @@ const LockForm = () => {
               <Text>Deposit and Register for various rewards</Text>
             </Stack>
 
+            <Button
+              variant="greenButton"
+              mt="4"
+              w="full"
+              onClick={notifyAllDeposit}
+              isLoading={veNewoLoading}
+            >
+              Register on all rewards
+            </Button>
+
             <Box
               border="1px solid"
               borderColor="gray.80"
@@ -402,61 +389,6 @@ const LockForm = () => {
                     veVaultAddress={contracts.VE_NEWO_SINGLE_SIDE_VAULT}
                     tokenAddress={contracts.NEWO}
                   />
-                </Tbody>
-              </Table>
-            </Box>
-
-            <Divider my="3" bgColor="brand.green" />
-
-            <Stack spacing="1">
-              <Text color="brand.green" fontSize="lg">
-                Optional Step: for LP Providers
-              </Text>
-              <Text fontSize="sm">
-                MIN locked NEWO for LP boost: {Number(newoShare).toFixed(4)}
-              </Text>
-            </Stack>
-
-            <Box
-              border="1px solid"
-              borderColor="gray.80"
-              borderRadius="8"
-              my="4"
-              overflow="hidden"
-            >
-              <Table variant="grayStriped" size="sm">
-                <Thead>
-                  <Tr>
-                    <Th>Name</Th>
-                    <Th>AVG APR</Th>
-                    <Th>Boost</Th>
-                    <Th>Actions</Th>
-                  </Tr>
-                </Thead>
-                <Tbody>
-                  {contracts.VE_NEWO_USDC_LP_VAULT &&
-                    contracts.VE_NEWO_USDC_LP_VAULT !== '0x' && (
-                      <RegistrationReward
-                        columns={['name', 'apr', 'boost', 'actions']}
-                        actions={['deposit', 'register']}
-                        veVaultAddress={contracts.VE_NEWO_USDC_LP_VAULT}
-                        tokenAddress={contracts.NEWO_USDC_LP}
-                        token0={contracts.NEWO}
-                        token1={contracts.USDC}
-                      />
-                    )}
-
-                  {contracts.VE_NEWO_WAVAX_LP_VAULT &&
-                    contracts.VE_NEWO_WAVAX_LP_VAULT !== '0x' && (
-                      <RegistrationReward
-                        columns={['name', 'apr', 'boost', 'actions']}
-                        actions={['deposit', 'register']}
-                        veVaultAddress={contracts.VE_NEWO_WAVAX_LP_VAULT}
-                        tokenAddress={contracts.NEWO_WAVAX_LP}
-                        token0={contracts.NEWO}
-                        token1={contracts.WAVAX}
-                      />
-                    )}
                 </Tbody>
               </Table>
             </Box>

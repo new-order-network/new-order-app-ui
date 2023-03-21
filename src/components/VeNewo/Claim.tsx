@@ -1,5 +1,7 @@
 import {
   Box,
+  Button,
+  Flex,
   Grid,
   Stack,
   Stat,
@@ -25,7 +27,14 @@ import { useContractContext } from 'store/contexts/contractContext'
 const Claim = () => {
   const { address } = useAccount()
   const { contracts } = useContractContext()
-  const { assetBalance, balance, multiplier } = useVeNewoContext()
+  const {
+    assetBalance,
+    balance,
+    multiplier,
+    totalRewardsEarned,
+    loading: veNewoLoading,
+    getAllRewards,
+  } = useVeNewoContext()
 
   return (
     <ConnectOverlay isConnected={!!address}>
@@ -87,9 +96,20 @@ const Claim = () => {
       </Stack>
 
       <Stack my="6">
-        <Text fontSize="xl" color="brand.green">
-          Rewards Information
-        </Text>
+        <Flex justify="space-between">
+          <Text fontSize="xl" color="brand.green">
+            Rewards Information
+          </Text>
+
+          <Button
+            variant="greenButton"
+            onClick={getAllRewards}
+            isDisabled={Number(totalRewardsEarned) <= 0}
+            isLoading={veNewoLoading}
+          >
+            Claim All Rewards
+          </Button>
+        </Flex>
 
         <Box
           border="1px solid"

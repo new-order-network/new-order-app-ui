@@ -11,6 +11,7 @@ import { BigNumber, ethers } from 'ethers'
 import { mainnet, avalanche } from 'wagmi/chains'
 
 import useVeToken from 'hooks/useVeToken'
+import useVeRewardsController from 'hooks/useVeRewardsController'
 
 import { useContractContext } from 'store/contexts/contractContext'
 import {
@@ -41,6 +42,10 @@ interface VeNewoContextStateProps extends VeNewoStateProps {
   assetBalance: string
   balance?: string
   multiplier: number
+  loading: boolean
+  notifyAllDeposit?: () => Promise<void>
+  getAllRewards?: () => Promise<void>
+  exitAllRewards?: () => Promise<void>
   updateState?: () => Promise<void>
 }
 
@@ -54,6 +59,7 @@ export const VeNewoContext = createContext<VeNewoContextStateProps>({
   assetBalance: '',
   balance: '',
   multiplier: 0,
+  loading: false,
 })
 
 export const VeNewoProvider: React.FC<VeNewoProviderProps> = ({ children }) => {
@@ -61,6 +67,9 @@ export const VeNewoProvider: React.FC<VeNewoProviderProps> = ({ children }) => {
   const [totalRewardsEarned, setTotalRewardsEarned] = useState('0')
   const { contracts } = useContractContext()
   const veNewo = useVeToken(contracts?.VENEWO, contracts?.NEWO)
+  const veNewoRewardsController = useVeRewardsController(
+    contracts.VE_REWARDS_CONTROLLER
+  )
   const { address: accountAddress } = useAccount()
 
   const {
@@ -202,6 +211,10 @@ export const VeNewoProvider: React.FC<VeNewoProviderProps> = ({ children }) => {
         assetBalance: veNewo.assetBalance,
         balance: veNewo.balance,
         multiplier: veNewo.multiplier!,
+        loading: veNewoRewardsController.loading,
+        notifyAllDeposit: veNewoRewardsController.notifyAllDeposit,
+        getAllRewards: veNewoRewardsController.getAllRewards,
+        exitAllRewards: veNewoRewardsController.exitAllRewards,
         updateState,
       }}
     >

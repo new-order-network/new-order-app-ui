@@ -29,7 +29,12 @@ const RegistrationReward: React.FC<RegistrationRewardProps> = ({
 }) => {
   const router = useRouter()
   const { address } = useAccount()
-  const { multiplier, unlockDate, balance: veNewoBalance } = useVeNewoContext()
+  const {
+    multiplier,
+    unlockDate,
+    balance: veNewoBalance,
+    loading: veNewoLoading,
+  } = useVeNewoContext()
   const veVault = useVeVault(veVaultAddress, tokenAddress, token0, token1)
   const token = useToken(tokenAddress)
   const [boost, setBoost] = useState('1.00')
@@ -117,7 +122,8 @@ const RegistrationReward: React.FC<RegistrationRewardProps> = ({
                     !address ||
                     isRegistered ||
                     veVault.loading ||
-                    Number(veNewoBalance) === 0
+                    Number(veNewoBalance) === 0 ||
+                    veNewoLoading
                   }
                   variant="greenButton"
                 >
