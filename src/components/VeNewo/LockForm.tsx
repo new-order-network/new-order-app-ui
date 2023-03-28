@@ -15,6 +15,7 @@ import {
   Stack,
   Text,
   Tooltip,
+  useDisclosure,
 } from '@chakra-ui/react'
 import { MdOutlineInfo } from 'react-icons/md'
 import { FaRegCheckCircle } from 'react-icons/fa'
@@ -27,6 +28,7 @@ import { Table, Tbody, Th, Thead, Tr } from 'components/Table'
 import CustomDatePicker from 'components/Forms/DatePicker'
 import RegistrationReward from 'components/VeNewo/RegistrationReward'
 import ConnectOverlay from 'components/ConnectOverlay'
+import DeclarationModal from 'components/VeNewo/DeclarationModal'
 
 import useVeToken from 'hooks/useVeToken'
 
@@ -44,6 +46,11 @@ import { veVaults } from 'constants/vaults'
 import { NATIVE_TOKEN } from 'constants/contractAddresses'
 
 const LockForm = () => {
+  const {
+    isOpen: declarationModalIsOpen,
+    onOpen: declarationModalOnOpen,
+    onClose: declarationModalOnClose,
+  } = useDisclosure()
   const {
     allowance,
     unlockDate,
@@ -362,11 +369,17 @@ const LockForm = () => {
               <Text>Deposit and Register for various rewards</Text>
             </Stack>
 
+            <DeclarationModal
+              isOpen={declarationModalIsOpen}
+              onClose={declarationModalOnClose}
+              submitFn={notifyAllDeposit}
+            />
+
             <Button
               variant="greenButton"
               mt="4"
               w="full"
-              onClick={notifyAllDeposit}
+              onClick={declarationModalOnOpen}
               isLoading={veNewoLoading}
               isDisabled={
                 Number(veNewoBalance) <= 0 ||

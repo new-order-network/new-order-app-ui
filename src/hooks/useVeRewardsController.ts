@@ -154,10 +154,10 @@ const useVeRewardsController = (rewardsControllerAddress: `0x${string}`) => {
       if (signedDeclaration) {
         const gas =
           await veRewardsControllerInstance?.estimateGas.exitAllRewards(
-            declaration
+            signedDeclaration
           )
         const tx = await veRewardsControllerInstance?.exitAllRewards(
-          declaration,
+          signedDeclaration,
           { gasLimit: gas }
         )
 

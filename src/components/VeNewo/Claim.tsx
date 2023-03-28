@@ -13,6 +13,7 @@ import {
   Th,
   Thead,
   Tr,
+  useDisclosure,
 } from '@chakra-ui/react'
 import { useAccount, useNetwork } from 'wagmi'
 
@@ -20,6 +21,7 @@ import Card from 'components/Card'
 import ConnectOverlay from 'components/ConnectOverlay'
 import LockedToken from 'components/VeNewo/LockedToken'
 import RegisteredReward from 'components/VeNewo/RegisteredReward'
+import DeclarationModal from 'components/VeNewo/DeclarationModal'
 
 import { useVeNewoContext } from 'store/contexts/veNewoContext'
 import { useContractContext } from 'store/contexts/contractContext'
@@ -27,6 +29,11 @@ import { useContractContext } from 'store/contexts/contractContext'
 import { veVaults } from 'constants/vaults'
 
 const Claim = () => {
+  const {
+    isOpen: declarationModalIsOpen,
+    onOpen: declarationModalOnOpen,
+    onClose: declarationModalOnClose,
+  } = useDisclosure()
   const { address } = useAccount()
   const { chain } = useNetwork()
   const { contracts } = useContractContext()
@@ -99,14 +106,19 @@ const Claim = () => {
       </Stack>
 
       <Stack my="6">
-        <Flex justify="space-between">
+        <Flex justify="space-between" align="center" mb="2">
           <Text fontSize="xl" color="brand.green">
             Rewards Information
           </Text>
 
+          <DeclarationModal
+            isOpen={declarationModalIsOpen}
+            onClose={declarationModalOnClose}
+            submitFn={getAllRewards}
+          />
           <Button
             variant="greenButton"
-            onClick={getAllRewards}
+            onClick={declarationModalOnOpen}
             isDisabled={Number(totalRewardsEarned) <= 0}
             isLoading={veNewoLoading}
           >

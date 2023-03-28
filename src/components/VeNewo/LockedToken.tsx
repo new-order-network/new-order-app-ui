@@ -19,6 +19,7 @@ import { useAccount } from 'wagmi'
 
 import { Td, Tr } from 'components/Table'
 import ModalOverlay from 'components/ModalOverlay'
+import DeclarationModal from 'components/VeNewo/DeclarationModal'
 
 import useVeToken from 'hooks/useVeToken'
 
@@ -34,6 +35,11 @@ const LockedToken: React.FC<LockedTokenProps> = ({
   veTokenAddress,
   tokenAddress,
 }) => {
+  const {
+    isOpen: declarationModalIsOpen,
+    onOpen: declarationModalOnOpen,
+    onClose: declarationModalOnClose,
+  } = useDisclosure()
   const { contracts } = useContractContext()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { address } = useAccount()
@@ -95,11 +101,11 @@ const LockedToken: React.FC<LockedTokenProps> = ({
               </Alert>
 
               <Button
-                color="gray.100"
-                bgColor="orange.400"
-                fontWeight="400"
-                borderRadius="full"
-                onClick={exit}
+                variant="greenButton"
+                onClick={() => {
+                  onClose()
+                  declarationModalOnOpen()
+                }}
                 w="full"
               >
                 Withdraw from veNEWO
@@ -108,6 +114,12 @@ const LockedToken: React.FC<LockedTokenProps> = ({
           </ModalBody>
         </ModalContent>
       </Modal>
+
+      <DeclarationModal
+        isOpen={declarationModalIsOpen}
+        onClose={declarationModalOnClose}
+        submitFn={exit}
+      />
 
       <Tr>
         <Td>NEWO</Td>
