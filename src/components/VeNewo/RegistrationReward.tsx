@@ -34,6 +34,7 @@ const RegistrationReward: React.FC<RegistrationRewardProps> = ({
     unlockDate,
     balance: veNewoBalance,
     loading: veNewoLoading,
+    depositUserStatus,
   } = useVeNewoContext()
   const veVault = useVeVault(veVaultAddress, tokenAddress, token0, token1)
   const token = useToken(tokenAddress)
@@ -54,7 +55,11 @@ const RegistrationReward: React.FC<RegistrationRewardProps> = ({
 
   const checkRegistrationStatus = async () => {
     if (address) {
-      if (token0 && token1 && Number(multiplier) === Number(boost)) {
+      if (depositUserStatus) {
+        if (veVaultAddress && !depositUserStatus.includes(veVaultAddress)) {
+          setIsRegistered(true)
+        }
+      } else if (token0 && token1 && Number(multiplier) === Number(boost)) {
         const assetBalance = veVault.assetBalance
         if (Number(assetBalance) > 0) {
           setIsRegistered(true)
@@ -84,7 +89,7 @@ const RegistrationReward: React.FC<RegistrationRewardProps> = ({
   useEffect(() => {
     checkRegistrationStatus()
     // eslint-disable-next-line
-  }, [multiplier, boost, unlockDate, address, veVault])
+  }, [multiplier, boost, unlockDate, address, veVault, depositUserStatus])
 
   const register = async () => {
     await veVault.notifyDeposit()

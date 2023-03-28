@@ -116,7 +116,18 @@
   },
   {
     "inputs": [
-      { "internalType": "string", "name": "declaration", "type": "string" }
+      { "internalType": "address", "name": "user", "type": "address" }
+    ],
+    "name": "depositUserStatus",
+    "outputs": [
+      { "internalType": "address[]", "name": "", "type": "address[]" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "bytes", "name": "signature", "type": "bytes" }
     ],
     "name": "exitAllRewards",
     "outputs": [],
@@ -125,7 +136,7 @@
   },
   {
     "inputs": [
-      { "internalType": "string", "name": "declaration", "type": "string" }
+      { "internalType": "bytes", "name": "signature", "type": "bytes" }
     ],
     "name": "getAllRewards",
     "outputs": [],
@@ -157,7 +168,7 @@
   },
   {
     "inputs": [
-      { "internalType": "string", "name": "declaration", "type": "string" }
+      { "internalType": "bytes", "name": "signature", "type": "bytes" }
     ],
     "name": "notifyAllDeposit",
     "outputs": [],

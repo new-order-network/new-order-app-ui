@@ -43,6 +43,7 @@ interface VeNewoContextStateProps extends VeNewoStateProps {
   balance?: string
   multiplier: number
   loading: boolean
+  depositUserStatus: string[]
   notifyAllDeposit?: () => Promise<void>
   getAllRewards?: () => Promise<void>
   exitAllRewards?: () => Promise<void>
@@ -60,6 +61,7 @@ export const VeNewoContext = createContext<VeNewoContextStateProps>({
   balance: '',
   multiplier: 0,
   loading: false,
+  depositUserStatus: [],
 })
 
 export const VeNewoProvider: React.FC<VeNewoProviderProps> = ({ children }) => {
@@ -212,6 +214,8 @@ export const VeNewoProvider: React.FC<VeNewoProviderProps> = ({ children }) => {
         balance: veNewo.balance,
         multiplier: veNewo.multiplier!,
         loading: veNewoRewardsController.loading,
+        depositUserStatus:
+          veNewoRewardsController.depositUserStatus as string[],
         notifyAllDeposit: veNewoRewardsController.notifyAllDeposit,
         getAllRewards: veNewoRewardsController.getAllRewards,
         exitAllRewards: veNewoRewardsController.exitAllRewards,

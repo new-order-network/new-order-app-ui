@@ -19,7 +19,7 @@ import {
 import { MdOutlineInfo } from 'react-icons/md'
 import { FaRegCheckCircle } from 'react-icons/fa'
 import dayjs from 'dayjs'
-import { useAccount } from 'wagmi'
+import { useAccount, useNetwork } from 'wagmi'
 
 import Card from 'components/Card'
 import Input from 'components/Forms/Input'
@@ -40,6 +40,8 @@ import { useVeNewoContext } from 'store/contexts/veNewoContext'
 import { useNewoContext } from 'store/contexts/newoContext'
 
 import { lockTimeTable } from 'constants/venewo'
+import { veVaults } from 'constants/vaults'
+import { NATIVE_TOKEN } from 'constants/contractAddresses'
 
 const LockForm = () => {
   const {
@@ -47,13 +49,16 @@ const LockForm = () => {
     unlockDate,
     totalSupply,
     totalAssets,
+    balance: veNewoBalance,
     loading: veNewoLoading,
+    depositUserStatus,
     notifyAllDeposit,
     updateState,
   } = useVeNewoContext()
   const { newoBalance, newoBalanceIsLoading } = useNewoContext()
   const { contracts } = useContractContext()
   const { address } = useAccount()
+  const { chain } = useNetwork()
   const veNewo = useVeToken(contracts.VENEWO, contracts.NEWO)
 
   const [amount, setAmount] = useState('')
@@ -363,6 +368,12 @@ const LockForm = () => {
               w="full"
               onClick={notifyAllDeposit}
               isLoading={veNewoLoading}
+              isDisabled={
+                Number(veNewoBalance) <= 0 ||
+                depositUserStatus.filter((status) => {
+                  return status !== NATIVE_TOKEN
+                }).length === 0
+              }
             >
               Register on all rewards
             </Button>
@@ -383,12 +394,22 @@ const LockForm = () => {
                   </Tr>
                 </Thead>
                 <Tbody>
-                  <RegistrationReward
-                    columns={['name', 'apr', 'actions']}
-                    actions={['register']}
-                    veVaultAddress={contracts.VE_NEWO_SINGLE_SIDE_VAULT}
-                    tokenAddress={contracts.NEWO}
-                  />
+                  {chain &&
+                    chain.id &&
+                    veVaults[chain.id].length > 0 &&
+                    veVaults[chain.id].map((veVault) => {
+                      return (
+                        <RegistrationReward
+                          key={veVault.veVaultAdderss}
+                          columns={['name', 'apr', 'actions']}
+                          actions={['register']}
+                          veVaultAddress={veVault.veVaultAdderss}
+                          tokenAddress={veVault.tokenAddress}
+                          token0={veVault.token0}
+                          token1={veVault.token1}
+                        />
+                      )
+                    })}
                 </Tbody>
               </Table>
             </Box>

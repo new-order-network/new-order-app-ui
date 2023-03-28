@@ -14,7 +14,7 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react'
-import { useAccount } from 'wagmi'
+import { useAccount, useNetwork } from 'wagmi'
 
 import Card from 'components/Card'
 import ConnectOverlay from 'components/ConnectOverlay'
@@ -24,8 +24,11 @@ import RegisteredReward from 'components/VeNewo/RegisteredReward'
 import { useVeNewoContext } from 'store/contexts/veNewoContext'
 import { useContractContext } from 'store/contexts/contractContext'
 
+import { veVaults } from 'constants/vaults'
+
 const Claim = () => {
   const { address } = useAccount()
+  const { chain } = useNetwork()
   const { contracts } = useContractContext()
   const {
     assetBalance,
@@ -128,30 +131,20 @@ const Claim = () => {
               </Tr>
             </Thead>
             <Tbody>
-              <RegisteredReward
-                veVaultAddress={contracts.VE_NEWO_SINGLE_SIDE_VAULT}
-                tokenAddress={contracts.NEWO}
-              />
-
-              {contracts.VE_NEWO_USDC_LP_VAULT &&
-                contracts.VE_NEWO_USDC_LP_VAULT !== '0x' && (
-                  <RegisteredReward
-                    veVaultAddress={contracts.VE_NEWO_USDC_LP_VAULT}
-                    tokenAddress={contracts.NEWO_USDC_LP}
-                    token0={contracts.NEWO}
-                    token1={contracts.USDC}
-                  />
-                )}
-
-              {contracts.VE_NEWO_WAVAX_LP_VAULT &&
-                contracts.VE_NEWO_WAVAX_LP_VAULT !== '0x' && (
-                  <RegisteredReward
-                    veVaultAddress={contracts.VE_NEWO_WAVAX_LP_VAULT}
-                    tokenAddress={contracts.NEWO_WAVAX_LP}
-                    token0={contracts.NEWO}
-                    token1={contracts.WAVAX}
-                  />
-                )}
+              {chain &&
+                chain.id &&
+                veVaults[chain.id].length > 0 &&
+                veVaults[chain.id].map((veVault) => {
+                  return (
+                    <RegisteredReward
+                      key={veVault.veVaultAdderss}
+                      veVaultAddress={veVault.veVaultAdderss}
+                      tokenAddress={veVault.tokenAddress}
+                      token0={veVault.token0}
+                      token1={veVault.token1}
+                    />
+                  )
+                })}
             </Tbody>
           </Table>
         </Box>

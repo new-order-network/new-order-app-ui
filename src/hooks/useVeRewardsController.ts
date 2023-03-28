@@ -1,6 +1,13 @@
-import { useContract, useContractRead, useProvider, useSigner } from 'wagmi'
+import {
+  useAccount,
+  useContract,
+  useContractRead,
+  useProvider,
+  useSigner,
+} from 'wagmi'
 import { useToast } from '@chakra-ui/react'
 import { useState } from 'react'
+import { ethers } from 'ethers'
 
 import veRewardsControllerAbi from 'contracts/abi/veRewardsController.json'
 
@@ -13,6 +20,7 @@ const useVeRewardsController = (rewardsControllerAddress: `0x${string}`) => {
   const [loading, setLoading] = useState(false)
   const provider = useProvider()
   const { data: signer } = useSigner()
+  const { address } = useAccount()
 
   const { data: declaration } = useContractRead({
     ...veRewardsControllerContract,
@@ -20,35 +28,62 @@ const useVeRewardsController = (rewardsControllerAddress: `0x${string}`) => {
     enabled: rewardsControllerAddress !== '0x',
   })
 
+  const { data: depositUserStatus, refetch: refetchDepositUserStatus } =
+    useContractRead({
+      ...veRewardsControllerContract,
+      functionName: 'depositUserStatus',
+      args: [address],
+      enabled: Boolean(rewardsControllerAddress !== '0x' && address),
+    })
+
   const veRewardsControllerInstance = useContract({
     ...veRewardsControllerContract,
     signerOrProvider: signer || provider,
   })
 
+  const signDeclaration = async () => {
+    try {
+      const hashedDeclaration = ethers.utils.solidityKeccak256(
+        ['string'],
+        [declaration]
+      )
+      const signedDeclaration = await signer?.signMessage(
+        ethers.utils.arrayify(hashedDeclaration)
+      )
+      return signedDeclaration
+    } catch (err) {
+      console.error('[SIGNATURE ERROR]', err)
+    }
+    return ''
+  }
+
   const notifyAllDeposit = async () => {
     setLoading(true)
 
     try {
-      const gas =
-        await veRewardsControllerInstance?.estimateGas.notifyAllDeposit(
-          declaration
+      const signedDeclaration = await signDeclaration()
+      if (signedDeclaration) {
+        const gas =
+          await veRewardsControllerInstance?.estimateGas.notifyAllDeposit(
+            signedDeclaration
+          )
+        const tx = await veRewardsControllerInstance?.notifyAllDeposit(
+          signedDeclaration,
+          { gasLimit: gas }
         )
-      const tx = await veRewardsControllerInstance?.notifyAllDeposit(
-        declaration,
-        { gasLimit: gas }
-      )
 
-      const receipt = await tx.wait()
+        const receipt = await tx.wait()
 
-      if (receipt.status === 1) {
-        toast({
-          title: 'Registration Successful',
-          description: 'You have successfully registered for rewards.',
-          isClosable: true,
-          position: 'top-right',
-          status: 'success',
-          variant: 'success',
-        })
+        if (receipt.status === 1) {
+          toast({
+            title: 'Registration Successful',
+            description: 'You have successfully registered for rewards.',
+            isClosable: true,
+            position: 'top-right',
+            status: 'success',
+            variant: 'success',
+          })
+        }
       }
     } catch (err) {
       console.error('[REGISTRATION ERROR]', err)
@@ -62,6 +97,7 @@ const useVeRewardsController = (rewardsControllerAddress: `0x${string}`) => {
       })
     } finally {
       setLoading(false)
+      updateState()
     }
   }
 
@@ -69,24 +105,31 @@ const useVeRewardsController = (rewardsControllerAddress: `0x${string}`) => {
     setLoading(true)
 
     try {
-      const gas = await veRewardsControllerInstance?.estimateGas.getAllRewards(
-        declaration
-      )
-      const tx = await veRewardsControllerInstance?.getAllRewards(declaration, {
-        gasLimit: gas,
-      })
+      const signedDeclaration = await signDeclaration()
+      if (signedDeclaration) {
+        const gas =
+          await veRewardsControllerInstance?.estimateGas.getAllRewards(
+            signedDeclaration
+          )
+        const tx = await veRewardsControllerInstance?.getAllRewards(
+          signedDeclaration,
+          {
+            gasLimit: gas,
+          }
+        )
 
-      const receipt = await tx.wait()
+        const receipt = await tx.wait()
 
-      if (receipt.status === 1) {
-        toast({
-          title: 'Claim Successful',
-          description: 'You have successfully claimed your rewards.',
-          isClosable: true,
-          position: 'top-right',
-          status: 'success',
-          variant: 'success',
-        })
+        if (receipt.status === 1) {
+          toast({
+            title: 'Claim Successful',
+            description: 'You have successfully claimed your rewards.',
+            isClosable: true,
+            position: 'top-right',
+            status: 'success',
+            variant: 'success',
+          })
+        }
       }
     } catch (err) {
       console.error('[CLAIM ERROR]', err)
@@ -107,25 +150,29 @@ const useVeRewardsController = (rewardsControllerAddress: `0x${string}`) => {
     setLoading(true)
 
     try {
-      const gas = await veRewardsControllerInstance?.estimateGas.exitAllRewards(
-        declaration
-      )
-      const tx = await veRewardsControllerInstance?.exitAllRewards(
-        declaration,
-        { gasLimit: gas }
-      )
+      const signedDeclaration = await signDeclaration()
+      if (signedDeclaration) {
+        const gas =
+          await veRewardsControllerInstance?.estimateGas.exitAllRewards(
+            declaration
+          )
+        const tx = await veRewardsControllerInstance?.exitAllRewards(
+          declaration,
+          { gasLimit: gas }
+        )
 
-      const receipt = await tx.wait()
+        const receipt = await tx.wait()
 
-      if (receipt.status === 1) {
-        toast({
-          title: 'Claim Successful',
-          description: 'You have successfully claimed your rewards.',
-          isClosable: true,
-          position: 'top-right',
-          status: 'success',
-          variant: 'success',
-        })
+        if (receipt.status === 1) {
+          toast({
+            title: 'Claim Successful',
+            description: 'You have successfully claimed your rewards.',
+            isClosable: true,
+            position: 'top-right',
+            status: 'success',
+            variant: 'success',
+          })
+        }
       }
     } catch (err) {
       console.error('[CLAIM ERROR]', err)
@@ -142,12 +189,18 @@ const useVeRewardsController = (rewardsControllerAddress: `0x${string}`) => {
     }
   }
 
+  const updateState = async () => {
+    Promise.all([refetchDepositUserStatus()])
+  }
+
   return {
     loading,
     declaration,
+    depositUserStatus,
     notifyAllDeposit,
     getAllRewards,
     exitAllRewards,
+    updateState,
   }
 }
 

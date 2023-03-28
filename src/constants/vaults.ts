@@ -82,3 +82,49 @@ export const Vaults: VaultsProps = {
   ],
   43113: [],
 }
+
+export interface VeVaultProps {
+  veVaultAdderss?: `0x${string}`
+  tokenAddress?: `0x${string}`
+  token0?: `0x${string}`
+  token1?: `0x${string}`
+}
+
+export interface VeVaultsProps {
+  [key: number]: VeVaultProps[]
+}
+
+export const veVaults: VeVaultsProps = {
+  1: [
+    {
+      veVaultAdderss: contractAddresses[1].VE_NEWO_SINGLE_SIDE_VAULT,
+      tokenAddress: contractAddresses[1].NEWO,
+    },
+  ],
+  5: [
+    {
+      veVaultAdderss: contractAddresses[5].VE_NEWO_SINGLE_SIDE_VAULT,
+      tokenAddress: contractAddresses[5].NEWO,
+    },
+    {
+      veVaultAdderss: contractAddresses[5].VE_NEWO_WYND_VAULT,
+      tokenAddress: contractAddresses[5].WYND,
+    },
+    {
+      veVaultAdderss: contractAddresses[5].VE_NEWO_DAI_VAULT,
+      tokenAddress: contractAddresses[5].DAI,
+    },
+  ],
+  43114: [
+    {
+      veVaultAdderss: contractAddresses[43114].VE_NEWO_SINGLE_SIDE_VAULT,
+      tokenAddress: contractAddresses[43114].NEWO,
+    },
+    {
+      veVaultAdderss: contractAddresses[43114].VE_NEWO_WAVAX_LP_VAULT,
+      tokenAddress: contractAddresses[43114].NEWO_WAVAX_LP,
+      token0: contractAddresses[43114].NEWO,
+      token1: contractAddresses[43114].WAVAX,
+    },
+  ],
+}
