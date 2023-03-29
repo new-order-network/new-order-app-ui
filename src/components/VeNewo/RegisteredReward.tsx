@@ -23,7 +23,7 @@ const RegisteredReward: React.FC<RegisteredRewardProps> = ({
   token1,
 }) => {
   const { address } = useAccount()
-  const { multiplier } = useVeNewoContext()
+  const { multiplier, totalRewardsEarned, loading } = useVeNewoContext()
   const token = useToken(tokenAddress)
   const veVault = useVeVault(veVaultAddress, tokenAddress, token0, token1)
   const [boost, setBoost] = useState('1.00')
@@ -41,6 +41,12 @@ const RegisteredReward: React.FC<RegisteredRewardProps> = ({
   }
 
   useEffect(() => {
+    if (veVault) {
+      veVault.updateState()
+    }
+  }, [totalRewardsEarned, veVault])
+
+  useEffect(() => {
     calculateBoost()
     // eslint-disable-next-line
   }, [address, veVault])
@@ -50,12 +56,14 @@ const RegisteredReward: React.FC<RegisteredRewardProps> = ({
       <Td>{token.tokenSymbol}</Td>
       <Td>{veVault.APR}%</Td>
       <Td>{token0 && token1 ? boost : multiplier}x</Td>
-      <Td>{Number(veVault.earned).toFixed(4)}</Td>
+      <Td>
+        {Number(veVault.earned).toFixed(4)} {token.tokenSymbol}
+      </Td>
       <Td>
         <Button
           onClick={veVault.getReward}
           isLoading={veVault.loading}
-          disabled={!veVault.earned || Number(veVault.earned) <= 0}
+          isDisabled={!veVault.earned || Number(veVault.earned) <= 0 || loading}
           variant="greenButton"
         >
           Claim Rewards
