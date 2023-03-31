@@ -139,7 +139,6 @@ const Claim = () => {
                 <Th>AVG APR</Th>
                 <Th>Boost</Th>
                 <Th>Rewards Earned</Th>
-                <Th>Actions</Th>
               </Tr>
             </Thead>
             <Tbody>

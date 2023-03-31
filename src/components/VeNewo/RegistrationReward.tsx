@@ -12,7 +12,7 @@ import { useVeNewoContext } from 'store/contexts/veNewoContext'
 
 interface RegistrationRewardProps {
   columns: string[]
-  actions: string[]
+  actions?: string[]
   veVaultAddress?: `0x${string}`
   tokenAddress?: `0x${string}`
   token0?: `0x${string}`
@@ -105,7 +105,7 @@ const RegistrationReward: React.FC<RegistrationRewardProps> = ({
       {columns.includes('actions') && (
         <Td>
           <HStack spacing="2">
-            {actions.includes('deposit') && (
+            {actions?.includes('deposit') && (
               <Button
                 onClick={() => {
                   router.push('/invest')
@@ -115,7 +115,7 @@ const RegistrationReward: React.FC<RegistrationRewardProps> = ({
                 Deposit
               </Button>
             )}
-            {actions.includes('register') && (
+            {actions?.includes('register') && (
               <Tooltip
                 label="You have updated your veNEWO lock information and will need to register for rewards"
                 isDisabled={isRegistered || !!!unlockDate}

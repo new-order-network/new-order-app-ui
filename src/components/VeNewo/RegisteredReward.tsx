@@ -14,6 +14,7 @@ interface RegisteredRewardProps {
   tokenAddress?: `0x${string}`
   token0?: `0x${string}`
   token1?: `0x${string}`
+  isClaimable?: boolean
 }
 
 const RegisteredReward: React.FC<RegisteredRewardProps> = ({
@@ -21,6 +22,7 @@ const RegisteredReward: React.FC<RegisteredRewardProps> = ({
   tokenAddress,
   token0,
   token1,
+  isClaimable,
 }) => {
   const { address } = useAccount()
   const { multiplier, totalRewardsEarned, loading } = useVeNewoContext()
@@ -59,16 +61,21 @@ const RegisteredReward: React.FC<RegisteredRewardProps> = ({
       <Td>
         {Number(veVault.earned).toFixed(4)} {token.tokenSymbol}
       </Td>
-      <Td>
-        <Button
-          onClick={veVault.getReward}
-          isLoading={veVault.loading}
-          isDisabled={!veVault.earned || Number(veVault.earned) <= 0 || loading}
-          variant="greenButton"
-        >
-          Claim Rewards
-        </Button>
-      </Td>
+
+      {isClaimable && (
+        <Td>
+          <Button
+            onClick={veVault.getReward}
+            isLoading={veVault.loading}
+            isDisabled={
+              !veVault.earned || Number(veVault.earned) <= 0 || loading
+            }
+            variant="greenButton"
+          >
+            Claim Rewards
+          </Button>
+        </Td>
+      )}
     </Tr>
   )
 }

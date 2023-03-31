@@ -403,7 +403,6 @@ const LockForm = () => {
                   <Tr>
                     <Th>Name</Th>
                     <Th>AVG APR</Th>
-                    <Th>Actions</Th>
                   </Tr>
                 </Thead>
                 <Tbody>
@@ -414,8 +413,7 @@ const LockForm = () => {
                       return (
                         <RegistrationReward
                           key={veVault.veVaultAdderss}
-                          columns={['name', 'apr', 'actions']}
-                          actions={['register']}
+                          columns={['name', 'apr']}
                           veVaultAddress={veVault.veVaultAdderss}
                           tokenAddress={veVault.tokenAddress}
                           token0={veVault.token0}
