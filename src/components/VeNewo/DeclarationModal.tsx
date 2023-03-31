@@ -80,7 +80,7 @@ const DeclarationModal: React.FC<DeclarationModalProps> = ({
                   colorScheme="green"
                   spacing="4"
                 >
-                  {declaration.replace(urlRegex, '')}{' '}
+                  {declaration?.replace(urlRegex, '')}{' '}
                   <Link
                     href={link}
                     isExternal
