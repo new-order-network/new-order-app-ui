@@ -5,6 +5,7 @@ import {
   FormControl,
   FormErrorMessage,
   HStack,
+  Link,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -13,6 +14,7 @@ import {
   ModalOverlay,
   Stack,
 } from '@chakra-ui/react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { useVeNewoContext } from 'store/contexts/veNewoContext'
@@ -22,6 +24,8 @@ interface DeclarationModalProps {
   onClose: () => void
   submitFn?: () => Promise<void>
 }
+
+const urlRegex = /(https?:\/\/[^\s]+)/g
 
 const DeclarationModal: React.FC<DeclarationModalProps> = ({
   isOpen,
@@ -35,6 +39,17 @@ const DeclarationModal: React.FC<DeclarationModalProps> = ({
     formState: { errors, isSubmitting },
     watch,
   } = useForm()
+  const [link, setLink] = useState('')
+
+  useEffect(() => {
+    if (declaration) {
+      const url = declaration.match(urlRegex)
+
+      if (url) {
+        setLink(url[0])
+      }
+    }
+  }, [declaration])
 
   const onSubmit = handleSubmit(async (data) => {
     const { declaration } = data
@@ -65,7 +80,15 @@ const DeclarationModal: React.FC<DeclarationModalProps> = ({
                   colorScheme="green"
                   spacing="4"
                 >
-                  {declaration}
+                  {declaration.replace(urlRegex, '')}{' '}
+                  <Link
+                    href={link}
+                    isExternal
+                    variant="orangeTransition"
+                    textDecor="underline"
+                  >
+                    {link}
+                  </Link>
                 </Checkbox>
                 <FormErrorMessage>
                   {errors.declaration && (errors.declaration.message as string)}
