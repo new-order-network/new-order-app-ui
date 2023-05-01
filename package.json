@@ -27,7 +27,7 @@
     "@visx/xychart": "^2.11.1",
     "axios": "^0.27.2",
     "contentful": "^9.1.32",
-    "dayjs": "^1.11.3",
+    "dayjs": "^1.11.7",
     "envalid": "^7.3.1",
     "ethers": "^5.6.8",
     "framer-motion": "^6",
