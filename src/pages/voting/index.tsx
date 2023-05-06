@@ -4,6 +4,7 @@ import { useQuery } from '@apollo/client'
 import { usePagination } from '@ajna/pagination'
 import dayjs from 'dayjs'
 
+import CreateProposal from 'components/Voting/CreateProposal'
 import VotingCard from 'components/Voting/VotingCard'
 import VotingLoader from 'components/Loaders/VotingLoader'
 import VotingSearchFilter from 'components/Voting/VotingSearchFilter'
@@ -143,9 +144,11 @@ const Voting = () => {
             </Text>
             <Flex flexWrap="wrap" gap="3" alignItems="center">
               <VotingPower />
+              <CreateProposal />
             </Flex>
           </Flex>
           <VotingSearchFilter filters={filters} setFilters={setFilters} />
+
           <Flex
             alignItems="center"
             justifyContent={['center', 'space-between']}
