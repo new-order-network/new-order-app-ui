@@ -1,23 +1,5 @@
 export interface ContractAddressProps {
-  // TOKENS
-  NEWO: `0x${string}`
-  NEWO_USDC_LP: `0x${string}`
-  USDC: `0x${string}`
-  VENEWO: `0x${string}`
-  WAVAX?: `0x${string}`
-  NEWO_WAVAX_LP?: `0x${string}`
-  // VAULTS
-  NEWO_WAVAX_LP_VAULT?: `0x${string}`
-  VE_NEWO_SINGLE_SIDE_VAULT: `0x${string}`
-  VE_NEWO_USDC_LP_VAULT?: `0x${string}`
-  VE_NEWO_WAVAX_LP_VAULT?: `0x${string}`
-  NEWO_SINGLE_SIDE_VAULT: `0x${string}`
-  NEWO_USDC_LP_VAULT?: `0x${string}`
-  GOVERNANCE_VAULT?: `0x${string}`
-  // EXCHANGES
-  ONE_WAY_EXCHANGE?: `0x${string}`
-  // AIRDROPS
-  AIRDROP?: `0x${string}`
+  [key: string]: `0x${string}`
 }
 
 export interface ContractAddressesProps {
@@ -62,6 +44,7 @@ export const contractAddresses: ContractAddressesProps = {
     ONE_WAY_EXCHANGE: '0x',
     // AIRDROPS
     AIRDROP: '0x',
+    VE_NEWO_REWARDS_AIRDROP: '0xC6a56C424a2119fc93497c9b12615f21aC0EBfA0',
   },
   43114: {
     // TOKENS
