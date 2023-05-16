@@ -1,7 +1,7 @@
 import { Button, Td, Tr } from '@chakra-ui/react'
 
-import useAirdrop from 'hooks/useAirdrop'
 import useToken from 'hooks/useToken'
+import useVeAirdropReward from 'hooks/useVeAirdropReward'
 
 import { AirdropProps } from 'constants/airdrop/airdrops'
 
@@ -10,9 +10,12 @@ const AirdropReward: React.FC<AirdropProps> = ({
   tokenAddress,
   merkleRoot,
 }) => {
-  const airdrop = useAirdrop(merkleRoot, tokenAddress, distributorAddress)
+  const airdrop = useVeAirdropReward(
+    merkleRoot,
+    tokenAddress,
+    distributorAddress
+  )
   const token = useToken(tokenAddress)
-
   return (
     <Tr>
       <Td>{token.tokenSymbol}</Td>
