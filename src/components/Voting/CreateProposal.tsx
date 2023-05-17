@@ -13,9 +13,11 @@ import {
   ModalCloseButton,
   Stack,
   Text,
+  Tooltip,
   useDisclosure,
   useToast,
 } from '@chakra-ui/react'
+import { AiOutlineInfoCircle } from 'react-icons/ai'
 import snapshot from '@snapshot-labs/snapshot.js'
 import { useAccount } from 'wagmi'
 import { ExternalProvider, Web3Provider } from '@ethersproject/providers'
@@ -24,22 +26,31 @@ import Input from 'components/Forms/Input'
 
 import { env } from 'lib/environment'
 
+type FormData = {
+  title: string
+  description?: string
+  discussion?: string
+}
+
 const CreateProposal = () => {
   const toast = useToast()
   const { address } = useAccount()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const {
-    register,
     handleSubmit,
+    register,
     formState: { errors, isSubmitting },
-  } = useForm()
+    getValues,
+    setValue,
+  } = useForm<FormData>()
 
   const getResults = async () => {
     console.log('getResults')
   }
 
-  const onSubmit = handleSubmit(async (data) => {
+  async function onSubmit(data: FormData) {
     // This submit function should cast a vote on snapshot
+    console.log('Submitting data: ', data, ', Address: ', address)
 
     if (address && window.ethereum) {
       const hub = 'https://testnet.snapshot.org' // 'https://hub.snapshot.org'; for production
@@ -56,8 +67,8 @@ const CreateProposal = () => {
           space: 'neworderdao.xyz',
           type: 'single-choice',
           title: data.title,
-          body: data.description,
-          discussion: data.discussion,
+          body: data.description || '',
+          discussion: data.discussion || '',
           choices: ['Yes', 'No'],
           start: Math.round(Date.now() / 1e3),
           end: Math.round(Date.now() / 1e3) + 60 * 60 * 24 * 3,
@@ -86,14 +97,17 @@ const CreateProposal = () => {
           })
         })
         .finally(() => {
-          console.log('Finally: here')
           getResults()
           onClose()
         })
       console.log('receipt: ', receipt)
     }
-    console.log('address: ', address)
-  })
+  }
+
+  function onError(errors: any, e: any) {
+    console.log('onError function called. Errors: ', errors, ', Event: ', e)
+    console.log('Current field values: ', getValues()) // get current form values
+  }
 
   return (
     <>
@@ -102,8 +116,22 @@ const CreateProposal = () => {
         variant="outlineGreenRounded"
         cursor="default"
         onClick={onOpen}
+        isDisabled={!address}
+        onMouseEnter={() => {
+          return setIsHovered(true)
+        }}
+        onMouseLeave={() => {
+          return setIsHovered(false)
+        }}
       >
         Create Proposal
+        {!address && (
+          <Tooltip label="Please login to create proposal">
+            <span>
+              <AiOutlineInfoCircle style={{ marginLeft: '0.5rem' }} />
+            </span>
+          </Tooltip>
+        )}
       </Button>
 
       <Modal onClose={onClose} isOpen={isOpen} isCentered>
@@ -112,7 +140,7 @@ const CreateProposal = () => {
           <ModalHeader>Create Snapshot Proposal</ModalHeader>
           <ModalCloseButton />
 
-          <form onSubmit={onSubmit}>
+          <form onSubmit={handleSubmit(onSubmit, onError)}>
             <ModalBody>
               <FormControl
                 isInvalid={Boolean(
@@ -133,8 +161,15 @@ const CreateProposal = () => {
                       formLabelBgColor="black.85"
                       {...register('title', {
                         required: 'This field is required',
+                        onChange: (e) => {
+                          console.log('Title field changed: ', e.target.value)
+                          setValue('title', e.target.value)
+                        },
                       })}
                     />
+                    <FormErrorMessage>
+                      {errors.title && errors.title.message}
+                    </FormErrorMessage>
                   </Stack>
                   <Stack spacing="2">
                     <Text color="brand.green" fontSize="lg">
@@ -153,8 +188,18 @@ const CreateProposal = () => {
                           message:
                             'Description cannot exceed 14,400 characters',
                         },
+                        onChange: (e) => {
+                          console.log(
+                            'Description field changed: ',
+                            e.target.value
+                          )
+                          setValue('description', e.target.value)
+                        },
                       })}
                     />
+                    <FormErrorMessage>
+                      {errors.description && errors.description.message}
+                    </FormErrorMessage>
                   </Stack>
                   <Stack spacing="2">
                     <Text color="brand.green" fontSize="lg">
@@ -167,6 +212,7 @@ const CreateProposal = () => {
                       formControlWidth="full"
                       formLabelColor="gray.60"
                       formLabelBgColor="black.85"
+                      // Console log on change
                       inputRightAddOn={
                         <InputRightAddon
                           fontSize="0.7rem"
@@ -178,7 +224,15 @@ const CreateProposal = () => {
                           children="URL"
                         />
                       }
-                      {...register('discussion')}
+                      {...register('discussion', {
+                        onChange: (e) => {
+                          console.log(
+                            'Discussion field changed: ',
+                            e.target.value
+                          )
+                          setValue('discussion', e.target.value)
+                        },
+                      })}
                     />
                   </Stack>
                 </Stack>
@@ -186,17 +240,15 @@ const CreateProposal = () => {
             </ModalBody>
 
             <ModalFooter>
-              <FormErrorMessage>
-                {errors.name && errors.name.message?.toString()}
-              </FormErrorMessage>
               <Button
                 m="2"
                 variant="greenButton"
-                onClick={() => {
-                  onSubmit()
-                  console.log('Clicked')
-                  onClose()
-                }}
+                onClick={
+                  // Console log on click
+                  () => {
+                    return console.log('Clicked Submit')
+                  }
+                }
                 isLoading={isSubmitting}
                 type="submit"
               >
