@@ -117,12 +117,6 @@ const CreateProposal = () => {
         cursor="default"
         onClick={onOpen}
         isDisabled={!address}
-        onMouseEnter={() => {
-          return setIsHovered(true)
-        }}
-        onMouseLeave={() => {
-          return setIsHovered(false)
-        }}
       >
         Create Proposal
         {!address && (
