@@ -163,6 +163,7 @@ const VeVault = ({
             disabled={
               !address ||
               loading ||
+              Number(APR) === 0 ||
               (!deposit && Number(vaultAllowance) > 0) ||
               (Number(deposit) > Number(vaultAllowance) ||
               Number(vaultAllowance) === 0
