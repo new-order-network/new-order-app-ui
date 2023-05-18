@@ -111,6 +111,7 @@ const ActiveDeposit = ({
             isLegacyLPVault ||
             loading ||
             !address ||
+            Number(earnedRewards) === 0 ||
             (Number(userVaultBalance) === 0 && Number(earnedRewards) === 0)
           }
           loadingText="Withdrawing & Claiming"
