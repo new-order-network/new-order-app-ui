@@ -16,10 +16,10 @@ interface AirdropInfo {
 }
 
 interface UseVeAirdropProps {
-  isClaimed: boolean
   isEligible: boolean
   airdropInfo: null | AirdropInfo
   airdropAmount: string
+  claimableRewards: string
   loading: boolean
   claim: () => void
 }
@@ -40,7 +40,7 @@ const useVeAirdropReward = (
   const provider = useProvider()
 
   const [airdropInfo, setAirdropInfo] = useState<null | AirdropInfo>(null)
-  const [isClaimed, setIsClaimed] = useState(false)
+  const [claimableRewards, setClaimableRewards] = useState('')
   const [isEligible, setIsEligible] = useState(false)
   const [airdropAmount, setAirdropAmount] = useState('')
   const [loading, setLoading] = useState(false)
@@ -56,7 +56,6 @@ const useVeAirdropReward = (
 
         if (signer) {
           const instanceWithSigner = instance?.connect(signer)
-          console.log('instanceWithSigner', instanceWithSigner)
           setAirdropInstance(instanceWithSigner)
         } else {
           setAirdropInstance(instance)
@@ -68,8 +67,14 @@ const useVeAirdropReward = (
 
   const getIsClaimed = async (address: string) => {
     if (airdropInstance && address) {
-      const claimStatus = await airdropInstance?.claimed(address)
-      setIsClaimed(claimStatus)
+      const claimable = await airdropInstance?.claimed(address)
+
+      if (claimable && token.decimals !== 0) {
+        const amount = BigNumber.from(claimable)
+        const formattedAmount = ethers.utils.formatUnits(amount, token.decimals)
+
+        setClaimableRewards(formattedAmount)
+      }
     }
   }
 
@@ -156,12 +161,12 @@ const useVeAirdropReward = (
   }, [airdropInstance, address, getAmount])
 
   return {
-    isClaimed,
     isEligible,
     airdropInfo,
     airdropAmount,
     loading,
     claim,
+    claimableRewards,
   }
 }
 

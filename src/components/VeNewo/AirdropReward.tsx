@@ -1,4 +1,5 @@
 import { Button, Td, Tr } from '@chakra-ui/react'
+import { useEffect, useState } from 'react'
 
 import useToken from 'hooks/useToken'
 import useVeAirdropReward from 'hooks/useVeAirdropReward'
@@ -16,10 +17,23 @@ const AirdropReward: React.FC<AirdropProps> = ({
     distributorAddress
   )
   const token = useToken(tokenAddress)
+  const [claimableAmount, setClaimableAmount] = useState(0)
+
+  useEffect(() => {
+    if (airdrop) {
+      const claimable =
+        Number(airdrop?.airdropAmount) - Number(airdrop?.claimableRewards)
+
+      setClaimableAmount(claimable)
+    }
+  }, [airdrop])
+
   return (
     <Tr>
       <Td>{token.tokenSymbol}</Td>
-      <Td>{airdrop.isClaimed ? 'Yes' : 'No'}</Td>
+      <Td>
+        {Number(claimableAmount).toFixed(4)} {token.tokenSymbol}
+      </Td>
       <Td>
         {Number(airdrop?.airdropAmount).toFixed(4)} {token.tokenSymbol}
       </Td>
@@ -27,7 +41,11 @@ const AirdropReward: React.FC<AirdropProps> = ({
         <Button
           onClick={airdrop.claim}
           isLoading={airdrop.loading}
-          disabled={!airdrop.isEligible || airdrop.isClaimed || airdrop.loading}
+          disabled={
+            !airdrop.isEligible ||
+            Number(claimableAmount) === 0 ||
+            airdrop.loading
+          }
           variant="greenButton"
         >
           Claim Rewards

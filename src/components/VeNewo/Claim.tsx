@@ -103,7 +103,7 @@ const Claim = () => {
             <Thead>
               <Tr>
                 <Th>Token</Th>
-                <Th>Claimed?</Th>
+                <Th>Claimable Rewards</Th>
                 <Th>Rewards Earned</Th>
                 <Th>Actions</Th>
               </Tr>
