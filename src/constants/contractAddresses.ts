@@ -67,6 +67,7 @@ export const contractAddresses: ContractAddressesProps = {
     ONE_WAY_EXCHANGE: '0x',
     // AIRDROPS
     AIRDROP: '0x',
+    VE_NEWO_REWARDS_AIRDROP: '0x875361A0012D30ea9bDF94397445E67450c7f015',
   },
   43113: {
     // TOKENS
