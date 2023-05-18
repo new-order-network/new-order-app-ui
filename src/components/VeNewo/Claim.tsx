@@ -104,7 +104,6 @@ const Claim = () => {
               <Tr>
                 <Th>Token</Th>
                 <Th>Claimable Rewards</Th>
-                <Th>Rewards Earned</Th>
                 <Th>Actions</Th>
               </Tr>
             </Thead>
