@@ -25,6 +25,7 @@ export const contractAddresses: ContractAddressesProps = {
     ONE_WAY_EXCHANGE: '0xb3c60348A8f8eD8B260FD1966c9f2b740e6caedF',
     // AIRDROPS
     AIRDROP: '0x92491C8871ef7E06921f29238674CaF54652f218',
+    VE_NEWO_REWARDS_AIRDROP: '0xCfbd94a94b4A680af7ff275C842E99aF61469223',
   },
   5: {
     // TOKENS
