@@ -44,7 +44,7 @@ export const contractAddresses: ContractAddressesProps = {
     ONE_WAY_EXCHANGE: '0x',
     // AIRDROPS
     AIRDROP: '0x',
-    VE_NEWO_REWARDS_AIRDROP: '0xEE8B7907fE7e15A52C9b1Bc5174386fC13e42F2a',
+    VE_NEWO_ETH_REWARDS_AIRDROP: '0xEE8B7907fE7e15A52C9b1Bc5174386fC13e42F2a',
   },
   43114: {
     // TOKENS
@@ -67,7 +67,7 @@ export const contractAddresses: ContractAddressesProps = {
     ONE_WAY_EXCHANGE: '0x',
     // AIRDROPS
     AIRDROP: '0x',
-    VE_NEWO_REWARDS_AIRDROP: '0x875361A0012D30ea9bDF94397445E67450c7f015',
+    VE_NEWO_AVAX_REWARDS_AIRDROP: '0x875361A0012D30ea9bDF94397445E67450c7f015',
   },
   43113: {
     // TOKENS

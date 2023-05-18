@@ -22,7 +22,8 @@ import AirdropReward from 'components/VeNewo/AirdropReward'
 import { useVeNewoContext } from 'store/contexts/veNewoContext'
 import { useContractContext } from 'store/contexts/contractContext'
 
-import veNewoRewardsGoerliMerkleRoot from 'constants/airdrop/veNewoRwewardsGoerliMerkleRoot.json'
+import veNewoRewardsAvaxMerkleRoot from 'constants/airdrop/veNewoRewardsAvaxMerkleRoot.json'
+import veNewoRewardsEthMerkleRoot from 'constants/airdrop/veNewoRewardsEthMerkleRoot.json'
 
 const Claim = () => {
   const { address } = useAccount()
@@ -108,11 +109,18 @@ const Claim = () => {
               </Tr>
             </Thead>
             <Tbody>
-              {contracts.VE_NEWO_REWARDS_AIRDROP && (
+              {contracts.VE_NEWO_ETH_REWARDS_AIRDROP && (
                 <AirdropReward
                   tokenAddress={contracts.NEWO}
-                  distributorAddress={contracts.VE_NEWO_REWARDS_AIRDROP}
-                  merkleRoot={veNewoRewardsGoerliMerkleRoot}
+                  distributorAddress={contracts.VE_NEWO_ETH_REWARDS_AIRDROP}
+                  merkleRoot={veNewoRewardsEthMerkleRoot}
+                />
+              )}
+              {contracts.VE_NEWO_AVAX_REWARDS_AIRDROP && (
+                <AirdropReward
+                  tokenAddress={contracts.NEWO}
+                  distributorAddress={contracts.VE_NEWO_AVAX_REWARDS_AIRDROP}
+                  merkleRoot={veNewoRewardsAvaxMerkleRoot}
                 />
               )}
             </Tbody>
