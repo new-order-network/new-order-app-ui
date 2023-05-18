@@ -12,7 +12,9 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react'
-import { useAccount } from 'wagmi'
+import { useMemo } from 'react'
+import { avalanche } from 'wagmi/chains'
+import { goerli, mainnet, useAccount, useNetwork } from 'wagmi'
 
 import Card from 'components/Card'
 import ConnectOverlay from 'components/ConnectOverlay'
@@ -29,6 +31,16 @@ const Claim = () => {
   const { address } = useAccount()
   const { contracts } = useContractContext()
   const { assetBalance, balance, multiplier } = useVeNewoContext()
+  const { chain } = useNetwork()
+
+  const merkleRoot = useMemo(() => {
+    if (chain?.id === mainnet.id || chain?.id === goerli?.id) {
+      return veNewoRewardsEthMerkleRoot
+    } else if (chain?.id === avalanche?.id) {
+      return veNewoRewardsAvaxMerkleRoot
+    }
+    return null
+  }, [chain])
 
   return (
     <ConnectOverlay isConnected={!!address}>
@@ -109,18 +121,11 @@ const Claim = () => {
               </Tr>
             </Thead>
             <Tbody>
-              {contracts.VE_NEWO_ETH_REWARDS_AIRDROP && (
+              {contracts.VE_NEWO_REWARDS_AIRDROP && merkleRoot && (
                 <AirdropReward
                   tokenAddress={contracts.NEWO}
-                  distributorAddress={contracts.VE_NEWO_ETH_REWARDS_AIRDROP}
-                  merkleRoot={veNewoRewardsEthMerkleRoot}
-                />
-              )}
-              {contracts.VE_NEWO_AVAX_REWARDS_AIRDROP && (
-                <AirdropReward
-                  tokenAddress={contracts.NEWO}
-                  distributorAddress={contracts.VE_NEWO_AVAX_REWARDS_AIRDROP}
-                  merkleRoot={veNewoRewardsAvaxMerkleRoot}
+                  distributorAddress={contracts.VE_NEWO_REWARDS_AIRDROP}
+                  merkleRoot={merkleRoot}
                 />
               )}
             </Tbody>
