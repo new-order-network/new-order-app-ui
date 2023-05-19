@@ -1,23 +1,5 @@
 export interface ContractAddressProps {
-  // TOKENS
-  NEWO: `0x${string}`
-  NEWO_USDC_LP: `0x${string}`
-  USDC: `0x${string}`
-  VENEWO: `0x${string}`
-  WAVAX?: `0x${string}`
-  NEWO_WAVAX_LP?: `0x${string}`
-  // VAULTS
-  NEWO_WAVAX_LP_VAULT?: `0x${string}`
-  VE_NEWO_SINGLE_SIDE_VAULT: `0x${string}`
-  VE_NEWO_USDC_LP_VAULT?: `0x${string}`
-  VE_NEWO_WAVAX_LP_VAULT?: `0x${string}`
-  NEWO_SINGLE_SIDE_VAULT: `0x${string}`
-  NEWO_USDC_LP_VAULT?: `0x${string}`
-  GOVERNANCE_VAULT?: `0x${string}`
-  // EXCHANGES
-  ONE_WAY_EXCHANGE?: `0x${string}`
-  // AIRDROPS
-  AIRDROP?: `0x${string}`
+  [key: string]: `0x${string}`
 }
 
 export interface ContractAddressesProps {
@@ -43,6 +25,7 @@ export const contractAddresses: ContractAddressesProps = {
     ONE_WAY_EXCHANGE: '0xb3c60348A8f8eD8B260FD1966c9f2b740e6caedF',
     // AIRDROPS
     AIRDROP: '0x92491C8871ef7E06921f29238674CaF54652f218',
+    VE_NEWO_REWARDS_AIRDROP: '0xCfbd94a94b4A680af7ff275C842E99aF61469223',
   },
   5: {
     // TOKENS
@@ -62,6 +45,7 @@ export const contractAddresses: ContractAddressesProps = {
     ONE_WAY_EXCHANGE: '0x',
     // AIRDROPS
     AIRDROP: '0x',
+    VE_NEWO_REWARDS_AIRDROP: '0xEE8B7907fE7e15A52C9b1Bc5174386fC13e42F2a',
   },
   43114: {
     // TOKENS
@@ -84,6 +68,7 @@ export const contractAddresses: ContractAddressesProps = {
     ONE_WAY_EXCHANGE: '0x',
     // AIRDROPS
     AIRDROP: '0x',
+    VE_NEWO_REWARDS_AIRDROP: '0x875361A0012D30ea9bDF94397445E67450c7f015',
   },
   43113: {
     // TOKENS
