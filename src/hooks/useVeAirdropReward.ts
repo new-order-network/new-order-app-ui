@@ -122,6 +122,7 @@ const useVeAirdropReward = (
           })
         }
       } catch (error) {
+        console.error('[VENEWO AIRDROP]', error)
         toast({
           title: 'Claim Failed',
           description: 'Something went wrong! Please try again later.',
