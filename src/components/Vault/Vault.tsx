@@ -183,6 +183,7 @@ const Vault = ({
             disabled={
               !address ||
               loading ||
+              Number(APR) === 0 ||
               (!deposit && Number(allowance) > 0) ||
               (Number(deposit) > Number(allowance) || Number(allowance) === 0
                 ? false

@@ -104,6 +104,7 @@ const VeActiveDeposit = ({
             isLegacyLPVault ||
             loading ||
             !address ||
+            Number(earned) === 0 ||
             (Number(assetBalance) === 0 && Number(earned) === 0)
           }
           loadingText="Withdrawing & Claiming"
