@@ -12,20 +12,35 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react'
-import { useAccount } from 'wagmi'
+import { useMemo } from 'react'
+import { avalanche } from 'wagmi/chains'
+import { goerli, mainnet, useAccount, useNetwork } from 'wagmi'
 
 import Card from 'components/Card'
 import ConnectOverlay from 'components/ConnectOverlay'
 import LockedToken from 'components/VeNewo/LockedToken'
-import RegisteredReward from 'components/VeNewo/RegisteredReward'
+import AirdropReward from 'components/VeNewo/AirdropReward'
 
 import { useVeNewoContext } from 'store/contexts/veNewoContext'
 import { useContractContext } from 'store/contexts/contractContext'
+
+import veNewoRewardsAvaxMerkleRoot from 'constants/airdrop/veNewoRewardsAvaxMerkleRoot.json'
+import veNewoRewardsEthMerkleRoot from 'constants/airdrop/veNewoRewardsEthMerkleRoot.json'
 
 const Claim = () => {
   const { address } = useAccount()
   const { contracts } = useContractContext()
   const { assetBalance, balance, multiplier } = useVeNewoContext()
+  const { chain } = useNetwork()
+
+  const merkleRoot = useMemo(() => {
+    if (chain?.id === mainnet.id || chain?.id === goerli?.id) {
+      return veNewoRewardsEthMerkleRoot
+    } else if (chain?.id === avalanche?.id) {
+      return veNewoRewardsAvaxMerkleRoot
+    }
+    return null
+  }, [chain])
 
   return (
     <ConnectOverlay isConnected={!!address}>
@@ -101,37 +116,18 @@ const Claim = () => {
             <Thead>
               <Tr>
                 <Th>Token</Th>
-                <Th>AVG APR</Th>
-                <Th>Boost</Th>
-                <Th>Rewards Earned</Th>
+                <Th>Claimable Rewards</Th>
                 <Th>Actions</Th>
               </Tr>
             </Thead>
             <Tbody>
-              <RegisteredReward
-                veVaultAddress={contracts.VE_NEWO_SINGLE_SIDE_VAULT}
-                tokenAddress={contracts.NEWO}
-              />
-
-              {contracts.VE_NEWO_USDC_LP_VAULT &&
-                contracts.VE_NEWO_USDC_LP_VAULT !== '0x' && (
-                  <RegisteredReward
-                    veVaultAddress={contracts.VE_NEWO_USDC_LP_VAULT}
-                    tokenAddress={contracts.NEWO_USDC_LP}
-                    token0={contracts.NEWO}
-                    token1={contracts.USDC}
-                  />
-                )}
-
-              {contracts.VE_NEWO_WAVAX_LP_VAULT &&
-                contracts.VE_NEWO_WAVAX_LP_VAULT !== '0x' && (
-                  <RegisteredReward
-                    veVaultAddress={contracts.VE_NEWO_WAVAX_LP_VAULT}
-                    tokenAddress={contracts.NEWO_WAVAX_LP}
-                    token0={contracts.NEWO}
-                    token1={contracts.WAVAX}
-                  />
-                )}
+              {contracts.VE_NEWO_REWARDS_AIRDROP && merkleRoot && (
+                <AirdropReward
+                  tokenAddress={contracts.NEWO}
+                  distributorAddress={contracts.VE_NEWO_REWARDS_AIRDROP}
+                  merkleRoot={merkleRoot}
+                />
+              )}
             </Tbody>
           </Table>
         </Box>
