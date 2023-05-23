@@ -47,6 +47,7 @@ const AirdropReward: React.FC<AirdropProps> = ({
           Claim Rewards
         </Button>
       </Td>
+      <Td></Td>
     </Tr>
   )
 }

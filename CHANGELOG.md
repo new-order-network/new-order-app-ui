@@ -1,5 +1,28 @@
 # Changelog
 
+## [1.7.0](https://github.com/new-order-network/new-order-app-ui/compare/v1.6.0...v1.7.0) (2023-05-19)
+
+
+### Features
+
+* add warning when a user withdraws from venewo ([4f05e72](https://github.com/new-order-network/new-order-app-ui/commit/4f05e72d5a587b9f2275e288aa883c50d3f3a319))
+* disable deposit with 0% APR for LP Vaults ([710356b](https://github.com/new-order-network/new-order-app-ui/commit/710356be1d53c3746ad3fb6feaff0b4d7d6edc7a))
+* disable withdraw & claim if there are no rewards ([036d62e](https://github.com/new-order-network/new-order-app-ui/commit/036d62e56ef4617373c1a5b17b4043817253b1f9))
+* support rewards airdrop on the venewo claim page ([ce53600](https://github.com/new-order-network/new-order-app-ui/commit/ce53600f643c39c8f52fa4d505d07a0484f519a8))
+* update claimable in venewo airdrop ([53af4cf](https://github.com/new-order-network/new-order-app-ui/commit/53af4cf7384cfdeb55dc2ebc60a2650a46cdece5))
+* update merkle root ([1bdde93](https://github.com/new-order-network/new-order-app-ui/commit/1bdde93af50d16ba56aec95a27b528189a9f9555))
+* update merkle root ([1150bcb](https://github.com/new-order-network/new-order-app-ui/commit/1150bcba9c6d728bdd511944e28192d7b662f90f))
+
+
+### Miscellaneous
+
+* add console error for venewo reward hook ([d5ac169](https://github.com/new-order-network/new-order-app-ui/commit/d5ac169e335bf91eb13c931ef47351e1b5376318))
+* add the veAirdrop reward abi ([33acdb4](https://github.com/new-order-network/new-order-app-ui/commit/33acdb493caa14b19ad9077bdefc2441fba2aac3))
+* add venewo rewards airdrop address ([c6b025b](https://github.com/new-order-network/new-order-app-ui/commit/c6b025b502eb3305c37a4b99960a41f89580b1d1))
+* change venewo rewards address ([5d65524](https://github.com/new-order-network/new-order-app-ui/commit/5d65524de82496b391d5acb4c88bc60cc3486fdf))
+* update veAirdrop call ([17e1abd](https://github.com/new-order-network/new-order-app-ui/commit/17e1abde8718839420b1cc4dfc77d61261b146e1))
+* update venewo rewards airdrop contract address ([22225d1](https://github.com/new-order-network/new-order-app-ui/commit/22225d103cf4351f2f0fd7d9ebcbe6258da8b48e))
+
 ## [1.6.0](https://github.com/new-order-network/new-order-app-ui/compare/v1.5.0...v1.6.0) (2023-03-13)
 
 
