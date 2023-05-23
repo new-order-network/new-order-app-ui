@@ -23,9 +23,8 @@ import { useAccount } from 'wagmi'
 
 import Card from 'components/Card'
 import Input from 'components/Forms/Input'
-import { Table, Tbody, Th, Thead, Tr } from 'components/Table'
+// import { Table, Tbody, Th, Thead, Tr } from 'components/Table'
 import CustomDatePicker from 'components/Forms/DatePicker'
-import RegistrationReward from 'components/VeNewo/RegistrationReward'
 import ConnectOverlay from 'components/ConnectOverlay'
 
 import useVeToken from 'hooks/useVeToken'
@@ -341,7 +340,7 @@ const LockForm = () => {
                 </Button>
               </Stack>
             </Box>
-
+            {/*
             <Divider my="3" bgColor="brand.green" />
 
             <Stack spacing="1">
@@ -390,18 +389,12 @@ const LockForm = () => {
                 <Thead>
                   <Tr>
                     <Th>Name</Th>
-                    {/* NOTE: Temporarily hide APR until further notice */}
-                    {/* <Th>AVG APR</Th> */}
                     <Th>Actions</Th>
                   </Tr>
                 </Thead>
                 <Tbody>
                   <RegistrationReward
-                    columns={[
-                      'name',
-                      // 'apr',
-                      'actions',
-                    ]}
+                    columns={['name', 'apr', 'actions']}
                     actions={['register']}
                     veVaultAddress={contracts.VE_NEWO_SINGLE_SIDE_VAULT}
                     tokenAddress={contracts.NEWO}
@@ -410,7 +403,7 @@ const LockForm = () => {
               </Table>
             </Box>
 
-            {/* <Divider my="3" bgColor="brand.green" />
+            <Divider my="3" bgColor="brand.green" />
 
             <Stack spacing="1">
               <Text color="brand.green" fontSize="lg">
