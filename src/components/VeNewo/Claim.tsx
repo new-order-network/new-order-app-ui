@@ -115,9 +115,10 @@ const Claim = () => {
           <Table variant="grayStriped">
             <Thead>
               <Tr>
-                <Th>Token</Th>
+                <Th w="48">Token</Th>
                 <Th>Claimable Rewards</Th>
                 <Th>Actions</Th>
+                <Th minW="200"></Th>
               </Tr>
             </Thead>
             <Tbody>
