@@ -13,8 +13,12 @@ import {
   Tr,
 } from '@chakra-ui/react'
 import { useMemo } from 'react'
-import { avalanche } from 'wagmi/chains'
-import { goerli, mainnet, useAccount, useNetwork } from 'wagmi'
+// import { avalanche } from 'wagmi/chains'
+import {
+  //  goerli, mainnet,
+  useAccount,
+  useNetwork,
+} from 'wagmi'
 
 import Card from 'components/Card'
 import ConnectOverlay from 'components/ConnectOverlay'
@@ -37,12 +41,13 @@ const Claim = () => {
   const { chain } = useNetwork()
 
   const merkleRoot = useMemo(() => {
-    if (chain?.id === mainnet.id || chain?.id === goerli?.id) {
-      return veNewoRewardsFinalAvaxMerkleRoot
-    } else if (chain?.id === avalanche?.id) {
-      return veNewoRewardsFinalAvaxMerkleRoot
-    }
-    return null
+    // if (chain?.id === mainnet.id || chain?.id === goerli?.id) {
+    //   return veNewoRewardsFinalEthMerkleRoot
+    // } else if (chain?.id === avalanche?.id) {
+    //   return veNewoRewardsFinalAvaxMerkleRoot
+    // }
+    return veNewoRewardsFinalAvaxMerkleRoot
+    // eslint-disable-next-line
   }, [chain])
 
   return (
