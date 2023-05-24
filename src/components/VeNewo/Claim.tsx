@@ -24,8 +24,11 @@ import AirdropReward from 'components/VeNewo/AirdropReward'
 import { useVeNewoContext } from 'store/contexts/veNewoContext'
 import { useContractContext } from 'store/contexts/contractContext'
 
-import veNewoRewardsAvaxMerkleRoot from 'constants/airdrop/veNewoRewardsAvaxMerkleRoot.json'
-import veNewoRewardsEthMerkleRoot from 'constants/airdrop/veNewoRewardsEthMerkleRoot.json'
+// import veNewoRewardsAvaxMerkleRoot from 'constants/airdrop/veNewoRewardsAvaxMerkleRoot.json'
+// import veNewoRewardsEthMerkleRoot from 'constants/airdrop/veNewoRewardsEthMerkleRoot.json'
+
+import veNewoRewardsFinalAvaxMerkleRoot from 'constants/airdrop/finalRewardsAvaxMerkleRoot.json'
+import veNewoRewardsFinalEthMerkleRoot from 'constants/airdrop/finalRewardsEthMerkleRoot.json'
 
 const Claim = () => {
   const { address } = useAccount()
@@ -35,9 +38,9 @@ const Claim = () => {
 
   const merkleRoot = useMemo(() => {
     if (chain?.id === mainnet.id || chain?.id === goerli?.id) {
-      return veNewoRewardsEthMerkleRoot
+      return veNewoRewardsFinalEthMerkleRoot
     } else if (chain?.id === avalanche?.id) {
-      return veNewoRewardsAvaxMerkleRoot
+      return veNewoRewardsFinalAvaxMerkleRoot
     }
     return null
   }, [chain])
