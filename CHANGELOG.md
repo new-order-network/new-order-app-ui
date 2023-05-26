@@ -1,5 +1,30 @@
 # Changelog
 
+## [1.8.0](https://github.com/new-order-network/new-order-app-ui/compare/v1.7.0...v1.8.0) (2023-05-26)
+
+
+### Features
+
+* add APR on claims ([fe7bac9](https://github.com/new-order-network/new-order-app-ui/commit/fe7bac9bf81a831fc63c9d7d7093a816a0d5c666))
+* hide APR ([493676f](https://github.com/new-order-network/new-order-app-ui/commit/493676fb39c92b7603ec158e6e6c68c43db44794))
+* show APR ([e7275d3](https://github.com/new-order-network/new-order-app-ui/commit/e7275d3f177624bc87702d8dab1416c0753a304b))
+* update eth merkle root ([d088238](https://github.com/new-order-network/new-order-app-ui/commit/d088238b389aec42a6c9cc5328734c6c2bc0a9f9))
+* update merkle root ([849a076](https://github.com/new-order-network/new-order-app-ui/commit/849a07687d5b464936ff3a7bb5ce8c38e85d2b00))
+* update merkle root ([2f9fd2e](https://github.com/new-order-network/new-order-app-ui/commit/2f9fd2e32cc96abb14e876e254aa8f0cca535e7d))
+* update merkle root ([cfbf3dc](https://github.com/new-order-network/new-order-app-ui/commit/cfbf3dc63b7c4f8206fb6fed28057eeb06f844b9))
+* update merkle roots ([a0a11bc](https://github.com/new-order-network/new-order-app-ui/commit/a0a11bc0effc6b75728cc7c2b635cd1d1e39f4e3))
+
+
+### Bug Fixes
+
+* build errors ([d75d4bd](https://github.com/new-order-network/new-order-app-ui/commit/d75d4bd4395d2f6f51c2863e4063c921593390b4))
+* update merkle root ([dd571c4](https://github.com/new-order-network/new-order-app-ui/commit/dd571c4b710ea4f4a618d3537672561559a04113))
+
+
+### Miscellaneous
+
+* remove unused merkle roots ([ec8da81](https://github.com/new-order-network/new-order-app-ui/commit/ec8da81f04265e4492b82254fddca951d853bf91))
+
 ## [1.7.0](https://github.com/new-order-network/new-order-app-ui/compare/v1.6.0...v1.7.0) (2023-05-19)
 
 
