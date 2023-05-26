@@ -4,9 +4,15 @@ import { useEffect, useState } from 'react'
 import useToken from 'hooks/useToken'
 import useVeAirdropReward from 'hooks/useVeAirdropReward'
 
-import { AirdropProps } from 'constants/airdrop/airdrops'
-
-const AirdropReward: React.FC<AirdropProps> = ({
+interface AirdropRewardProps {
+  distributorAddress?: `0x${string}`
+  tokenAddress?: `0x${string}`
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  merkleRoot: any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  previousMerkleRoot: any
+}
+const AirdropReward: React.FC<AirdropRewardProps> = ({
   distributorAddress,
   previousMerkleRoot,
   tokenAddress,
