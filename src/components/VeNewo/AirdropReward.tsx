@@ -8,11 +8,13 @@ import { AirdropProps } from 'constants/airdrop/airdrops'
 
 const AirdropReward: React.FC<AirdropProps> = ({
   distributorAddress,
+  previousMerkleRoot,
   tokenAddress,
   merkleRoot,
 }) => {
   const airdrop = useVeAirdropReward(
     merkleRoot,
+    previousMerkleRoot,
     tokenAddress,
     distributorAddress
   )
@@ -30,6 +32,7 @@ const AirdropReward: React.FC<AirdropProps> = ({
   return (
     <Tr>
       <Td>{token.tokenSymbol}</Td>
+      <Td>{airdrop.APR} %</Td>
       <Td>
         {Number(claimableAmount).toFixed(4)} {token.tokenSymbol}
       </Td>
