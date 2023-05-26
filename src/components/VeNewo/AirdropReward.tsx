@@ -35,10 +35,21 @@ const AirdropReward: React.FC<AirdropRewardProps> = ({
       setClaimableAmount(claimable)
     }
   }, [airdrop])
+
+  if (airdrop.isUpdating) {
+    return (
+      <Tr>
+        <Td colSpan={5} h={24} color="brand.orange">
+          Vaults are undergoing scheduled maintenance. Please check back soon.
+        </Td>
+      </Tr>
+    )
+  }
+
   return (
     <Tr>
       <Td>{token.tokenSymbol}</Td>
-      <Td>{airdrop.APR} %</Td>
+      <Td>{airdrop.APR ?? '0'} %</Td>
       <Td>
         {Number(claimableAmount).toFixed(4)} {token.tokenSymbol}
       </Td>
