@@ -25,8 +25,9 @@ import { useVeNewoContext } from 'store/contexts/veNewoContext'
 import { useContractContext } from 'store/contexts/contractContext'
 
 import veNewoRewardsPreviousAvaxMerkleRoot from 'constants/airdrop/veNewoRewardsAvaxMerkleRoot.json'
+import veNewoRewardsPreviousEthMerkleRoot from 'constants/airdrop/veNewoRewardsEthMerkleRoot.json'
 import veNewoRewardsFinalAvaxMerkleRoot from 'constants/airdrop/finalRewardsAvaxMerkleRoot.json'
-import veNewoRewardsEthMerkleRoot from 'constants/airdrop/veNewoRewardsEthMerkleRoot.json'
+import veNewoRewardsFinalEthMerkleRoot from 'constants/airdrop/finalRewardsAvaxMerkleRoot.json'
 
 const Claim = () => {
   const { address } = useAccount()
@@ -36,7 +37,7 @@ const Claim = () => {
 
   const merkleRoot = useMemo(() => {
     if (chain?.id === mainnet.id || chain?.id === goerli?.id) {
-      return veNewoRewardsEthMerkleRoot
+      return veNewoRewardsFinalEthMerkleRoot
     } else if (chain?.id === avalanche?.id) {
       return veNewoRewardsFinalAvaxMerkleRoot
     }
@@ -45,7 +46,12 @@ const Claim = () => {
   }, [chain])
 
   const previousMerkleRoot = useMemo(() => {
-    return veNewoRewardsPreviousAvaxMerkleRoot
+    if (chain?.id === mainnet.id || chain?.id === goerli?.id) {
+      return veNewoRewardsPreviousEthMerkleRoot
+    } else if (chain?.id === avalanche?.id) {
+      return veNewoRewardsPreviousAvaxMerkleRoot
+    }
+    return undefined
     // eslint-disable-next-line
   }, [chain])
 
