@@ -38,7 +38,7 @@ const AirdropReward: React.FC<AirdropRewardProps> = ({
   return (
     <Tr>
       <Td>{token.tokenSymbol}</Td>
-      {/* <Td>{airdrop.APR} %</Td> */}
+      <Td>{airdrop.APR} %</Td>
       <Td>
         {Number(claimableAmount).toFixed(4)} {token.tokenSymbol}
       </Td>
