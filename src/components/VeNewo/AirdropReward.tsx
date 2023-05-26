@@ -51,6 +51,7 @@ const AirdropReward: React.FC<AirdropRewardProps> = ({
             Number(claimableAmount) === 0 ||
             airdrop.loading
           }
+          loadingText="Claiming"
           variant="greenButton"
         >
           Claim Rewards
