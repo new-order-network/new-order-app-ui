@@ -123,7 +123,7 @@ const Claim = () => {
             <Thead>
               <Tr>
                 <Th>Token</Th>
-                <Th>APR</Th>
+                {/* <Th>APR</Th> */}
                 <Th>Claimable Rewards</Th>
                 <Th>Actions</Th>
                 <Th></Th>
