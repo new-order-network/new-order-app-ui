@@ -13,12 +13,8 @@ import {
   Tr,
 } from '@chakra-ui/react'
 import { useMemo } from 'react'
-// import { avalanche } from 'wagmi/chains'
-import {
-  //  goerli, mainnet,
-  useAccount,
-  useNetwork,
-} from 'wagmi'
+import { avalanche } from 'wagmi/chains'
+import { goerli, mainnet, useAccount, useNetwork } from 'wagmi'
 
 import Card from 'components/Card'
 import ConnectOverlay from 'components/ConnectOverlay'
@@ -30,7 +26,7 @@ import { useContractContext } from 'store/contexts/contractContext'
 
 import veNewoRewardsPreviousAvaxMerkleRoot from 'constants/airdrop/veNewoRewardsAvaxMerkleRoot.json'
 import veNewoRewardsFinalAvaxMerkleRoot from 'constants/airdrop/finalRewardsAvaxMerkleRoot.json'
-// import veNewoRewardsFinalEthMerkleRoot from 'constants/airdrop/finalRewardsEthMerkleRoot.json'
+import veNewoRewardsEthMerkleRoot from 'constants/airdrop/veNewoRewardsEthMerkleRoot.json'
 
 const Claim = () => {
   const { address } = useAccount()
@@ -39,12 +35,12 @@ const Claim = () => {
   const { chain } = useNetwork()
 
   const merkleRoot = useMemo(() => {
-    // if (chain?.id === mainnet.id || chain?.id === goerli?.id) {
-    //   return veNewoRewardsFinalEthMerkleRoot
-    // } else if (chain?.id === avalanche?.id) {
-    //   return veNewoRewardsFinalAvaxMerkleRoot
-    // }
-    return veNewoRewardsFinalAvaxMerkleRoot
+    if (chain?.id === mainnet.id || chain?.id === goerli?.id) {
+      return veNewoRewardsEthMerkleRoot
+    } else if (chain?.id === avalanche?.id) {
+      return veNewoRewardsFinalAvaxMerkleRoot
+    }
+    return undefined
     // eslint-disable-next-line
   }, [chain])
 
