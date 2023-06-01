@@ -22,7 +22,7 @@
     "@emotion/styled": "^11",
     "@metamask/onboarding": "^1.0.1",
     "@snapshot-labs/snapshot.js": "^0.4.5",
-    "@upstash/redis": "^1.9.0",
+    "@upstash/redis": "^1.21.0",
     "@visx/gradient": "^2.10.0",
     "@visx/xychart": "^2.11.1",
     "axios": "^0.27.2",
