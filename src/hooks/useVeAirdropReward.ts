@@ -24,6 +24,7 @@ interface UseVeAirdropProps {
   loading: boolean
   claim: () => void
   APR: string
+  isUpdating: boolean
 }
 
 const useVeAirdropReward = (
@@ -50,6 +51,7 @@ const useVeAirdropReward = (
   const [isEligible, setIsEligible] = useState(false)
   const [airdropAmount, setAirdropAmount] = useState('')
   const [loading, setLoading] = useState(false)
+  const [isUpdating, setIsUpdating] = useState(false)
 
   useEffect(() => {
     if (merkleDistributorAddress) {
@@ -178,6 +180,18 @@ const useVeAirdropReward = (
     }
   }
 
+  const checkIsAirdropUpdating = async (currentMerkleRoot: string) => {
+    if (airdropInstance && address) {
+      const contractMerkleRoot = await airdropInstance?.merkleRoot()
+
+      if (currentMerkleRoot !== contractMerkleRoot) {
+        setIsUpdating(true)
+      } else {
+        setIsUpdating(false)
+      }
+    }
+  }
+
   useEffect(() => {
     if (airdropInstance && address) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -197,11 +211,13 @@ const useVeAirdropReward = (
         getAmount(airdropDetails.amount)
 
         getAPR(merkleRoot.tokenTotal, previousMerkleRoot.tokenTotal)
+
+        checkIsAirdropUpdating(merkleRoot.merkleRoot)
       }
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [airdropInstance, address, getAmount, getAPR])
+  }, [airdropInstance, address, getAmount, getAPR, checkIsAirdropUpdating])
 
   return {
     isEligible,
@@ -211,6 +227,7 @@ const useVeAirdropReward = (
     claim,
     claimableRewards,
     APR,
+    isUpdating,
   }
 }
 
