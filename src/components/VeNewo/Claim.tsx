@@ -13,12 +13,8 @@ import {
   Tr,
 } from '@chakra-ui/react'
 import { useMemo } from 'react'
-// import { avalanche } from 'wagmi/chains'
-import {
-  //  goerli, mainnet,
-  useAccount,
-  useNetwork,
-} from 'wagmi'
+import { avalanche } from 'wagmi/chains'
+import { goerli, mainnet, useAccount, useNetwork } from 'wagmi'
 
 import Card from 'components/Card'
 import ConnectOverlay from 'components/ConnectOverlay'
@@ -29,9 +25,9 @@ import { useVeNewoContext } from 'store/contexts/veNewoContext'
 import { useContractContext } from 'store/contexts/contractContext'
 
 import veNewoRewardsPreviousAvaxMerkleRoot from 'constants/airdrop/finalRewardsAvaxMerkleRoot.json'
-// import veNewoRewardsPreviousEthMerkleRoot from 'constants/airdrop/veNewoRewardsEthMerkleRoot.json'
+import veNewoRewardsPreviousEthMerkleRoot from 'constants/airdrop/finalRewardsEthMerkleRoot.json'
 import veNewoRewardsFinalAvaxMerkleRoot from 'constants/airdrop/june2AvaxRewardsMerkleRoot.json'
-// import veNewoRewardsFinalEthMerkleRoot from 'constants/airdrop/finalRewardsEthMerkleRoot.json'
+import veNewoRewardsFinalEthMerkleRoot from 'constants/airdrop/june2EthRewardsMerkleRoot.json.json'
 
 const Claim = () => {
   const { address } = useAccount()
@@ -40,24 +36,22 @@ const Claim = () => {
   const { chain } = useNetwork()
 
   const merkleRoot = useMemo(() => {
-    return veNewoRewardsFinalAvaxMerkleRoot
-    // if (chain?.id === mainnet.id || chain?.id === goerli?.id) {
-    //   return veNewoRewardsFinalEthMerkleRoot
-    // } else if (chain?.id === avalanche?.id) {
-    //   return veNewoRewardsFinalAvaxMerkleRoot
-    // }
-    // return undefined
+    if (chain?.id === mainnet.id || chain?.id === goerli?.id) {
+      return veNewoRewardsFinalEthMerkleRoot
+    } else if (chain?.id === avalanche?.id) {
+      return veNewoRewardsFinalAvaxMerkleRoot
+    }
+    return undefined
     // eslint-disable-next-line
   }, [chain])
 
   const previousMerkleRoot = useMemo(() => {
-    return veNewoRewardsPreviousAvaxMerkleRoot
-    // if (chain?.id === mainnet.id || chain?.id === goerli?.id) {
-    //   return veNewoRewardsPreviousEthMerkleRoot
-    // } else if (chain?.id === avalanche?.id) {
-    //   return veNewoRewardsPreviousAvaxMerkleRoot
-    // }
-    // return undefined
+    if (chain?.id === mainnet.id || chain?.id === goerli?.id) {
+      return veNewoRewardsPreviousEthMerkleRoot
+    } else if (chain?.id === avalanche?.id) {
+      return veNewoRewardsPreviousAvaxMerkleRoot
+    }
+    return undefined
     // eslint-disable-next-line
   }, [chain])
 
