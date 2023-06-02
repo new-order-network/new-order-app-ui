@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.9.0](https://github.com/new-order-network/new-order-app-ui/compare/v1.8.0...v1.9.0) (2023-06-02)
+
+
+### Features
+
+* update current and previous avax merkleroot ([c86ccba](https://github.com/new-order-network/new-order-app-ui/commit/c86ccbae2905382b944373a383f83da886307677))
+* update eth merkleroots ([7a78de6](https://github.com/new-order-network/new-order-app-ui/commit/7a78de605f89023b6bef34f43fb59dfbf6dec3d2))
+
 ## [1.8.0](https://github.com/new-order-network/new-order-app-ui/compare/v1.7.0...v1.8.0) (2023-05-26)
 
 
