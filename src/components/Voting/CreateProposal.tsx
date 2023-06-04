@@ -1,3 +1,4 @@
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import {
   Box,
@@ -37,6 +38,7 @@ const CreateProposal = () => {
   const toast = useToast()
   const { address } = useAccount()
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const [descLength, setDescLength] = useState(0)
   const {
     handleSubmit,
     register,
@@ -179,7 +181,7 @@ const CreateProposal = () => {
                         (optional)
                       </Text>
                     </Box>
-                    <Text>0 / 14,400</Text>
+                    <Text>{descLength} / 14,400</Text>
                     <Input
                       id="snapshot-desc"
                       label="Description"
@@ -197,6 +199,7 @@ const CreateProposal = () => {
                             'Description field changed: ',
                             e.target.value
                           )
+                          setDescLength(e.target.value.length)
                           setValue('description', e.target.value)
                         },
                       })}
