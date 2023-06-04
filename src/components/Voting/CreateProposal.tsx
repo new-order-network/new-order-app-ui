@@ -15,6 +15,7 @@ import {
   ModalCloseButton,
   Stack,
   Text,
+  Textarea,
   Tooltip,
   useDisclosure,
   useToast,
@@ -182,12 +183,12 @@ const CreateProposal = () => {
                       </Text>
                     </Box>
                     <Text>{descLength} / 14,400</Text>
-                    <Input
+                    <Textarea
                       id="snapshot-desc"
-                      label="Description"
-                      formControlWidth="full"
-                      formLabelColor="gray.60"
-                      formLabelBgColor="black.85"
+                      placeholder="Description"
+                      _placeholder={{ color: 'gray.60', fontSize: '0.9rem' }}
+                      height="10em" // This sets the height to 10 lines
+                      overflowY="auto" // This makes the box scrollable
                       {...register('description', {
                         maxLength: {
                           value: 14400,
