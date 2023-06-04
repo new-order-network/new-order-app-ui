@@ -1,5 +1,6 @@
 import { useForm } from 'react-hook-form'
 import {
+  Box,
   Button,
   InputRightAddon,
   FormControl,
@@ -169,9 +170,15 @@ const CreateProposal = () => {
                     </FormErrorMessage>
                   </Stack>
                   <Stack spacing="2">
-                    <Text color="brand.green" fontSize="lg">
-                      2. Description (optional)
-                    </Text>
+                    <Box display="inline-block">
+                      <Text as="span" color="brand.green" fontSize="lg">
+                        2. Description{' '}
+                      </Text>
+                      {/* optional */}
+                      <Text as="span" fontSize="sm" color="gray.60">
+                        (optional)
+                      </Text>
+                    </Box>
                     <Text>0 / 14,400</Text>
                     <Input
                       id="snapshot-desc"
@@ -199,9 +206,19 @@ const CreateProposal = () => {
                     </FormErrorMessage>
                   </Stack>
                   <Stack spacing="2">
-                    <Text color="brand.green" fontSize="lg">
-                      3. Discussion (optional)
-                    </Text>
+                    <Box display="inline-block">
+                      <Text color="brand.green" fontSize="lg" display="inline">
+                        3. Discussion{' '}
+                      </Text>
+                      <Text
+                        as="span"
+                        fontSize="sm"
+                        color="gray.60"
+                        display="inline"
+                      >
+                        (optional)
+                      </Text>
+                    </Box>
                     <Text>e.g. https://forum.balancer.fi/proposal</Text>
                     <Input
                       id="snapshot-discussion"
