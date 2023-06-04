@@ -6,6 +6,8 @@ import {
   InputRightAddon,
   FormControl,
   FormErrorMessage,
+  FormLabel,
+  Icon,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -21,6 +23,7 @@ import {
   useToast,
 } from '@chakra-ui/react'
 import { AiOutlineInfoCircle } from 'react-icons/ai'
+import { BsMarkdownFill } from 'react-icons/bs'
 import snapshot from '@snapshot-labs/snapshot.js'
 import { useAccount } from 'wagmi'
 import { ExternalProvider, Web3Provider } from '@ethersproject/providers'
@@ -183,28 +186,47 @@ const CreateProposal = () => {
                       </Text>
                     </Box>
                     <Text>{descLength} / 14,400</Text>
-                    <Textarea
-                      id="snapshot-desc"
-                      placeholder="Description"
-                      _placeholder={{ color: 'gray.60', fontSize: '0.9rem' }}
-                      height="10em" // This sets the height to 10 lines
-                      overflowY="auto" // This makes the box scrollable
-                      {...register('description', {
-                        maxLength: {
-                          value: 14400,
-                          message:
-                            'Description cannot exceed 14,400 characters',
-                        },
-                        onChange: (e) => {
-                          console.log(
-                            'Description field changed: ',
-                            e.target.value
-                          )
-                          setDescLength(e.target.value.length)
-                          setValue('description', e.target.value)
-                        },
-                      })}
-                    />
+                    <Box
+                      border="1px solid"
+                      borderColor="gray.200"
+                      borderRadius="md"
+                    >
+                      <Textarea
+                        id="snapshot-desc"
+                        placeholder="Description"
+                        _placeholder={{ color: 'gray.60', fontSize: '0.9rem' }}
+                        height="10em" // This sets the height to 10 lines
+                        overflowY="auto" // This makes the box scrollable
+                        borderBottomRadius={0}
+                        {...register('description', {
+                          maxLength: {
+                            value: 14400,
+                            message:
+                              'Description cannot exceed 14,400 characters',
+                          },
+                          onChange: (e) => {
+                            console.log(
+                              'Description field changed: ',
+                              e.target.value
+                            )
+                            setDescLength(e.target.value.length)
+                            setValue('description', e.target.value)
+                          },
+                        })}
+                      />
+                      <FormLabel
+                        display="flex"
+                        justifyContent="space-between"
+                        alignItems="center"
+                        color="gray.60"
+                        fontSize="0.9rem"
+                        htmlFor="snapshot-desc"
+                        m={2}
+                      >
+                        Markdown for format, links, and imgs
+                        <Icon as={BsMarkdownFill} />
+                      </FormLabel>
+                    </Box>
                     <FormErrorMessage>
                       {errors.description && errors.description.message}
                     </FormErrorMessage>
