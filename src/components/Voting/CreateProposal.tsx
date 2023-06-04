@@ -147,12 +147,8 @@ const CreateProposal = () => {
 
           <form onSubmit={handleSubmit(onSubmit, onError)}>
             <ModalBody>
-              <FormControl
-                isInvalid={Boolean(
-                  errors.title || errors.description || errors.discussion
-                )}
-              >
-                <Stack spacing="8">
+              <Stack spacing="8">
+                <FormControl isInvalid={Boolean(errors.title)}>
                   <Stack spacing="2">
                     <Text color="brand.green" fontSize="lg">
                       1. Title (*)
@@ -175,6 +171,8 @@ const CreateProposal = () => {
                       {errors.title && errors.title.message}
                     </FormErrorMessage>
                   </Stack>
+                </FormControl>
+                <FormControl isInvalid={Boolean(errors.description)}>
                   <Stack spacing="2">
                     <Box display="inline-block">
                       <Text as="span" color="brand.green" fontSize="lg">
@@ -231,6 +229,8 @@ const CreateProposal = () => {
                       {errors.description && errors.description.message}
                     </FormErrorMessage>
                   </Stack>
+                </FormControl>
+                <FormControl isInvalid={Boolean(errors.discussion)}>
                   <Stack spacing="2">
                     <Box display="inline-block">
                       <Text color="brand.green" fontSize="lg" display="inline">
@@ -282,8 +282,8 @@ const CreateProposal = () => {
                       {errors.discussion && errors.discussion.message}
                     </FormErrorMessage>
                   </Stack>
-                </Stack>
-              </FormControl>
+                </FormControl>
+              </Stack>
             </ModalBody>
 
             <ModalFooter>
