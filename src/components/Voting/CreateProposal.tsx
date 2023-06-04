@@ -144,9 +144,8 @@ const CreateProposal = () => {
                 <Stack spacing="8">
                   <Stack spacing="2">
                     <Text color="brand.green" fontSize="lg">
-                      1. Title
+                      1. Title (*)
                     </Text>
-                    <Text>Required</Text>
                     <Input
                       id="snapshot-title"
                       label="Title"
