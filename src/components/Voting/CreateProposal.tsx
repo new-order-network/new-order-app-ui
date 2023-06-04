@@ -48,6 +48,10 @@ const CreateProposal = () => {
     console.log('getResults')
   }
 
+  // Source: https://regexr.com/39nr7
+  const urlValidationPattern =
+    /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/
+
   async function onSubmit(data: FormData) {
     // This submit function should cast a vote on snapshot
     console.log('Submitting data: ', data, ', Address: ', address)
@@ -218,6 +222,10 @@ const CreateProposal = () => {
                         />
                       }
                       {...register('discussion', {
+                        pattern: {
+                          value: urlValidationPattern,
+                          message: 'Enter a valid URL',
+                        },
                         onChange: (e) => {
                           console.log(
                             'Discussion field changed: ',
@@ -227,6 +235,9 @@ const CreateProposal = () => {
                         },
                       })}
                     />
+                    <FormErrorMessage>
+                      {errors.discussion && errors.discussion.message}
+                    </FormErrorMessage>
                   </Stack>
                 </Stack>
               </FormControl>
