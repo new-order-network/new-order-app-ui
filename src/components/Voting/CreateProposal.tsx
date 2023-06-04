@@ -39,10 +39,10 @@ const CreateProposal = () => {
   const {
     handleSubmit,
     register,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isValid },
     getValues,
     setValue,
-  } = useForm<FormData>()
+  } = useForm<FormData>({ mode: 'onChange' })
 
   const getResults = async () => {
     console.log('getResults')
@@ -243,6 +243,7 @@ const CreateProposal = () => {
                     return console.log('Clicked Submit')
                   }
                 }
+                disabled={!isValid || isSubmitting}
                 isLoading={isSubmitting}
                 type="submit"
               >
