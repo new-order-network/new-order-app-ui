@@ -23,9 +23,7 @@ exports[`VotingCard.tsx component match to snapshot 1`] = `
           <button
             class="chakra-button css-zhj3hh"
             type="button"
-          >
-            ABSTAINED
-          </button>
+          />
         </div>
         <div
           class="css-icjpl3"

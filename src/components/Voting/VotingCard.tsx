@@ -29,7 +29,7 @@ const VotingCard: React.FC<VotingCardProps> = ({
       } else if (choices[highestVotedIndex] === VotingChoices.AGAINST) {
         setStateText(VotingOutcomes.FAILED)
       } else {
-        setStateText(VotingOutcomes.ABSTAINED)
+        setStateText(choices[highestVotedIndex])
       }
     }
   }, [choices, scores, state])

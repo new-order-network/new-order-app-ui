@@ -184,7 +184,7 @@ const VotingDetail = () => {
       ) {
         setStateText(VotingOutcomes.FAILED)
       } else {
-        setStateText(VotingOutcomes.ABSTAINED)
+        setStateText(votingProposalDetails.choices[highestVotedIndex])
       }
     } else {
       setStateText(votingProposalDetails?.state)
