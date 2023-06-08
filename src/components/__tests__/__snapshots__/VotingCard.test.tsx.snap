@@ -18,10 +18,10 @@ exports[`VotingCard.tsx component match to snapshot 1`] = `
           <p
             class="chakra-text css-1ykficz"
           >
-            Status
+            Result
           </p>
           <button
-            class="chakra-button css-zhj3hh"
+            class="chakra-button css-8b9qsq"
             type="button"
           />
         </div>

@@ -73,6 +73,30 @@ const Button = {
         bgColor: 'green.75',
       },
     },
+    outlineGray: {
+      borderRadius: '0.25rem',
+      border: '1px solid',
+      borderColor: 'gray.80',
+      bgColor: 'gray.80',
+      padding: '0px 4px',
+      h: '18px',
+      _hover: {
+        color: 'white',
+        bgColor: 'transparent',
+      },
+    },
+    outlinePurple: {
+      borderRadius: '0.25rem',
+      border: '1px solid',
+      borderColor: 'purple.70',
+      bg: 'rgba(126, 0, 204, 0.3)',
+      padding: '0px 4px',
+      h: '18px',
+      _hover: {
+        color: 'white',
+        bgColor: 'transparent',
+      },
+    },
     backButton: {
       borderRadius: '0.25rem',
       border: 'none',

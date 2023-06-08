@@ -34,20 +34,33 @@ const VotingCard: React.FC<VotingCardProps> = ({
     }
   }, [choices, scores, state])
 
+  const buttonVariant = (buttonState: string) => {
+    if (buttonState === VotingStatus.PENDING) {
+      return 'outlineGray'
+    } else if (buttonState === VotingStatus.ACTIVE) {
+      return 'greenSmallButton'
+    } else {
+      return 'outlinePurple'
+    }
+  }
+
   return (
     <Card variant="simple">
       <Link href={`/voting/${id}`}>
         <>
           <Flex alignItems="center" justifyContent="space-between">
             <Text color="gray.50" fontSize="xs">
-              Status
+              {state === VotingStatus.CLOSED ? 'Result' : 'Status'}
             </Text>
             <Button
               fontSize="0.75rem"
               h="6"
               fontWeight="bold"
-              variant={state === 'active' ? 'greenSmallButton' : 'outlineGreen'}
+              variant={buttonVariant(state)}
               textTransform="uppercase"
+              _hover={{
+                bgColor: 'none',
+              }}
             >
               {stateText}
             </Button>

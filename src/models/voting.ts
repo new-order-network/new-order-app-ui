@@ -19,6 +19,7 @@ export enum VotingStatus {
   ALL = 'all',
   CLOSED = 'closed',
   ACTIVE = 'active',
+  PENDING = 'pending',
 }
 
 export enum VotingChoices {
@@ -39,6 +40,7 @@ export type VotingStatusChoices =
   | VotingStatus.ALL
   | VotingStatus.ACTIVE
   | VotingStatus.CLOSED
+  | VotingStatus.PENDING
   | VotingOutcomes.PASSED
   | VotingOutcomes.FAILED
   | VotingOutcomes.ABSTAINED
