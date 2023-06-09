@@ -2,8 +2,8 @@ import ethereumMainnetMerkleRoot from 'constants/airdrop/ethereumMainnetMerkleRo
 import { contractAddresses } from 'constants/contractAddresses'
 
 export interface AirdropProps {
-  distributorAddress?: string
-  tokenAddress?: string
+  distributorAddress?: `0x${string}`
+  tokenAddress?: `0x${string}`
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   merkleRoot: any
 }

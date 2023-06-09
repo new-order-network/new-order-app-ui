@@ -43,20 +43,11 @@ const Vault = ({
 
   const [userVaultBalance, setUserVaultBalance] = useState('')
   const [deposit, setDeposit] = useState('')
-  const [tokenBalance, setTokenBalance] = useState('')
   const [allowance, setAllowance] = useState('')
 
   const onMax = async () => {
     if (address) {
-      const tokenBalance = await token?.balanceOf(address)
-      setDeposit(tokenBalance)
-    }
-  }
-
-  const updateTokenBalance = async () => {
-    if (address) {
-      const tokenBalance = await token?.balanceOf(address)
-      setTokenBalance(tokenBalance)
+      setDeposit(token.balance)
     }
   }
 
@@ -70,14 +61,13 @@ const Vault = ({
   const getUserVaultBalance = async () => {
     if (address) {
       const balance = await balanceOf(address)
-
       setUserVaultBalance(balance)
     }
   }
 
   const updateState = async () => {
     await Promise.all([
-      updateTokenBalance(),
+      token.updateState(),
       updateAllowance(),
       getUserVaultBalance(),
     ])
@@ -169,7 +159,9 @@ const Vault = ({
           <Stack spacing={2}>
             <StatusAmount
               label="Your Balance:"
-              data={`${numberFormatter(tokenBalance, 4)} ${token?.tokenSymbol}`}
+              data={`${numberFormatter(token.balance, 4)} ${
+                token?.tokenSymbol
+              }`}
             />
             <StatusAmount
               label="Your Deposit:"
@@ -191,6 +183,7 @@ const Vault = ({
             disabled={
               !address ||
               loading ||
+              Number(APR) === 0 ||
               (!deposit && Number(allowance) > 0) ||
               (Number(deposit) > Number(allowance) || Number(allowance) === 0
                 ? false

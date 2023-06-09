@@ -22,11 +22,11 @@ const Position = () => {
           <Stack spacing="1">
             <Flex align="center" justify="space-between">
               <Text>NEWO Locked</Text>
-              <Text color="brand.green">{assetBalance}</Text>
+              <Text color="brand.green">{Number(assetBalance).toFixed(4)}</Text>
             </Flex>
             <Flex align="center" justify="space-between">
               <Text>veNEWO Balance</Text>
-              <Text color="brand.green">{balance}</Text>
+              <Text color="brand.green">{Number(balance).toFixed(4)}</Text>
             </Flex>
             <Flex align="center" justify="space-between">
               <Text>Multiplier</Text>

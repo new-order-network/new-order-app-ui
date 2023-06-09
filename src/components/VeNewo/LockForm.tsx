@@ -11,6 +11,7 @@ import {
   SliderFilledTrack,
   SliderThumb,
   SliderTrack,
+  Spinner,
   Stack,
   Text,
   Tooltip,
@@ -22,13 +23,11 @@ import { useAccount } from 'wagmi'
 
 import Card from 'components/Card'
 import Input from 'components/Forms/Input'
-import { Table, Tbody, Th, Thead, Tr } from 'components/Table'
+// import { Table, Tbody, Th, Thead, Tr } from 'components/Table'
 import CustomDatePicker from 'components/Forms/DatePicker'
-import RegistrationReward from 'components/VeNewo/RegistrationReward'
 import ConnectOverlay from 'components/ConnectOverlay'
 
 import useVeToken from 'hooks/useVeToken'
-import useVeVault from 'hooks/useVeVault'
 
 import { numberFormatter } from 'lib/utils/format'
 import { getKeyByValue } from 'lib/utils/data'
@@ -44,23 +43,23 @@ import { lockTimeTable } from 'constants/venewo'
 const LockForm = () => {
   const { allowance, unlockDate, totalSupply, totalAssets, updateState } =
     useVeNewoContext()
-  const { newoBalance } = useNewoContext()
+  const { newoBalance, newoBalanceIsLoading } = useNewoContext()
   const { contracts } = useContractContext()
   const { address } = useAccount()
   const veNewo = useVeToken(contracts.VENEWO, contracts.NEWO)
 
-  const veNewoUsdcVault = useVeVault(
-    contracts.VE_NEWO_USDC_LP_VAULT,
-    contracts.NEWO_USDC_LP,
-    contracts.NEWO,
-    contracts.USDC
-  )
-  const veNewoWavaxVault = useVeVault(
-    contracts.VE_NEWO_WAVAX_LP_VAULT,
-    contracts.NEWO_WAVAX_LP,
-    contracts.NEWO,
-    contracts.WAVAX
-  )
+  // const veNewoUsdcVault = useVeVault(
+  //   contracts.VE_NEWO_USDC_LP_VAULT,
+  //   contracts.NEWO_USDC_LP,
+  //   contracts.NEWO,
+  //   contracts.USDC
+  // )
+  // const veNewoWavaxVault = useVeVault(
+  //   contracts.VE_NEWO_WAVAX_LP_VAULT,
+  //   contracts.NEWO_WAVAX_LP,
+  //   contracts.NEWO,
+  //   contracts.WAVAX
+  // )
 
   const [amount, setAmount] = useState('')
   const [lockTime, setLockTime] = useState(dayjs().add(91, 'd').toDate())
@@ -68,30 +67,33 @@ const LockForm = () => {
   const [minLockTime, setMinLockTime] = useState(dayjs().add(91, 'd').toDate())
   const [projectedMultiplier, setProjectedMultiplier] = useState('1.00')
   const [averageLockTime, setAverageLockTime] = useState('0')
-  const [newoShare, setNewoShare] = useState('')
+  // const [newoShare, setNewoShare] = useState('')
 
   const [actionType, setActionType] = useState<LOCK_ACTIONS>()
 
-  const getNewoShare = async () => {
-    if (veNewoUsdcVault && address) {
-      const newoShare = await veNewoUsdcVault?.getNewoShare(address)
-      setNewoShare(newoShare)
-    } else if (veNewoWavaxVault && address) {
-      const newoShare = await veNewoWavaxVault?.getNewoShare(address)
-      setNewoShare(newoShare)
-    }
-  }
+  // const getNewoShare = () => {
+  //   if (veNewoUsdcVault && address) {
+  //     const newoShare = veNewoUsdcVault?.newoShare
+  //     setNewoShare(newoShare)
+  //   } else if (veNewoWavaxVault && address) {
+  //     const newoShare = veNewoWavaxVault?.newoShare
+  //     setNewoShare(newoShare)
+  //   }
+  // }
 
-  useEffect(() => {
-    getNewoShare()
-    // eslint-disable-next-line
-  }, [address])
+  // useEffect(() => {
+  //   getNewoShare()
+  //   // eslint-disable-next-line
+  // }, [address])
 
   useEffect(() => {
     if (unlockDate !== 0 && dayjs.unix(unlockDate).isAfter(lockTime)) {
       const newMinLockTime = dayjs.unix(unlockDate).add(10, 'second').toDate()
       setLockTime(newMinLockTime)
       setMinLockTime(newMinLockTime)
+    } else {
+      setLockTime(dayjs().add(91, 'd').toDate())
+      setMinLockTime(dayjs().add(91, 'd').toDate())
     }
     // eslint-disable-next-line
   }, [unlockDate])
@@ -209,7 +211,12 @@ const LockForm = () => {
                 <Flex align="center" justify="space-between">
                   <Text>Amount</Text>
                   <Text fontSize="sm">
-                    Balance: {numberFormatter(newoBalance, 4)}
+                    Balance:{' '}
+                    {newoBalanceIsLoading ? (
+                      <Spinner size="xs" />
+                    ) : (
+                      numberFormatter(newoBalance, 4)
+                    )}
                   </Text>
                 </Flex>
 
@@ -237,7 +244,9 @@ const LockForm = () => {
                   inputRightAddOn={
                     <InputRightAddon
                       onClick={async () => {
-                        setAmount(newoBalance)
+                        if (newoBalance) {
+                          setAmount(newoBalance)
+                        }
                       }}
                       fontSize="0.7rem"
                       cursor="pointer"
@@ -331,7 +340,7 @@ const LockForm = () => {
                 </Button>
               </Stack>
             </Box>
-
+            {/*
             <Divider my="3" bgColor="brand.green" />
 
             <Stack spacing="1">
@@ -380,7 +389,6 @@ const LockForm = () => {
                 <Thead>
                   <Tr>
                     <Th>Name</Th>
-                    <Th>AVG APR</Th>
                     <Th>Actions</Th>
                   </Tr>
                 </Thead>
@@ -423,30 +431,37 @@ const LockForm = () => {
                   </Tr>
                 </Thead>
                 <Tbody>
-                  {contracts.VE_NEWO_USDC_LP_VAULT && (
-                    <RegistrationReward
-                      columns={['name', 'apr', 'boost', 'actions']}
-                      actions={['deposit', 'register']}
-                      veVaultAddress={contracts.VE_NEWO_USDC_LP_VAULT}
-                      tokenAddress={contracts.NEWO_USDC_LP}
-                      token0={contracts.NEWO}
-                      token1={contracts.USDC}
-                    />
-                  )}
+                  {contracts.VE_NEWO_USDC_LP_VAULT &&
+                    contracts.VE_NEWO_USDC_LP_VAULT !== '0x' && (
+                      <RegistrationReward
+                        columns={[
+                          'name',
+                          'apr',
+                          'boost',
+                          'actions',
+                        ]}
+                        actions={['deposit', 'register']}
+                        veVaultAddress={contracts.VE_NEWO_USDC_LP_VAULT}
+                        tokenAddress={contracts.NEWO_USDC_LP}
+                        token0={contracts.NEWO}
+                        token1={contracts.USDC}
+                      />
+                    )}
 
-                  {contracts.VE_NEWO_WAVAX_LP_VAULT && (
-                    <RegistrationReward
-                      columns={['name', 'apr', 'boost', 'actions']}
-                      actions={['deposit', 'register']}
-                      veVaultAddress={contracts.VE_NEWO_WAVAX_LP_VAULT}
-                      tokenAddress={contracts.NEWO_WAVAX_LP}
-                      token0={contracts.NEWO}
-                      token1={contracts.WAVAX}
-                    />
-                  )}
+                  {contracts.VE_NEWO_WAVAX_LP_VAULT &&
+                    contracts.VE_NEWO_WAVAX_LP_VAULT !== '0x' && (
+                      <RegistrationReward
+                        columns={['name', 'apr', 'boost', 'actions']}
+                        actions={['deposit', 'register']}
+                        veVaultAddress={contracts.VE_NEWO_WAVAX_LP_VAULT}
+                        tokenAddress={contracts.NEWO_WAVAX_LP}
+                        token0={contracts.NEWO}
+                        token1={contracts.WAVAX}
+                      />
+                    )}
                 </Tbody>
               </Table>
-            </Box>
+            </Box> */}
           </Box>
         </Card>
       </ConnectOverlay>

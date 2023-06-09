@@ -1,6 +1,6 @@
 # New Order DAO App
 
-This is the frontend codebase for the New Order DAO's Dapp that can found here: [https://dao.neworder.network/](https://dao.neworder.network/).
+This is the frontend codebase for the New Order DAO's Dapp that can be found here: [https://dao.neworder.network/](https://dao.neworder.network/).
 
 All documentation about the DAO can be found on our gitbook page here: [https://docs.neworder.network/new-order/](https://docs.neworder.network/new-order/)
 
@@ -52,8 +52,8 @@ Steps 1-6 only need to be done once to get set up.
 3. Make changes to the code as needed and `$ git add <blah>` any files you've modified
 4. `$ git commit -m "<descriptive_comment>"`
    1. This commits your changes to your local branch
-   2. We also highly recommend the use of [commitizen](https://github.com/commitizen/cz-cli) for automate the structure of your commits
-5. `$ git checkout main; git pull upstream main; git checkout <branch_name>; git merge main`
+   2. We also highly recommend the use of [commitizen](https://github.com/commitizen/cz-cli) to automate the structure of your commits
+5. `$ git checkout main; git pull upstream dev; git checkout <branch_name>; git merge dev`
    1. This series of commands will pull the latest changes from the parent repo, merge them into your forked repo's main branch, then rebase your new branch on top of those changes
 6. Repeat step 2 to push your changes to your remote branch
-7. Now, go to GitHub's UI and submit a pull request to merge your changes with the parent repo's main branch
+7. Now, go to GitHub's UI and submit a pull request to merge your changes with the parent repo's `dev branch`

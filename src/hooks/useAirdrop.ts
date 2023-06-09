@@ -27,8 +27,8 @@ interface UseAirdropProps {
 const useAirdrop = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   merkleRoot: any,
-  tokenAddress?: string,
-  merkleDistributorAddress?: string
+  tokenAddress?: `0x${string}`,
+  merkleDistributorAddress?: `0x${string}`
 ): UseAirdropProps => {
   const toast = useToast()
   const { data: signer } = useSigner()

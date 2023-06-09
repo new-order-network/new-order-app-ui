@@ -29,10 +29,20 @@ const VotingCard: React.FC<VotingCardProps> = ({
       } else if (choices[highestVotedIndex] === VotingChoices.AGAINST) {
         setStateText(VotingOutcomes.FAILED)
       } else {
-        setStateText(VotingOutcomes.ABSTAINED)
+        setStateText(choices[highestVotedIndex])
       }
     }
   }, [choices, scores, state])
+
+  const buttonVariant = (buttonState: string) => {
+    if (buttonState === VotingStatus.PENDING) {
+      return 'outlineGray'
+    } else if (buttonState === VotingStatus.ACTIVE) {
+      return 'greenSmallButton'
+    } else {
+      return 'outlinePurple'
+    }
+  }
 
   return (
     <Card variant="simple">
@@ -40,14 +50,17 @@ const VotingCard: React.FC<VotingCardProps> = ({
         <>
           <Flex alignItems="center" justifyContent="space-between">
             <Text color="gray.50" fontSize="xs">
-              Status
+              {state === VotingStatus.CLOSED ? 'Result' : 'Status'}
             </Text>
             <Button
               fontSize="0.75rem"
               h="6"
               fontWeight="bold"
-              variant={state === 'active' ? 'greenSmallButton' : 'outlineGreen'}
+              variant={buttonVariant(state)}
               textTransform="uppercase"
+              _hover={{
+                bgColor: 'none',
+              }}
             >
               {stateText}
             </Button>

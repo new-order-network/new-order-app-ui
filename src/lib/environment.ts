@@ -24,6 +24,9 @@ export const env = cleanEnv(
       process.env.NEXT_PUBLIC_PUSH_CHANNEL_ADDRESS,
     NEXT_PUBLIC_PUSH_ENV: process.env.NEXT_PUBLIC_PUSH_ENV,
     PUSH_CHANNEL_PRIVATE_KEY: process.env.PUSH_CHANNEL_PRIVATE_KEY,
+    NEXT_PUBLIC_YOUTUBE_PLAYLIST_ID:
+      process.env.NEXT_PUBLIC_YOUTUBE_PLAYLIST_ID,
+    NEXT_PUBLIC_GOOGLE_API_KEY: process.env.NEXT_PUBLIC_GOOGLE_API_KEY,
   },
   {
     NODE_ENV: str({
@@ -46,5 +49,7 @@ export const env = cleanEnv(
     NEXT_PUBLIC_PUSH_CHANNEL_ADDRESS: str({ default: '' }),
     NEXT_PUBLIC_PUSH_ENV: str({ default: 'prod' }),
     PUSH_CHANNEL_PRIVATE_KEY: str({ default: '' }),
+    NEXT_PUBLIC_YOUTUBE_PLAYLIST_ID: str({ default: '' }),
+    NEXT_PUBLIC_GOOGLE_API_KEY: str({ default: '' }),
   }
 )

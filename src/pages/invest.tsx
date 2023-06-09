@@ -46,7 +46,7 @@ const Invest = () => {
           <Text p="32px 0 0 32px" fontSize="1.5rem" fontWeight="extrabold">
             Vault Assets
           </Text>
-          <Tabs w="full" variant="pinkTab">
+          <Tabs w="full" variant="pinkTab" isLazy>
             <TabList p="20px 40px 0">
               <Tab fontSize={['1rem', '1.2rem']}>Deposit</Tab>
               <Tab fontSize={['1rem', '1.2rem']}>Active Deposits</Tab>

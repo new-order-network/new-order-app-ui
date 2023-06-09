@@ -1,7 +1,5 @@
 import React, { createContext, useContext, useEffect, useReducer } from 'react'
-import { useAccount, useDisconnect, useNetwork } from 'wagmi'
-
-import useToken from 'hooks/useToken'
+import { useAccount, useBalance, useDisconnect } from 'wagmi'
 
 import {
   initialNewoState,
@@ -16,7 +14,8 @@ interface NewoProviderProps {
 
 interface NewoContextProps {
   disconnectWallet?: () => void
-  newoBalance: string
+  newoBalance?: string
+  newoBalanceIsLoading: boolean
   metamaskIsInstalled: boolean
   accountAddress: string
   updateState?: () => Promise<void>
@@ -24,6 +23,7 @@ interface NewoContextProps {
 
 export const NewoContext = createContext<NewoContextProps>({
   newoBalance: '0.0',
+  newoBalanceIsLoading: false,
   metamaskIsInstalled: false,
   accountAddress: '',
 })
@@ -31,29 +31,18 @@ export const NewoContext = createContext<NewoContextProps>({
 export const NewoProvider: React.FC<NewoProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer(newoReducer, initialNewoState)
   const { contracts } = useContractContext()
-  const newoToken = useToken(contracts?.NEWO)
   const { address } = useAccount()
-  const { chain } = useNetwork()
   const { disconnect } = useDisconnect()
-
-  const updateNewoBalance = async () => {
-    if (address) {
-      const newoBalance = await newoToken?.balanceOf(address)
-
-      if (newoBalance) {
-        dispatch({
-          type: NewoChangeType.UPDATE_NEWO_BALANCE,
-          payload: newoBalance,
-        })
-      }
-    }
-  }
+  const {
+    data: newoBalance,
+    refetch: refetchNewoBalance,
+    isLoading: newoBalanceIsLoading,
+  } = useBalance({
+    address,
+    token: contracts.NEWO,
+  })
 
   const disconnectWallet = async () => {
-    dispatch({
-      type: NewoChangeType.DISCONNECT_WALLET,
-      payload: null,
-    })
     dispatch({
       type: NewoChangeType.UPDATE_ACCOUNT_ADDRESS,
       payload: '',
@@ -63,16 +52,8 @@ export const NewoProvider: React.FC<NewoProviderProps> = ({ children }) => {
 
   const updateState = async () => {
     // Updates necessary balances or data that might change when tx is ran
-    Promise.all([updateNewoBalance()])
+    Promise.all([refetchNewoBalance()])
   }
-
-  useEffect(() => {
-    if (address && newoToken.tokenInstance) {
-      updateState()
-    }
-
-    // eslint-disable-next-line
-  }, [address, contracts, chain?.id, newoToken.tokenInstance])
 
   useEffect(() => {
     if (address) {
@@ -103,7 +84,15 @@ export const NewoProvider: React.FC<NewoProviderProps> = ({ children }) => {
   }, [])
 
   return (
-    <NewoContext.Provider value={{ ...state, disconnectWallet, updateState }}>
+    <NewoContext.Provider
+      value={{
+        ...state,
+        newoBalance: newoBalance?.formatted,
+        newoBalanceIsLoading,
+        disconnectWallet,
+        updateState,
+      }}
+    >
       {children}
     </NewoContext.Provider>
   )

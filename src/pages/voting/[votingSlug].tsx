@@ -15,6 +15,7 @@ import {
   RadioGroup,
   Stack,
   Text,
+  Tooltip,
   useToast,
 } from '@chakra-ui/react'
 import { FiChevronLeft } from 'react-icons/fi'
@@ -44,6 +45,8 @@ import {
   VotingOutcomes,
   VotingChoices,
 } from 'models/voting'
+
+import { DEFAULT_NETWORK } from 'constants/network'
 
 import Layout from 'layout'
 
@@ -95,37 +98,18 @@ const VotingDetail = () => {
   const getVotingPower = async () => {
     const strategies = proposalData?.proposal.strategies
 
-    let totalVotingPower = 0
+    const votingPower = await snapshot.utils.getVp(
+      String(address),
+      `${DEFAULT_NETWORK.id}`,
+      strategies,
+      proposalData.proposal.snapshot,
+      env.NEXT_PUBLIC_SNAPSHOT_SPACE,
+      true
+    )
 
-    // eslint-disable-next-line
-    await strategies.forEach(async (strategy: any) => {
-      if (address) {
-        let strategyScore
-
-        try {
-          strategyScore = await snapshot.utils.getScores(
-            env.NEXT_PUBLIC_SNAPSHOT_SPACE,
-            [strategy],
-            strategy.network,
-            [address],
-            Number(proposalData?.proposal.snapshot)
-          )
-        } catch (err) {
-          strategyScore = await snapshot.utils.getScores(
-            env.NEXT_PUBLIC_SNAPSHOT_SPACE,
-            [strategy],
-            strategy.network,
-            [address],
-            proposalData?.proposal.snapshot
-          )
-        }
-
-        if (strategyScore[0][address]) {
-          totalVotingPower += strategyScore[0][address]
-        }
-        setVotingPower(totalVotingPower)
-      }
-    })
+    if (votingPower) {
+      setVotingPower(votingPower.vp)
+    }
   }
 
   useEffect(() => {
@@ -200,11 +184,12 @@ const VotingDetail = () => {
       ) {
         setStateText(VotingOutcomes.FAILED)
       } else {
-        setStateText(VotingOutcomes.ABSTAINED)
+        setStateText(votingProposalDetails.choices[highestVotedIndex])
       }
     } else {
       setStateText(votingProposalDetails?.state)
     }
+    // eslint-disable-next-line
   }, [votingProposalDetails?.state])
 
   return (
@@ -242,13 +227,17 @@ const VotingDetail = () => {
           </Flex>
 
           <Flex align="center" gap="4" flexWrap="wrap">
-            <Button
-              fontSize={['0.7rem', '0.9rem']}
-              variant="outlineGreenRounded"
-              h="100%"
+            <Tooltip
+              label={`This is your voting power on the block number the snapshot was posted. Block Number: ${proposalData?.proposal.snapshot}`}
             >
-              Voting Power: {votingPower.toFixed(2)}
-            </Button>
+              <Button
+                fontSize={['0.7rem', '0.9rem']}
+                variant="outlineGreenRounded"
+                h="100%"
+              >
+                Voting Power: {votingPower.toFixed(2)}
+              </Button>
+            </Tooltip>
 
             <Link isExternal href={voteHref}>
               <Button fontSize={['0.7rem', '0.9rem']} variant="greenButton">
@@ -308,7 +297,7 @@ const VotingDetail = () => {
                   <Text fontSize="x-small" color="gray.50">
                     Vote completion date
                   </Text>
-                  <FormattedDate date={votingProposalDetails?.start} />
+                  <FormattedDate date={votingProposalDetails?.end} />
                 </Flex>
                 <Flex
                   flexWrap="wrap"

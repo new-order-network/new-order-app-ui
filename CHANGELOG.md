@@ -1,5 +1,161 @@
 # Changelog
 
+## [1.10.0](https://github.com/new-order-network/new-order-app-ui/compare/v1.9.0...v1.10.0) (2023-06-09)
+
+
+### Features
+
+* add vault rewards note ([851d2e9](https://github.com/new-order-network/new-order-app-ui/commit/851d2e926113345943e265bbcd5d89bbe5c6eca3))
+* **style:** update text color ([21bc0aa](https://github.com/new-order-network/new-order-app-ui/commit/21bc0aa1c6d98a1230448100316c2978deb696df))
+* update previous and new merkle root for claim venewo rewards ([c012051](https://github.com/new-order-network/new-order-app-ui/commit/c01205195b0d09ed164dd5b4601e0a72fcbffdad))
+
+## [1.9.0](https://github.com/new-order-network/new-order-app-ui/compare/v1.8.0...v1.9.0) (2023-06-02)
+
+
+### Features
+
+* update current and previous avax merkleroot ([c86ccba](https://github.com/new-order-network/new-order-app-ui/commit/c86ccbae2905382b944373a383f83da886307677))
+* update eth merkleroots ([7a78de6](https://github.com/new-order-network/new-order-app-ui/commit/7a78de605f89023b6bef34f43fb59dfbf6dec3d2))
+
+## [1.8.0](https://github.com/new-order-network/new-order-app-ui/compare/v1.7.0...v1.8.0) (2023-05-26)
+
+
+### Features
+
+* add APR on claims ([fe7bac9](https://github.com/new-order-network/new-order-app-ui/commit/fe7bac9bf81a831fc63c9d7d7093a816a0d5c666))
+* hide APR ([493676f](https://github.com/new-order-network/new-order-app-ui/commit/493676fb39c92b7603ec158e6e6c68c43db44794))
+* show APR ([e7275d3](https://github.com/new-order-network/new-order-app-ui/commit/e7275d3f177624bc87702d8dab1416c0753a304b))
+* update eth merkle root ([d088238](https://github.com/new-order-network/new-order-app-ui/commit/d088238b389aec42a6c9cc5328734c6c2bc0a9f9))
+* update merkle root ([849a076](https://github.com/new-order-network/new-order-app-ui/commit/849a07687d5b464936ff3a7bb5ce8c38e85d2b00))
+* update merkle root ([2f9fd2e](https://github.com/new-order-network/new-order-app-ui/commit/2f9fd2e32cc96abb14e876e254aa8f0cca535e7d))
+* update merkle root ([cfbf3dc](https://github.com/new-order-network/new-order-app-ui/commit/cfbf3dc63b7c4f8206fb6fed28057eeb06f844b9))
+* update merkle roots ([a0a11bc](https://github.com/new-order-network/new-order-app-ui/commit/a0a11bc0effc6b75728cc7c2b635cd1d1e39f4e3))
+
+
+### Bug Fixes
+
+* build errors ([d75d4bd](https://github.com/new-order-network/new-order-app-ui/commit/d75d4bd4395d2f6f51c2863e4063c921593390b4))
+* update merkle root ([dd571c4](https://github.com/new-order-network/new-order-app-ui/commit/dd571c4b710ea4f4a618d3537672561559a04113))
+
+
+### Miscellaneous
+
+* remove unused merkle roots ([ec8da81](https://github.com/new-order-network/new-order-app-ui/commit/ec8da81f04265e4492b82254fddca951d853bf91))
+
+## [1.7.0](https://github.com/new-order-network/new-order-app-ui/compare/v1.6.0...v1.7.0) (2023-05-19)
+
+
+### Features
+
+* add warning when a user withdraws from venewo ([4f05e72](https://github.com/new-order-network/new-order-app-ui/commit/4f05e72d5a587b9f2275e288aa883c50d3f3a319))
+* disable deposit with 0% APR for LP Vaults ([710356b](https://github.com/new-order-network/new-order-app-ui/commit/710356be1d53c3746ad3fb6feaff0b4d7d6edc7a))
+* disable withdraw & claim if there are no rewards ([036d62e](https://github.com/new-order-network/new-order-app-ui/commit/036d62e56ef4617373c1a5b17b4043817253b1f9))
+* support rewards airdrop on the venewo claim page ([ce53600](https://github.com/new-order-network/new-order-app-ui/commit/ce53600f643c39c8f52fa4d505d07a0484f519a8))
+* update claimable in venewo airdrop ([53af4cf](https://github.com/new-order-network/new-order-app-ui/commit/53af4cf7384cfdeb55dc2ebc60a2650a46cdece5))
+* update merkle root ([1bdde93](https://github.com/new-order-network/new-order-app-ui/commit/1bdde93af50d16ba56aec95a27b528189a9f9555))
+* update merkle root ([1150bcb](https://github.com/new-order-network/new-order-app-ui/commit/1150bcba9c6d728bdd511944e28192d7b662f90f))
+
+
+### Miscellaneous
+
+* add console error for venewo reward hook ([d5ac169](https://github.com/new-order-network/new-order-app-ui/commit/d5ac169e335bf91eb13c931ef47351e1b5376318))
+* add the veAirdrop reward abi ([33acdb4](https://github.com/new-order-network/new-order-app-ui/commit/33acdb493caa14b19ad9077bdefc2441fba2aac3))
+* add venewo rewards airdrop address ([c6b025b](https://github.com/new-order-network/new-order-app-ui/commit/c6b025b502eb3305c37a4b99960a41f89580b1d1))
+* change venewo rewards address ([5d65524](https://github.com/new-order-network/new-order-app-ui/commit/5d65524de82496b391d5acb4c88bc60cc3486fdf))
+* update veAirdrop call ([17e1abd](https://github.com/new-order-network/new-order-app-ui/commit/17e1abde8718839420b1cc4dfc77d61261b146e1))
+* update venewo rewards airdrop contract address ([22225d1](https://github.com/new-order-network/new-order-app-ui/commit/22225d103cf4351f2f0fd7d9ebcbe6258da8b48e))
+
+## [1.6.0](https://github.com/new-order-network/new-order-app-ui/compare/v1.5.0...v1.6.0) (2023-03-13)
+
+
+### Features
+
+* integrate Youtube channel with the Videos tab on the home page ([575ddf4](https://github.com/new-order-network/new-order-app-ui/commit/575ddf45a829f2bcf950393993c8c3a7dbe72c14))
+
+
+### Bug Fixes
+
+* missing earned rewards on single side vault ([aea954a](https://github.com/new-order-network/new-order-app-ui/commit/aea954a8664ee75f630efa6fc0bc9e1810da5b97))
+* remove console warnings about non-existing contracts ([ad70523](https://github.com/new-order-network/new-order-app-ui/commit/ad7052386cccc41feaca5532b05f34ad630e5fb2))
+
+
+### Miscellaneous
+
+* add data checks on the select functions to remove errors ([6f225de](https://github.com/new-order-network/new-order-app-ui/commit/6f225dee2bde12e23146ab64eefd7cc9240c1a5d))
+* add env variables for youtube integration ([c869ec0](https://github.com/new-order-network/new-order-app-ui/commit/c869ec050384c5a11c2377d47a720139a11ca590))
+* remove unnecessary useEffect functions ([3ec5619](https://github.com/new-order-network/new-order-app-ui/commit/3ec5619e12ce12c38f983d5e33586f8d3336f19b))
+
+## [1.5.0](https://github.com/new-order-network/new-order-app-ui/compare/v1.4.1...v1.5.0) (2023-03-02)
+
+
+### Features
+
+* add balance loaders ([cd617b0](https://github.com/new-order-network/new-order-app-ui/commit/cd617b0dd008ff136a98a3e64c93b77f84ba718c))
+* add geoblocking for US countries ([fe12729](https://github.com/new-order-network/new-order-app-ui/commit/fe1272977fcd469177b7bb7f61986dba7bb32575))
+
+
+### Bug Fixes
+
+* app crash when trying to access the app with the wrong chain ([96f6d95](https://github.com/new-order-network/new-order-app-ui/commit/96f6d9581fca3e240d08f43678a1b0e07069649b))
+* incorrect vaults showing on the venewo page ([f891d85](https://github.com/new-order-network/new-order-app-ui/commit/f891d8555478deed6729e9bd548d8fa68027899c))
+* non-testnet chains not showing on change network modal ([2af3d14](https://github.com/new-order-network/new-order-app-ui/commit/2af3d142fd9bc3bfb4a5761bd51c613f3fc2d3d5))
+* unlock date not updating after wallet change ([c4ec6bc](https://github.com/new-order-network/new-order-app-ui/commit/c4ec6bcb2585e3bbd60a412b36659cd49ba15ccd))
+* value of multiplier not updating after wallet change ([bac8e52](https://github.com/new-order-network/new-order-app-ui/commit/bac8e5232b4c892ccc8399732058c45f88a4c7a0))
+
+
+### Miscellaneous
+
+* add dependabot on github actions ([#59](https://github.com/new-order-network/new-order-app-ui/issues/59)) ([1b4568c](https://github.com/new-order-network/new-order-app-ui/commit/1b4568c72902344e22febf484a1020d820060a9d))
+* change community button link to academy ([b1a144b](https://github.com/new-order-network/new-order-app-ui/commit/b1a144bb63f2d75f925955483f39138241689381))
+* force zero apr on the avax lp vault ([c8227f1](https://github.com/new-order-network/new-order-app-ui/commit/c8227f11a842c2f32713e8f8e8986e5e1c0e37fa))
+* force zero apr on the eth lp vault ([ce75114](https://github.com/new-order-network/new-order-app-ui/commit/ce75114d1de432d626437928ee80463956a6d4f9))
+* remove governance staking button and modal ([6d28f89](https://github.com/new-order-network/new-order-app-ui/commit/6d28f891f7270be8b5e2f3a2f4ae9aae1ca4deb9))
+* update wagmi dependency to latest version ([f0aa949](https://github.com/new-order-network/new-order-app-ui/commit/f0aa949459e19848d2df6ad36c6a1b5fa9f3df65))
+
+## [1.4.1](https://github.com/new-order-network/new-order-app-ui/compare/v1.4.0...v1.4.1) (2023-01-17)
+
+
+### Bug Fixes
+
+* incorrect voting completion date ([cdf6185](https://github.com/new-order-network/new-order-app-ui/commit/cdf6185e3afeb367917d8101606d2e4ec27f25c0))
+* typos ([93e3f80](https://github.com/new-order-network/new-order-app-ui/commit/93e3f806b74b41db756b3f17d8929885a92393a0))
+* typos ([93e3f80](https://github.com/new-order-network/new-order-app-ui/commit/93e3f806b74b41db756b3f17d8929885a92393a0))
+
+## [1.4.0](https://github.com/new-order-network/new-order-app-ui/compare/v1.3.1...v1.4.0) (2023-01-17)
+
+
+### Features
+
+* add tooltip on voting power to show details of block number of snapshot ([6429ab7](https://github.com/new-order-network/new-order-app-ui/commit/6429ab7873d8b70ca32eaca141cee0efe0c0597f))
+* show voting power on voting page ([9b8653d](https://github.com/new-order-network/new-order-app-ui/commit/9b8653d7f864bfb1d7d914eac799e0eda6191d45))
+
+
+### Bug Fixes
+
+* voting power not showing on the proposal ([f079653](https://github.com/new-order-network/new-order-app-ui/commit/f079653dda3164ecb2274ebb665208ecafc0380a))
+
+
+### Miscellaneous
+
+* **deps:** bump loader-utils from 1.4.0 to 1.4.2 ([20a0b49](https://github.com/new-order-network/new-order-app-ui/commit/20a0b4955b5a508fe4c51a836e8fa48ccdde1e0e))
+
+## [1.3.1](https://github.com/new-order-network/new-order-app-ui/compare/v1.3.0...v1.3.1) (2023-01-16)
+
+
+### Bug Fixes
+
+* disable button when no venewo is on the wallet ([8cd24ed](https://github.com/new-order-network/new-order-app-ui/commit/8cd24ed9e6de9acfe9c79e32c479d5a49a48495f))
+* hydration message on header components ([1b5c133](https://github.com/new-order-network/new-order-app-ui/commit/1b5c1339f5dea908cdb2585e67e43f71cf627215))
+* hydration message on invest page ([98d6b91](https://github.com/new-order-network/new-order-app-ui/commit/98d6b91f6f56f6e7a3e88c341fa4afbab1c31601))
+* register button is disabled on lp when boost is 1 ([8758a8f](https://github.com/new-order-network/new-order-app-ui/commit/8758a8f47aac374cc6a6f680a7de7c2aae3c8d6d))
+* registered detection failing on first visit ([6c131d5](https://github.com/new-order-network/new-order-app-ui/commit/6c131d5ca26a0a9551ea3211bb9abd4d3762da32))
+
+
+### Miscellaneous
+
+* add tooltip on the venewo register button to inform users to re-register ([7b56bef](https://github.com/new-order-network/new-order-app-ui/commit/7b56befe387bcde625c461b5a7ccb662d8f3c9fd))
+* update the tooltip message ([137f185](https://github.com/new-order-network/new-order-app-ui/commit/137f185543805ba1ffecee281b50b5169b7e4fba))
+
 ## [1.3.0](https://github.com/new-order-network/new-order-app-ui/compare/v1.2.1...v1.3.0) (2022-11-08)
 
 
