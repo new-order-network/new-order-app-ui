@@ -118,37 +118,16 @@ const Claim = () => {
         <Text fontSize="xl" color="brand.green">
           Rewards Information
         </Text>
-
-        <Box
-          border="1px solid"
-          borderColor="gray.80"
-          borderRadius="8"
-          overflow="hidden"
-        >
-          <Table variant="grayStriped">
-            <Thead>
-              <Tr>
-                <Th>Token</Th>
-                <Th>APR</Th>
-                <Th>Claimable Rewards</Th>
-                <Th>Actions</Th>
-                <Th></Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {contracts.VE_NEWO_REWARDS_AIRDROP &&
-                merkleRoot &&
-                previousMerkleRoot && (
-                  <AirdropReward
-                    tokenAddress={contracts.NEWO}
-                    distributorAddress={contracts.VE_NEWO_REWARDS_AIRDROP}
-                    merkleRoot={merkleRoot}
-                    previousMerkleRoot={previousMerkleRoot}
-                  />
-                )}
-            </Tbody>
-          </Table>
-        </Box>
+        {contracts.VE_NEWO_REWARDS_AIRDROP &&
+          merkleRoot &&
+          previousMerkleRoot && (
+            <AirdropReward
+              tokenAddress={contracts.NEWO}
+              distributorAddress={contracts.VE_NEWO_REWARDS_AIRDROP}
+              merkleRoot={merkleRoot}
+              previousMerkleRoot={previousMerkleRoot}
+            />
+          )}
       </Stack>
     </ConnectOverlay>
   )
