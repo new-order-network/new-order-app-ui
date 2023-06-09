@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.10.0](https://github.com/new-order-network/new-order-app-ui/compare/v1.9.0...v1.10.0) (2023-06-09)
+
+
+### Features
+
+* add vault rewards note ([851d2e9](https://github.com/new-order-network/new-order-app-ui/commit/851d2e926113345943e265bbcd5d89bbe5c6eca3))
+* **style:** update text color ([21bc0aa](https://github.com/new-order-network/new-order-app-ui/commit/21bc0aa1c6d98a1230448100316c2978deb696df))
+* update previous and new merkle root for claim venewo rewards ([c012051](https://github.com/new-order-network/new-order-app-ui/commit/c01205195b0d09ed164dd5b4601e0a72fcbffdad))
+
 ## [1.9.0](https://github.com/new-order-network/new-order-app-ui/compare/v1.8.0...v1.9.0) (2023-06-02)
 
 
