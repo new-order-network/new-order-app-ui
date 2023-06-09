@@ -118,7 +118,10 @@ const Claim = () => {
         <Text fontSize="xl" color="brand.green">
           Rewards Information
         </Text>
-
+        <Text fontSize="sm">
+          The vault rewards for this week (June 09, 2023) has been updated. For
+          the time being rewards are distributed on a weekly basis.
+        </Text>
         <Box
           border="1px solid"
           borderColor="gray.80"
