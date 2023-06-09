@@ -27,7 +27,7 @@ import { useContractContext } from 'store/contexts/contractContext'
 import veNewoRewardsPreviousAvaxMerkleRoot from 'constants/airdrop/finalRewardsAvaxMerkleRoot.json'
 import veNewoRewardsPreviousEthMerkleRoot from 'constants/airdrop/finalRewardsEthMerkleRoot.json'
 import veNewoRewardsFinalAvaxMerkleRoot from 'constants/airdrop/june2AvaxRewardsMerkleRoot.json'
-import veNewoRewardsFinalEthMerkleRoot from 'constants/airdrop/june2EthRewardsMerkleRoot.json.json'
+import veNewoRewardsFinalEthMerkleRoot from 'constants/airdrop/june2EthRewardsMerkleRoot.json'
 
 const Claim = () => {
   const { address } = useAccount()
