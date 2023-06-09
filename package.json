@@ -1,6 +1,6 @@
 {
   "name": "new-order-dapp-v2",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -22,7 +22,7 @@
     "@emotion/styled": "^11",
     "@metamask/onboarding": "^1.0.1",
     "@snapshot-labs/snapshot.js": "^0.4.5",
-    "@upstash/redis": "^1.9.0",
+    "@upstash/redis": "^1.21.0",
     "@visx/gradient": "^2.10.0",
     "@visx/xychart": "^2.11.1",
     "axios": "^0.27.2",
@@ -50,7 +50,7 @@
     "wagmi": "^0.10.11"
   },
   "devDependencies": {
-    "@commitlint/cli": "^17.0.2",
+    "@commitlint/cli": "^17.6.5",
     "@commitlint/config-conventional": "^17.0.2",
     "@next/eslint-plugin-next": "^12.1.6",
     "@testing-library/jest-dom": "^5.16.4",
@@ -65,7 +65,7 @@
     "@typescript-eslint/parser": "^5.27.0",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^28.1.2",
-    "eslint": "8.16.0",
+    "eslint": "8.42.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.0.0",
     "eslint-config-next": "12.1.6",

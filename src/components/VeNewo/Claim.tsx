@@ -24,10 +24,10 @@ import AirdropReward from 'components/VeNewo/AirdropReward'
 import { useVeNewoContext } from 'store/contexts/veNewoContext'
 import { useContractContext } from 'store/contexts/contractContext'
 
-import veNewoRewardsPreviousAvaxMerkleRoot from 'constants/airdrop/finalRewardsAvaxMerkleRoot.json'
-import veNewoRewardsPreviousEthMerkleRoot from 'constants/airdrop/finalRewardsEthMerkleRoot.json'
-import veNewoRewardsFinalAvaxMerkleRoot from 'constants/airdrop/june2AvaxRewardsMerkleRoot.json'
-import veNewoRewardsFinalEthMerkleRoot from 'constants/airdrop/june2EthRewardsMerkleRoot.json.json'
+import veNewoRewardsPreviousAvaxMerkleRoot from 'constants/airdrop/june2AvaxRewardsMerkleRoot.json'
+import veNewoRewardsPreviousEthMerkleRoot from 'constants/airdrop/june2EthRewardsMerkleRoot.json'
+import veNewoRewardsFinalAvaxMerkleRoot from 'constants/airdrop/june9AvaxRewardsMerkleRoot.json'
+import veNewoRewardsFinalEthMerkleRoot from 'constants/airdrop/june9EthRewardsMerkleRoot.json'
 
 const Claim = () => {
   const { address } = useAccount()
@@ -118,7 +118,10 @@ const Claim = () => {
         <Text fontSize="xl" color="brand.green">
           Rewards Information
         </Text>
-
+        <Text fontSize="sm" color="gray.50">
+          The vault rewards for this week (June 09, 2023) has been updated. For
+          the time being rewards are distributed on a weekly basis.
+        </Text>
         <Box
           border="1px solid"
           borderColor="gray.80"

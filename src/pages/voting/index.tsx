@@ -31,7 +31,7 @@ import { VotingProvider } from 'store/contexts/votingContext'
 import Layout from 'layout'
 
 const Voting = () => {
-  const pageSize = 30
+  const pageSize = 50
   const proposalCountData = useQuery(snapshotProposalCountQuery)
   const [totalVotingProposals, setTotalVotingProposals] = useState(0)
   const { pages, pagesCount, currentPage, isDisabled, setCurrentPage } =
