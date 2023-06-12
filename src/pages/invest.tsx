@@ -2,6 +2,7 @@ import {
   Box,
   Grid,
   GridItem,
+  Link,
   Stack,
   Tab,
   TabList,
@@ -35,6 +36,10 @@ const Invest = () => {
     }
   }, [vaultsData])
 
+  const hasCurrentVaults = vaults?.some((vault) => {
+    return vault.isActive === true
+  })
+
   return (
     <Layout
       bgPosition="bottom right"
@@ -54,33 +59,67 @@ const Invest = () => {
 
             <TabPanels p="28px 24px">
               <TabPanel p="0">
-                <Grid
-                  templateColumns={[
-                    '1fr',
-                    '1fr',
-                    '1fr 1fr',
-                    '1fr 1fr',
-                    'repeat(3, 1fr)',
-                    'repeat(4, 1fr)',
-                    'repeat(4, 1fr)',
-                    'repeat(5, 1fr)',
-                  ]}
-                  gap={6}
-                >
-                  {vaults &&
-                    vaults
-                      ?.filter((vault: VaultProps) => {
-                        return vault.isActive === true
-                      })
-                      ?.map((vault) => {
-                        const isVeVault = vault.label
-                          .toLowerCase()
-                          .includes('ve')
+                {!hasCurrentVaults ? (
+                  <Stack p="20px" spacing={4}>
+                    <Text color="gray.50">
+                      There are no current vaults. Rewards are distributed
+                      through{' '}
+                      <Link
+                        href="/venewo"
+                        color="green.100"
+                        _hover={{
+                          color: 'green.90',
+                          textDecoration: 'underline',
+                        }}
+                      >
+                        veNEWO
+                      </Link>
+                      .
+                    </Text>
+                  </Stack>
+                ) : (
+                  <Grid
+                    templateColumns={[
+                      '1fr',
+                      '1fr',
+                      '1fr 1fr',
+                      '1fr 1fr',
+                      'repeat(3, 1fr)',
+                      'repeat(4, 1fr)',
+                      'repeat(4, 1fr)',
+                      'repeat(5, 1fr)',
+                    ]}
+                    gap={6}
+                  >
+                    {vaults &&
+                      vaults
+                        ?.filter((vault: VaultProps) => {
+                          return vault.isActive === true
+                        })
+                        ?.map((vault) => {
+                          console.log('vault', vault)
+                          const isVeVault = vault.label
+                            .toLowerCase()
+                            .includes('ve')
 
-                        if (isVeVault) {
+                          if (isVeVault) {
+                            return (
+                              <GridItem key={vault.vaultAddress}>
+                                <VeVault
+                                  label={vault.label}
+                                  vaultAddress={vault.vaultAddress}
+                                  tokenAddress={vault.tokenAddress}
+                                  token0={vault.token0}
+                                  token1={vault.token1}
+                                  isLegacyVault={vault.isLegacyVault}
+                                />
+                              </GridItem>
+                            )
+                          }
+
                           return (
                             <GridItem key={vault.vaultAddress}>
-                              <VeVault
+                              <Vault
                                 label={vault.label}
                                 vaultAddress={vault.vaultAddress}
                                 tokenAddress={vault.tokenAddress}
@@ -90,22 +129,9 @@ const Invest = () => {
                               />
                             </GridItem>
                           )
-                        }
-
-                        return (
-                          <GridItem key={vault.vaultAddress}>
-                            <Vault
-                              label={vault.label}
-                              vaultAddress={vault.vaultAddress}
-                              tokenAddress={vault.tokenAddress}
-                              token0={vault.token0}
-                              token1={vault.token1}
-                              isLegacyVault={vault.isLegacyVault}
-                            />
-                          </GridItem>
-                        )
-                      })}
-                </Grid>
+                        })}
+                  </Grid>
+                )}
               </TabPanel>
               <TabPanel>
                 <Table variant="grayStriped" size="md">
