@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  ButtonProps,
   Text,
   Tooltip,
   useToast,
@@ -17,7 +18,7 @@ import { Subscription } from 'models/pushProtocol'
 
 import { useNewoContext } from 'store/contexts/newoContext'
 
-export const PushProtocolButton = () => {
+export const PushProtocolButton: React.FC<ButtonProps> = ({ ...btnProps }) => {
   const { data: signer } = useSigner()
   const { accountAddress } = useNewoContext()
   const toast = useToast()
@@ -164,6 +165,7 @@ export const PushProtocolButton = () => {
         onClick={isSubscribed ? unsubscribeToChannel : subscribeToChannel}
         isLoading={isLoading}
         isDisabled={!accountAddress || !signer}
+        {...btnProps}
       >
         {isSubscribed ? 'Unsubscribe' : 'Subscribe'} to push notifications
       </Button>

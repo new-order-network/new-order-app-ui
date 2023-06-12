@@ -14,7 +14,6 @@ import {
 } from '@chakra-ui/react'
 
 import NewsFeed from 'components/NewsFeed'
-import { PushProtocolButton } from 'components/Protocols/PushProtocol'
 import TwitterFeed from 'components/TwitterFeed'
 
 import ExternalLink from 'constants/externalLink'
@@ -52,7 +51,6 @@ const Home = () => {
                 Contributor Bounties
               </Button>
             </Link>
-            <PushProtocolButton />
           </Flex>
           <Tabs w="full" variant="pinkTab">
             <TabList p={['0 24px', '28px 40px 0', '28px 40px 0']}>

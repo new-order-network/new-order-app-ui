@@ -17,6 +17,7 @@ import NavLink from 'components/NavLink'
 import Logo from 'components/Logo'
 import SocialMediaFooter from 'components/SocialMediaFooter'
 import WalletWidget from 'components/WalletWidget/WalletWidget'
+import NotificationBell from 'components/Notifications/NotificationBell'
 
 import { LinkProps, SidebarMenuItemsProps } from 'models/sidebarMenu'
 
@@ -56,6 +57,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onClose, ...rest }) => {
 
           <CloseButton display={['flex', 'flex', 'none']} onClick={onClose} />
         </Flex>
+        <NotificationBell isSidebar />
         <WalletWidget
           justifyContent="center"
           display={['flex', 'flex', 'none']}

@@ -4,7 +4,9 @@ import { createClient, createStorage, WagmiConfig } from 'wagmi'
 import { ApolloProvider } from '@apollo/client'
 import NextNProgress from 'nextjs-progressbar'
 import { ErrorBoundary } from 'react-error-boundary'
+import { QueryClientProvider } from '@tanstack/react-query'
 import 'react-datepicker/dist/react-datepicker.css'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 import { ErrorFallback } from 'components/ErrorFallback'
 import Fonts from 'components/Fonts'
@@ -12,6 +14,7 @@ import Fonts from 'components/Fonts'
 import { apolloClient } from 'api/snapshotApi'
 
 import { connectors, provider } from 'lib/utils/web3'
+import { queryClient } from 'lib/queryClient'
 
 import { NewoProvider } from 'store/contexts/newoContext'
 import { ContractProvider } from 'store/contexts/contractContext'
@@ -38,26 +41,29 @@ const App = ({ Component, pageProps }: AppProps) => {
   return (
     <WagmiConfig client={client}>
       <ChakraProvider theme={theme}>
-        <ContractProvider>
-          <NewoProvider>
-            <ApolloProvider client={apolloClient}>
-              <Fonts />
-              <NextNProgress
-                color="#9E00FF"
-                startPosition={0.3}
-                stopDelayMs={200}
-                height={3}
-                showOnShallow={true}
-                options={{
-                  showSpinner: false,
-                }}
-              />
-              <ErrorBoundary FallbackComponent={ErrorFallback}>
-                <Component {...pageProps} />
-              </ErrorBoundary>
-            </ApolloProvider>
-          </NewoProvider>
-        </ContractProvider>
+        <QueryClientProvider client={queryClient}>
+          <ContractProvider>
+            <NewoProvider>
+              <ApolloProvider client={apolloClient}>
+                <Fonts />
+                <NextNProgress
+                  color="#9E00FF"
+                  startPosition={0.3}
+                  stopDelayMs={200}
+                  height={3}
+                  showOnShallow={true}
+                  options={{
+                    showSpinner: false,
+                  }}
+                />
+                <ErrorBoundary FallbackComponent={ErrorFallback}>
+                  <Component {...pageProps} />
+                </ErrorBoundary>
+              </ApolloProvider>
+            </NewoProvider>
+          </ContractProvider>
+          <ReactQueryDevtools />
+        </QueryClientProvider>
       </ChakraProvider>
     </WagmiConfig>
   )

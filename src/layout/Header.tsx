@@ -3,6 +3,7 @@ import { FiAlignLeft } from 'react-icons/fi'
 
 import Logo from 'components/Logo'
 import WalletWidget from 'components/WalletWidget/WalletWidget'
+import NotificationBell from 'components/Notifications/NotificationBell'
 
 interface HeaderProps {
   onOpen: () => void
@@ -24,6 +25,7 @@ const Header: React.FC<HeaderProps> = ({ onOpen, ...rest }) => {
       color="white"
       {...rest}
     >
+      <NotificationBell />
       <IconButton
         display={['flex', 'flex', 'none']}
         onClick={onOpen}

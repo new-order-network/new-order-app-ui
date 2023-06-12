@@ -30,7 +30,7 @@ const AddressButton: React.FC = () => {
     useNewoContext()
 
   return (
-    <Flex flexWrap="wrap" gap={['4', '1']} ml={['3', 0]}>
+    <Flex flexWrap="wrap" alignItems="center" gap={['4', '1']} ml={['3', 0]}>
       <NetworkButton />
 
       <Menu isOpen={isOpen} placement="bottom-end" closeOnSelect>
