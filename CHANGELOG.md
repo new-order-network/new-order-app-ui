@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.10.1](https://github.com/new-order-network/new-order-app-ui/compare/v1.10.0...v1.10.1) (2023-06-12)
+
+
+### Miscellaneous
+
+* add no current vault message ([7a5f091](https://github.com/new-order-network/new-order-app-ui/commit/7a5f091855bc936d566b63cecb51ddf4a11db25a))
+
 ## [1.10.0](https://github.com/new-order-network/new-order-app-ui/compare/v1.9.0...v1.10.0) (2023-06-09)
 
 
