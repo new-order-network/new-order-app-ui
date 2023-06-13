@@ -34,25 +34,8 @@ export const Vaults: VaultsProps = {
       isLegacyVault: true,
       isLegacyLPVault: true,
     },
-    {
-      label: 've LP Vault',
-      vaultAddress: contractAddresses[1].VE_NEWO_USDC_LP_VAULT,
-      tokenAddress: contractAddresses[1].NEWO_USDC_LP,
-      token0: contractAddresses[1].NEWO,
-      token1: contractAddresses[1].USDC,
-      isActive: true,
-    },
   ],
-  5: [
-    {
-      label: 've LP Vault',
-      vaultAddress: contractAddresses[5].VE_NEWO_USDC_LP_VAULT,
-      tokenAddress: contractAddresses[5].NEWO_USDC_LP,
-      token0: contractAddresses[5].NEWO,
-      token1: contractAddresses[5].USDC,
-      isActive: true,
-    },
-  ],
+  5: [],
   43114: [
     {
       label: 'Legacy NEWO Single-Side',
@@ -70,14 +53,6 @@ export const Vaults: VaultsProps = {
       isActive: false,
       isLegacyVault: true,
       isLegacyLPVault: true,
-    },
-    {
-      label: 've LP Vault',
-      vaultAddress: contractAddresses[43114].VE_NEWO_WAVAX_LP_VAULT,
-      tokenAddress: contractAddresses[43114].NEWO_WAVAX_LP,
-      token0: contractAddresses[43114].NEWO,
-      token1: contractAddresses[43114].WAVAX,
-      isActive: true,
     },
   ],
   43113: [],
