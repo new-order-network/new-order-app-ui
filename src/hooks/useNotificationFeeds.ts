@@ -10,9 +10,13 @@ const getUserNotificationFeeds = async (
 ): Promise<EPNSNotification[]> => {
   const notifications = await PushAPI.user.getFeeds({
     user: `eip155:5:${accountAddress}`,
-    limit: 50,
+    limit: 1000,
     env: env.NEXT_PUBLIC_PUSH_ENV,
   })
+  console.group('TESTING NOTIF')
+  console.log('accountAddress', accountAddress)
+  console.log('notifications', notifications)
+  console.groupEnd()
   return notifications
 }
 

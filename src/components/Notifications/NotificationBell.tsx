@@ -4,6 +4,7 @@ import {
   HStack,
   Icon,
   IconButton,
+  Link,
   Menu,
   MenuButton,
   MenuList,
@@ -32,6 +33,7 @@ import { Subscription } from 'models/pushProtocol'
 import { useNewoContext } from 'store/contexts/newoContext'
 
 import { EPNSNotification } from 'constants/notification'
+import ExternalLink from 'constants/externalLink'
 
 interface NotificationBellProps {
   isSidebar?: boolean
@@ -227,7 +229,6 @@ const NotificationBell: React.FC<NotificationBellProps> = ({
       }
     }
   }
-  console.log('epnsNotifications', epnsNotifications)
   return (
     <>
       <Menu closeOnSelect={false} placement="bottom-end">
@@ -243,8 +244,24 @@ const NotificationBell: React.FC<NotificationBellProps> = ({
         >
           <Text fontSize="lg">Notifications</Text>
           <Text pb={4} fontSize="xs" color="gray.50">
-            Notifications are being fetched from Push Protocol - New Order
-            Goerli Updates
+            Notifications are fetched from{' '}
+            <Text
+              as="span"
+              bgGradient="linear(to-tr, protocols.push.pink, protocols.push.purple)"
+              bgClip="text"
+            >
+              <Link
+                href={ExternalLink.pushApp}
+                isExternal
+                _hover={{
+                  textDecoration: 'underline',
+                }}
+              >
+                app.push.org
+              </Link>
+            </Text>
+            <br />
+            Channel: {env.NEXT_PUBLIC_PUSH_CHANNEL_NAME}
           </Text>
           {isEPNSNotificationsLoading ? (
             <Stack spacing={2}>
@@ -282,7 +299,7 @@ const NotificationBell: React.FC<NotificationBellProps> = ({
             >
               {epnsNotifications
                 ?.filter((notification: EPNSNotification) => {
-                  return notification?.app === 'New Order Goerli Updates'
+                  return notification?.app === env.NEXT_PUBLIC_PUSH_CHANNEL_NAME
                 })
                 ?.map((notification: EPNSNotification, index: number) => {
                   return <Notification key={index} {...notification} />

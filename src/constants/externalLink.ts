@@ -8,6 +8,7 @@ const ExternalLink = {
   veNewoFAQ: 'https://docs.neworder.network/new-order/protocol-overview/venewo',
   newOrderAcademy:
     'https://new-order.notion.site/New-Order-Academy-e2246dbb576c47d98fd5b5e4a208a530',
+  pushApp: 'https://app.push.org/channels',
 }
 
 export default ExternalLink
