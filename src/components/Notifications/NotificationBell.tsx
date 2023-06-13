@@ -261,7 +261,7 @@ const NotificationBell: React.FC<NotificationBellProps> = ({
         )
       } else {
         return (
-          <Box pos="relative">
+          <Box pos="relative" display={['none', 'none', 'flex']}>
             {hasNewNotification && (
               <Circle
                 bg="green.100"
@@ -279,7 +279,6 @@ const NotificationBell: React.FC<NotificationBellProps> = ({
                 <Icon color="gray.60" fontSize="2xl" as={IoNotifications} />
               }
               variant="outline"
-              display={['none', 'none', 'flex']}
               mr="3"
               onClick={() => {
                 readNotifications()
@@ -297,7 +296,7 @@ const NotificationBell: React.FC<NotificationBellProps> = ({
           ? notificationButton(['flex', 'flex', 'none'])
           : notificationButton(['none', 'none', 'flex'])}
         <MenuList
-          w="410px"
+          maxW="410px"
           backgroundColor="gray.75"
           fontSize="0.8rem"
           border="none"
