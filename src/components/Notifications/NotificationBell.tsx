@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Circle,
   Flex,
   HStack,
   Icon,
@@ -8,6 +9,7 @@ import {
   Link,
   Menu,
   MenuButton,
+  MenuItem,
   MenuList,
   Skeleton,
   Spinner,
@@ -22,6 +24,7 @@ import { useEffect, useState } from 'react'
 import * as PushAPI from '@pushprotocol/restapi'
 import { useSigner } from 'wagmi'
 import hexToRgba from 'hex-to-rgba'
+import { useLocalStorage } from 'usehooks-ts'
 
 import Notification from 'components/Notifications/Notification'
 import Card from 'components/Card'
@@ -45,6 +48,10 @@ const NotificationBell: React.FC<NotificationBellProps> = ({
   isSidebar = false,
 }) => {
   const toast = useToast()
+  const [hasNewNotification, setHasNewNotification] = useLocalStorage(
+    'has_new_notification',
+    false
+  )
   const { data: signer } = useSigner()
   const { accountAddress } = useNewoContext()
   const [isSubscribed, setIsSubscribed] = useState(false)
@@ -80,6 +87,18 @@ const NotificationBell: React.FC<NotificationBellProps> = ({
       setIsSubscribed(true)
     } else {
       setIsSubscribed(false)
+    }
+  }
+
+  const readNotifications = () => {
+    const channelData = epnsNotificationData?.filter(
+      (notification: EPNSNotification) => {
+        return notification?.app === env.NEXT_PUBLIC_PUSH_CHANNEL_NAME
+      }
+    )
+    setHasNewNotification(false)
+    if (channelData) {
+      setEpnsNotifications(channelData)
     }
   }
 
@@ -157,9 +176,25 @@ const NotificationBell: React.FC<NotificationBellProps> = ({
     }
   }
 
-  const { data: epnsNotifications, isLoading: isEPNSNotificationsLoading } =
+  const [notificationCount, setNotificationCount] = useState(0)
+  const [epnsNotifications, setEpnsNotifications] = useState<
+    EPNSNotification[]
+  >([])
+
+  const { data: epnsNotificationData, isLoading: isEPNSNotificationsLoading } =
     useNotificationFeeds(accountAddress, {
       enabled: Boolean(accountAddress),
+      onSuccess: (data) => {
+        if (data && data?.length > 0) {
+          const channelData = data?.filter((notification: EPNSNotification) => {
+            return notification?.app === env.NEXT_PUBLIC_PUSH_CHANNEL_NAME
+          })
+          setNotificationCount(channelData?.length)
+          if (channelData?.length !== notificationCount) {
+            setHasNewNotification(true)
+          }
+        }
+      },
     })
 
   const notificationButton = (display: string[]) => {
@@ -210,7 +245,14 @@ const NotificationBell: React.FC<NotificationBellProps> = ({
     } else {
       if (isSidebar) {
         return (
-          <MenuButton as={Button} mx="4" display={['flex', 'flex', 'none']}>
+          <MenuButton
+            as={Button}
+            mx="4"
+            display={['flex', 'flex', 'none']}
+            onClick={() => {
+              readNotifications()
+            }}
+          >
             <HStack>
               <Icon color="gray.60" fontSize="xl" as={IoNotifications} />
               <Text>Notifications</Text>
@@ -219,14 +261,31 @@ const NotificationBell: React.FC<NotificationBellProps> = ({
         )
       } else {
         return (
-          <MenuButton
-            as={IconButton}
-            aria-label="Notifications"
-            icon={<Icon color="gray.60" fontSize="2xl" as={IoNotifications} />}
-            variant="outline"
-            display={['none', 'none', 'flex']}
-            mr="3"
-          />
+          <Box pos="relative">
+            {hasNewNotification && (
+              <Circle
+                bg="green.100"
+                size="2.5"
+                pos="absolute"
+                top="2"
+                right="5"
+                zIndex={1}
+              />
+            )}
+            <MenuButton
+              as={IconButton}
+              aria-label="Notifications"
+              icon={
+                <Icon color="gray.60" fontSize="2xl" as={IoNotifications} />
+              }
+              variant="outline"
+              display={['none', 'none', 'flex']}
+              mr="3"
+              onClick={() => {
+                readNotifications()
+              }}
+            />
+          </Box>
         )
       }
     }
@@ -324,22 +383,30 @@ const NotificationBell: React.FC<NotificationBellProps> = ({
               )}
             </Stack>
           )}
-          <Text
-            pt={4}
-            cursor="pointer"
-            transition="all 0.3s ease"
-            _hover={{
-              bgGradient:
-                'linear(to-tr, protocols.push.pink, protocols.push.purple)',
-              bgClip: 'text',
-            }}
-            onClick={unsubscribeToChannel}
-            alignItems="center"
-            color="gray.50"
+          <MenuItem
+            bg="transparent"
+            _hover={{ bg: 'none' }}
+            _active={{ bg: 'none' }}
+            _focus={{ bg: 'none' }}
+            py={0}
           >
-            Unsubscribe to push notifications
-            {isLoading && <Spinner size="xs" ml="2" />}
-          </Text>
+            <Text
+              pt={4}
+              cursor="pointer"
+              transition="all 0.3s ease"
+              _hover={{
+                bgGradient:
+                  'linear(to-tr, protocols.push.pink, protocols.push.purple)',
+                bgClip: 'text',
+              }}
+              onClick={unsubscribeToChannel}
+              alignItems="center"
+              color="gray.50"
+            >
+              Unsubscribe to push notifications
+              {isLoading && <Spinner size="xs" ml="2" />}
+            </Text>
+          </MenuItem>
         </MenuList>
       </Menu>
     </>

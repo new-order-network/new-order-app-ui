@@ -21,6 +21,8 @@ import NotificationBell from 'components/Notifications/NotificationBell'
 
 import { LinkProps, SidebarMenuItemsProps } from 'models/sidebarMenu'
 
+import { useNewoContext } from 'store/contexts/newoContext'
+
 import { SidebarMenuItems } from 'constants/sidebarMenu'
 
 interface SidebarProps extends BoxProps {
@@ -29,6 +31,7 @@ interface SidebarProps extends BoxProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ onClose, ...rest }) => {
   const router = useRouter()
+  const { accountAddress } = useNewoContext()
 
   useEffect(() => {
     router.events.on('routeChangeComplete', onClose)
@@ -57,7 +60,8 @@ const Sidebar: React.FC<SidebarProps> = ({ onClose, ...rest }) => {
 
           <CloseButton display={['flex', 'flex', 'none']} onClick={onClose} />
         </Flex>
-        <NotificationBell isSidebar />
+        {accountAddress && <NotificationBell isSidebar />}
+
         <WalletWidget
           justifyContent="center"
           display={['flex', 'flex', 'none']}

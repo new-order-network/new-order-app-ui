@@ -5,11 +5,14 @@ import Logo from 'components/Logo'
 import WalletWidget from 'components/WalletWidget/WalletWidget'
 import NotificationBell from 'components/Notifications/NotificationBell'
 
+import { useNewoContext } from 'store/contexts/newoContext'
+
 interface HeaderProps {
   onOpen: () => void
 }
 
 const Header: React.FC<HeaderProps> = ({ onOpen, ...rest }) => {
+  const { accountAddress } = useNewoContext()
   return (
     <Flex
       ml={[0, 0, 48]}
@@ -25,7 +28,7 @@ const Header: React.FC<HeaderProps> = ({ onOpen, ...rest }) => {
       color="white"
       {...rest}
     >
-      <NotificationBell />
+      {accountAddress && <NotificationBell />}
       <IconButton
         display={['flex', 'flex', 'none']}
         onClick={onOpen}

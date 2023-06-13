@@ -39,7 +39,7 @@ const Notification: React.FC<EPNSNotification> = ({
           <Text fontSize="sm">{title}</Text>
         )}
         {image && (
-          <AspectRatio ratio={16 / 9} position="relative" w="full" h="120px">
+          <AspectRatio ratio={16 / 9} position="relative" w="full" h="auto">
             <Image
               bg="gray.85"
               src={image}
