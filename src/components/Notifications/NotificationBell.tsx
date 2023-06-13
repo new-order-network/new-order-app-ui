@@ -24,7 +24,6 @@ import { useEffect, useState } from 'react'
 import * as PushAPI from '@pushprotocol/restapi'
 import { useSigner } from 'wagmi'
 import hexToRgba from 'hex-to-rgba'
-import { useLocalStorage } from 'usehooks-ts'
 
 import Notification from 'components/Notifications/Notification'
 import Card from 'components/Card'
@@ -48,10 +47,6 @@ const NotificationBell: React.FC<NotificationBellProps> = ({
   isSidebar = false,
 }) => {
   const toast = useToast()
-  const [hasNewNotification, setHasNewNotification] = useLocalStorage(
-    'has_new_notification',
-    false
-  )
   const { data: signer } = useSigner()
   const { accountAddress } = useNewoContext()
   const [isSubscribed, setIsSubscribed] = useState(false)
@@ -96,7 +91,7 @@ const NotificationBell: React.FC<NotificationBellProps> = ({
         return notification?.app === env.NEXT_PUBLIC_PUSH_CHANNEL_NAME
       }
     )
-    setHasNewNotification(false)
+    window.localStorage.setItem('has_new_notification', 'false')
     if (channelData) {
       setEpnsNotifications(channelData)
     }
@@ -191,7 +186,7 @@ const NotificationBell: React.FC<NotificationBellProps> = ({
           })
           setNotificationCount(channelData?.length)
           if (channelData?.length !== notificationCount) {
-            setHasNewNotification(true)
+            window.localStorage.setItem('has_new_notification', 'true')
           }
         }
       },
@@ -262,7 +257,7 @@ const NotificationBell: React.FC<NotificationBellProps> = ({
       } else {
         return (
           <Box pos="relative" display={['none', 'none', 'flex']}>
-            {hasNewNotification && (
+            {Boolean(window.localStorage.getItem('has_new_notification')) && (
               <Circle
                 bg="green.100"
                 size="2.5"
