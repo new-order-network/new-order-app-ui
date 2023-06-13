@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Flex,
   HStack,
   Icon,
   IconButton,
@@ -23,6 +24,7 @@ import { useSigner } from 'wagmi'
 import hexToRgba from 'hex-to-rgba'
 
 import Notification from 'components/Notifications/Notification'
+import Card from 'components/Card'
 
 import { useNotificationFeeds } from 'hooks/useNotificationFeeds'
 
@@ -251,13 +253,19 @@ const NotificationBell: React.FC<NotificationBellProps> = ({
               bgClip="text"
             >
               <Link
-                href={ExternalLink.pushApp}
+                href={
+                  env.NEXT_PUBLIC_PUSH_ENV === 'staging'
+                    ? ExternalLink.stagingPushApp
+                    : ExternalLink.pushApp
+                }
                 isExternal
                 _hover={{
                   textDecoration: 'underline',
                 }}
               >
-                app.push.org
+                {env.NEXT_PUBLIC_PUSH_ENV === 'staging'
+                  ? 'staging.push.org'
+                  : 'app.push.org'}
               </Link>
             </Text>
             <br />
@@ -297,13 +305,23 @@ const NotificationBell: React.FC<NotificationBellProps> = ({
                 },
               }}
             >
-              {epnsNotifications
-                ?.filter((notification: EPNSNotification) => {
-                  return notification?.app === env.NEXT_PUBLIC_PUSH_CHANNEL_NAME
-                })
-                ?.map((notification: EPNSNotification, index: number) => {
-                  return <Notification key={index} {...notification} />
-                })}
+              {epnsNotifications && epnsNotifications?.length > 0 ? (
+                epnsNotifications
+                  ?.filter((notification: EPNSNotification) => {
+                    return (
+                      notification?.app === env.NEXT_PUBLIC_PUSH_CHANNEL_NAME
+                    )
+                  })
+                  ?.map((notification: EPNSNotification, index: number) => {
+                    return <Notification key={index} {...notification} />
+                  })
+              ) : (
+                <Card variant="simple">
+                  <Flex alignItems="center" justifyContent="center">
+                    <Text py={8}>No new notifications</Text>
+                  </Flex>
+                </Card>
+              )}
             </Stack>
           )}
           <Text

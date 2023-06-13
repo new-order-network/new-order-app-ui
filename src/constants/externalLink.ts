@@ -9,6 +9,7 @@ const ExternalLink = {
   newOrderAcademy:
     'https://new-order.notion.site/New-Order-Academy-e2246dbb576c47d98fd5b5e4a208a530',
   pushApp: 'https://app.push.org/channels',
+  stagingPushApp: 'https://staging.push.org/channels',
 }
 
 export default ExternalLink
