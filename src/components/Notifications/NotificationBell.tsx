@@ -24,6 +24,7 @@ import { useEffect, useState } from 'react'
 import * as PushAPI from '@pushprotocol/restapi'
 import { useSigner } from 'wagmi'
 import hexToRgba from 'hex-to-rgba'
+import { useLocalStorage } from 'usehooks-ts'
 
 import Notification from 'components/Notifications/Notification'
 import Card from 'components/Card'
@@ -51,6 +52,10 @@ const NotificationBell: React.FC<NotificationBellProps> = ({
   const { accountAddress } = useNewoContext()
   const [isSubscribed, setIsSubscribed] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [hasNewNotification, setHasNewNotification] = useLocalStorage(
+    'has_new_notification',
+    false
+  )
   const [pushPink, pushPurple] = useToken('colors', [
     'protocols.push.pink',
     'protocols.push.purple',
@@ -86,15 +91,7 @@ const NotificationBell: React.FC<NotificationBellProps> = ({
   }
 
   const readNotifications = () => {
-    const channelData = epnsNotificationData?.filter(
-      (notification: EPNSNotification) => {
-        return notification?.app === env.NEXT_PUBLIC_PUSH_CHANNEL_NAME
-      }
-    )
-    window.localStorage.setItem('has_new_notification', 'false')
-    if (channelData) {
-      setEpnsNotifications(channelData)
-    }
+    setHasNewNotification(false)
   }
 
   const subscribeToChannel = async () => {
@@ -171,7 +168,6 @@ const NotificationBell: React.FC<NotificationBellProps> = ({
     }
   }
 
-  const [notificationCount, setNotificationCount] = useState(0)
   const [epnsNotifications, setEpnsNotifications] = useState<
     EPNSNotification[]
   >([])
@@ -184,13 +180,39 @@ const NotificationBell: React.FC<NotificationBellProps> = ({
           const channelData = data?.filter((notification: EPNSNotification) => {
             return notification?.app === env.NEXT_PUBLIC_PUSH_CHANNEL_NAME
           })
-          setNotificationCount(channelData?.length)
-          if (channelData?.length !== notificationCount) {
-            window.localStorage.setItem('has_new_notification', 'true')
+          if (channelData && epnsNotifications) {
+            setEpnsNotifications((prevState) => {
+              console.log('STATES prevState', prevState)
+              console.log('STATES newState', channelData)
+              if (
+                hasNewNotification !== null &&
+                channelData[channelData?.length - 1]?.sid !==
+                  prevState[prevState?.length - 1]?.sid
+              ) {
+                setHasNewNotification(true)
+              }
+
+              return channelData
+            })
           }
         }
       },
+      refetchInterval: (data) => {
+        console.log('datadata', data)
+        return 5000
+      },
     })
+
+  useEffect(() => {
+    const initialChannelData = epnsNotificationData?.filter(
+      (notification: EPNSNotification) => {
+        return notification?.app === env.NEXT_PUBLIC_PUSH_CHANNEL_NAME
+      }
+    )
+    if (initialChannelData) {
+      setEpnsNotifications(initialChannelData)
+    }
+  }, [])
 
   const notificationButton = (display: string[]) => {
     if (!isSubscribed) {
@@ -257,7 +279,7 @@ const NotificationBell: React.FC<NotificationBellProps> = ({
       } else {
         return (
           <Box pos="relative" display={['none', 'none', 'flex']}>
-            {Boolean(window.localStorage.getItem('has_new_notification')) && (
+            {hasNewNotification && (
               <Circle
                 bg="green.100"
                 size="2.5"

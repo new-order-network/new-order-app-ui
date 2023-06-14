@@ -13,10 +13,6 @@ const getUserNotificationFeeds = async (
     limit: 1000,
     env: env.NEXT_PUBLIC_PUSH_ENV,
   })
-  console.group('TESTING NOTIF')
-  console.log('accountAddress', accountAddress)
-  console.log('notifications', notifications)
-  console.groupEnd()
   return notifications
 }
 
@@ -28,9 +24,6 @@ export const useNotificationFeeds = (
     queryKey: ['user-feeds'],
     queryFn: () => {
       return getUserNotificationFeeds(accountAddress)
-    },
-    refetchInterval: () => {
-      return 5000
     },
     ...options,
   })
