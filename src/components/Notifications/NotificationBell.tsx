@@ -25,6 +25,7 @@ import * as PushAPI from '@pushprotocol/restapi'
 import { useSigner } from 'wagmi'
 import hexToRgba from 'hex-to-rgba'
 import { useLocalStorage } from 'usehooks-ts'
+import _ from 'lodash'
 
 import Notification from 'components/Notifications/Notification'
 import Card from 'components/Card'
@@ -172,47 +173,41 @@ const NotificationBell: React.FC<NotificationBellProps> = ({
     EPNSNotification[]
   >([])
 
-  const { data: epnsNotificationData, isLoading: isEPNSNotificationsLoading } =
-    useNotificationFeeds(accountAddress, {
+  const { isLoading: isEPNSNotificationsLoading } = useNotificationFeeds(
+    accountAddress,
+    {
       enabled: Boolean(accountAddress),
       onSuccess: (data) => {
-        if (data && data?.length > 0) {
+        if (data && data.length > 0) {
           const channelData = data?.filter((notification: EPNSNotification) => {
             return notification?.app === env.NEXT_PUBLIC_PUSH_CHANNEL_NAME
           })
-          if (channelData && epnsNotifications) {
-            setEpnsNotifications((prevState) => {
-              console.log('STATES prevState', prevState)
-              console.log('STATES newState', channelData)
-              if (
-                hasNewNotification !== null &&
-                channelData[channelData?.length - 1]?.sid !==
-                  prevState[prevState?.length - 1]?.sid
-              ) {
-                setHasNewNotification(true)
-              }
 
-              return channelData
-            })
+          if (channelData.length > 0) {
+            const sortedChannelData = _.reverse(
+              _.sortBy(channelData, [
+                (o) => {
+                  return Number(o.sid)
+                },
+              ])
+            )
+
+            setEpnsNotifications(sortedChannelData)
+
+            if (
+              epnsNotifications?.length > 0 &&
+              epnsNotifications[0].sid !== sortedChannelData[0].sid
+            ) {
+              setHasNewNotification(true)
+            }
           }
         }
       },
-      refetchInterval: (data) => {
-        console.log('datadata', data)
+      refetchInterval: () => {
         return 5000
       },
-    })
-
-  useEffect(() => {
-    const initialChannelData = epnsNotificationData?.filter(
-      (notification: EPNSNotification) => {
-        return notification?.app === env.NEXT_PUBLIC_PUSH_CHANNEL_NAME
-      }
-    )
-    if (initialChannelData) {
-      setEpnsNotifications(initialChannelData)
     }
-  }, [])
+  )
 
   const notificationButton = (display: string[]) => {
     if (!isSubscribed) {
