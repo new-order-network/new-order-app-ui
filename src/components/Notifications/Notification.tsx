@@ -12,7 +12,7 @@ const Notification: React.FC<EPNSNotification> = ({
   image,
 }) => {
   return (
-    <Card variant="simple" cursor="default">
+    <Card variant="simple" cursor="default" p={4}>
       <Stack>
         {cta ? (
           <Link
