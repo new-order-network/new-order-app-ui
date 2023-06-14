@@ -45,7 +45,7 @@ const VotingCard: React.FC<VotingCardProps> = ({
   }
 
   return (
-    <Card variant="simple">
+    <Card variant="simple" p={4}>
       <Link href={`/voting/${id}`}>
         <>
           <Flex alignItems="center" justifyContent="space-between">

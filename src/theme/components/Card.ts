@@ -9,7 +9,7 @@ const Card = {
   // Two variants: rounded and smooth
   variants: {
     simple: {
-      p: '5',
+      p: 4,
       cursor: 'pointer',
       _hover: {
         bg: 'gray.85',
