@@ -24,10 +24,10 @@ import AirdropReward from 'components/VeNewo/AirdropReward'
 import { useVeNewoContext } from 'store/contexts/veNewoContext'
 import { useContractContext } from 'store/contexts/contractContext'
 
-import veNewoRewardsPreviousAvaxMerkleRoot from 'constants/airdrop/june2AvaxRewardsMerkleRoot.json'
-import veNewoRewardsPreviousEthMerkleRoot from 'constants/airdrop/june2EthRewardsMerkleRoot.json'
-import veNewoRewardsFinalAvaxMerkleRoot from 'constants/airdrop/june9AvaxRewardsMerkleRoot.json'
-import veNewoRewardsFinalEthMerkleRoot from 'constants/airdrop/june9EthRewardsMerkleRoot.json'
+import veNewoRewardsPreviousAvaxMerkleRoot from 'constants/airdrop/june9AvaxRewardsMerkleRoot.json'
+import veNewoRewardsPreviousEthMerkleRoot from 'constants/airdrop/june9EthRewardsMerkleRoot.json'
+import veNewoRewardsFinalAvaxMerkleRoot from 'constants/airdrop/june16AvaxRewardsMerkleRoot.json'
+import veNewoRewardsFinalEthMerkleRoot from 'constants/airdrop/june16EthRewardsMerkleRoot.json'
 
 const Claim = () => {
   const { address } = useAccount()
