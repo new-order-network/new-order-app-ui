@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.11.0](https://github.com/new-order-network/new-order-app-ui/compare/v1.10.1...v1.11.0) (2023-06-23)
+
+
+### Features
+
+* add june 23 rewards mrekle root ([207ef47](https://github.com/new-order-network/new-order-app-ui/commit/207ef4745f0420bd26eb84da691a1b4b2a8c083d))
+
 ## [1.10.1](https://github.com/new-order-network/new-order-app-ui/compare/v1.10.0...v1.10.1) (2023-06-12)
 
 
