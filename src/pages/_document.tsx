@@ -1,4 +1,7 @@
+import { ColorModeScript } from '@chakra-ui/react'
 import { Html, Head, Main, NextScript } from 'next/document'
+
+import theme from 'theme'
 
 export default function Document() {
   const description =
@@ -32,6 +35,7 @@ export default function Document() {
         <meta property="twitter:image" content={imageSrc} />
       </Head>
       <body>
+        <ColorModeScript initialColorMode={theme.config.initialColorMode} />
         <Main />
         <NextScript />
       </body>
