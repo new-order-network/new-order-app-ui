@@ -25,7 +25,7 @@ interface AirdropRewardProps {
   previousMerkleRoot: any
 }
 
-const currentSnapshotDate = 'June 30, 2023 - July 7, 2023'
+const currentSnapshotDate = 'July 1, 2023 - July 7, 2023'
 
 const AirdropReward: React.FC<AirdropRewardProps> = ({
   distributorAddress,
@@ -95,7 +95,7 @@ const AirdropReward: React.FC<AirdropRewardProps> = ({
       <Text fontSize="sm" color="gray.50">
         {airdrop?.isUpdating
           ? 'For the time being rewards are distributed on a weekly basis.'
-          : `The vault rewards for this week (${currentSnapshotDate}) have been updated. APR is higher than last week because the APR includes NEWO from the buyback programme. For the time being rewards are distributed on a weekly basis.`}
+          : `The vault rewards for this week (${currentSnapshotDate}) have been updated. APR is lower than last week because there's no buyback this week. For the time being rewards are distributed on a weekly basis. We are taking steps to present the APR in a more informational manner.`}
         {/* NOTE Put this back for next week `The vault rewards for this week (${currentSnapshotDate}) has been updated. For the time being rewards are distributed on a weekly basis.` */}
       </Text>
       <Box
