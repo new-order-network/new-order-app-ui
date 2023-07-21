@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.13.0](https://github.com/new-order-network/new-order-app-ui/compare/v1.12.0...v1.13.0) (2023-07-14)
+
+
+### Features
+
+* add july 14 rewards merkle root ([6156c7b](https://github.com/new-order-network/new-order-app-ui/commit/6156c7b7dc64487d448d5da031c2d7e31c241802))
+
 ## [1.12.0](https://github.com/new-order-network/new-order-app-ui/compare/v1.11.0...v1.12.0) (2023-07-07)
 
 
