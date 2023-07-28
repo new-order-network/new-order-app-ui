@@ -25,6 +25,7 @@ interface UseVeAirdropProps {
   claim: () => void
   APR: string
   isUpdating: boolean
+  airdropAmountDifference: string
 }
 
 const useVeAirdropReward = (
@@ -49,6 +50,7 @@ const useVeAirdropReward = (
   const [airdropInfo, setAirdropInfo] = useState<null | AirdropInfo>(null)
   const [claimableRewards, setClaimableRewards] = useState('')
   const [isEligible, setIsEligible] = useState(false)
+  const [airdropAmountDifference, setAirdropAmountDifference] = useState('0')
   const [airdropAmount, setAirdropAmount] = useState('')
   const [loading, setLoading] = useState(false)
   const [isUpdating, setIsUpdating] = useState(false)
@@ -156,6 +158,7 @@ const useVeAirdropReward = (
       const newAirdropAmount = Number(formattedNewAirdropdAmount)
 
       const previousAirdropBigNumber = BigNumber.from(hexPreviousAirdropAmount)
+      debugger
       const formattedPreviousAirdropdAmount = ethers.utils.formatUnits(
         previousAirdropBigNumber,
         token.decimals
@@ -210,6 +213,21 @@ const useVeAirdropReward = (
         getIsClaimed(address)
         getAmount(airdropDetails.amount)
 
+        const difference = (
+          Number(
+            ethers.utils.formatUnits(
+              merkleRoot.claims[address]?.amount,
+              token.decimals
+            )
+          ) -
+          Number(
+            ethers.utils.formatUnits(
+              previousMerkleRoot.claims[address]?.amount,
+              token.decimals
+            )
+          )
+        ).toFixed(4)
+        setAirdropAmountDifference(difference)
         getAPR(merkleRoot.tokenTotal, previousMerkleRoot.tokenTotal)
 
         checkIsAirdropUpdating(merkleRoot.merkleRoot)
@@ -228,6 +246,7 @@ const useVeAirdropReward = (
     claimableRewards,
     APR,
     isUpdating,
+    airdropAmountDifference,
   }
 }
 
