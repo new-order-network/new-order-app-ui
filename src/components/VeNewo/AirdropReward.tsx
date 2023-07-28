@@ -25,7 +25,7 @@ interface AirdropRewardProps {
   previousMerkleRoot: any
 }
 
-const currentSnapshotDate = 'July 14, 2023 - July 21, 2023'
+const currentSnapshotDate = 'July 28, 2023 - August 04, 2023'
 
 const AirdropReward: React.FC<AirdropRewardProps> = ({
   distributorAddress,
@@ -40,6 +40,7 @@ const AirdropReward: React.FC<AirdropRewardProps> = ({
     tokenAddress,
     distributorAddress
   )
+
   const token = useToken(tokenAddress)
   const [claimableAmount, setClaimableAmount] = useState(0)
 
@@ -56,7 +57,7 @@ const AirdropReward: React.FC<AirdropRewardProps> = ({
     if (airdrop.isUpdating) {
       return (
         <Tr>
-          <Td colSpan={5} h={24} color="brand.orange">
+          <Td colSpan={6} h={24} color="brand.orange">
             Vaults are undergoing scheduled maintenance. Please check back soon.
           </Td>
         </Tr>
@@ -68,6 +69,25 @@ const AirdropReward: React.FC<AirdropRewardProps> = ({
           <Td>{airdrop.APR ?? '0'} %</Td>
           <Td>
             {Number(claimableAmount).toFixed(4)} {token.tokenSymbol}
+          </Td>
+          <Td>
+            {Number(airdrop.airdropAmountDifference) > 0 ? (
+              <>
+                <Text fontSize="sm" color="brand.green">
+                  +{airdrop.airdropAmountDifference} {token.tokenSymbol}
+                </Text>
+                <Text
+                  fontSize="xs"
+                  mt={1}
+                  textTransform="uppercase"
+                  color="gray.50"
+                >
+                  (Buyback: 15.46%, Emissions: 84.54%)
+                </Text>
+              </>
+            ) : (
+              <>0.0000 {token.tokenSymbol}</>
+            )}
           </Td>
           <Td>
             <Button
@@ -95,7 +115,7 @@ const AirdropReward: React.FC<AirdropRewardProps> = ({
       <Text fontSize="sm" color="gray.50">
         {airdrop?.isUpdating
           ? 'For the time being rewards are distributed on a weekly basis.'
-          : `The vault rewards for this week (${currentSnapshotDate}) have been updated. This week's APR is 100% from emissions, and there will be another buyback next week. For the time being rewards are distributed on a weekly basis with rewards from buybacks occurring on every second week. We are taking additional steps to present the APR in a smoother way.`}
+          : `The vault rewards for this week (${currentSnapshotDate}) have been updated. This week's APR is 84.5% from emissions, and 15.5% is from buybacks earned over the previous two weeks from staked BTRFLY. For the time being rewards are distributed on a weekly basis with rewards from buybacks occurring on every second week. We are taking additional steps to present the APR in a smoother way.`}
         {/* NOTE Put this back for next week `The vault rewards for this week (${currentSnapshotDate}) has been updated. For the time being rewards are distributed on a weekly basis.` */}
       </Text>
       <Box
@@ -110,6 +130,7 @@ const AirdropReward: React.FC<AirdropRewardProps> = ({
               <Th>Token</Th>
               <Th>APR</Th>
               <Th>Claimable Rewards</Th>
+              <Th>Earned Since Last week</Th>
               <Th>Actions</Th>
               <Th></Th>
             </Tr>
