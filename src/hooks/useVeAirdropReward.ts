@@ -39,6 +39,7 @@ const useVeAirdropReward = (
   const toast = useToast()
   const { data: signer } = useSigner()
   const { address } = useAccount()
+
   const newoContext = useNewoContext()
   const [airdropInstance, setAirdropInstance] =
     useState<ethers.Contract | null>(null)
@@ -212,20 +213,12 @@ const useVeAirdropReward = (
         setAirdropInfo(airdropDetails)
         getIsClaimed(address)
         getAmount(airdropDetails.amount)
+        const newAmount = merkleRoot.claims[address]?.amount
+        const previousAmount = previousMerkleRoot.claims[address]?.amount ?? '0'
 
         const difference = (
-          Number(
-            ethers.utils.formatUnits(
-              merkleRoot.claims[address]?.amount,
-              token.decimals
-            )
-          ) -
-          Number(
-            ethers.utils.formatUnits(
-              previousMerkleRoot.claims[address]?.amount,
-              token.decimals
-            )
-          )
+          Number(ethers.utils.formatUnits(newAmount, token.decimals)) -
+          Number(ethers.utils.formatUnits(previousAmount, token.decimals))
         ).toFixed(4)
         setAirdropAmountDifference(difference)
         getAPR(merkleRoot.tokenTotal, previousMerkleRoot.tokenTotal)
