@@ -25,7 +25,7 @@ interface AirdropRewardProps {
   previousMerkleRoot: any
 }
 
-const currentSnapshotDate = 'July 28, 2023 - August 04, 2023'
+const currentSnapshotDate = 'August 04, 2023 - August 11, 2023'
 
 const AirdropReward: React.FC<AirdropRewardProps> = ({
   distributorAddress,
@@ -76,14 +76,14 @@ const AirdropReward: React.FC<AirdropRewardProps> = ({
                 <Text fontSize="sm" color="brand.green">
                   +{airdrop.airdropAmountDifference} {token.tokenSymbol}
                 </Text>
-                <Text
+                {/* <Text
                   fontSize="xs"
                   mt={1}
                   textTransform="uppercase"
                   color="gray.50"
                 >
                   (Buyback: 15.46%, Emissions: 84.54%)
-                </Text>
+                </Text> */}
               </>
             ) : (
               <>0.0000 {token.tokenSymbol}</>
@@ -115,7 +115,7 @@ const AirdropReward: React.FC<AirdropRewardProps> = ({
       <Text fontSize="sm" color="gray.50">
         {airdrop?.isUpdating
           ? 'For the time being rewards are distributed on a weekly basis.'
-          : `The vault rewards for this week (${currentSnapshotDate}) have been updated. This week's APR is 84.5% from emissions, and 15.5% is from buybacks earned over the previous two weeks from staked BTRFLY. For the time being rewards are distributed on a weekly basis with rewards from buybacks occurring on every second week. We are taking additional steps to present the APR in a smoother way.`}
+          : `The vault rewards for this week (${currentSnapshotDate}) have been updated. This week's APR is 100% from emissions, and there will be another buyback next week. For the time being rewards are distributed on a weekly basis with rewards from buybacks occurring on every second week. We are taking additional steps to present the APR in a smoother way.`}
         {/* NOTE Put this back for next week `The vault rewards for this week (${currentSnapshotDate}) has been updated. For the time being rewards are distributed on a weekly basis.` */}
       </Text>
       <Box
