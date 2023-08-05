@@ -25,7 +25,7 @@ interface AirdropRewardProps {
   previousMerkleRoot: any
 }
 
-const currentSnapshotDate = 'August 04, 2023 - August 11, 2023'
+const currentSnapshotDate = 'July 28, 2023 - August 04, 2023'
 
 const AirdropReward: React.FC<AirdropRewardProps> = ({
   distributorAddress,
