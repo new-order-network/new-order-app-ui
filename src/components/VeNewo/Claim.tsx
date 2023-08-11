@@ -24,9 +24,9 @@ import AirdropReward from 'components/VeNewo/AirdropReward'
 import { useVeNewoContext } from 'store/contexts/veNewoContext'
 import { useContractContext } from 'store/contexts/contractContext'
 
-import veNewoRewardsPreviousAvaxMerkleRoot from 'constants/airdrop/july28AvaxRewardsMerkleRoot.json'
+import veNewoRewardsPreviousAvaxMerkleRoot from 'constants/airdrop/august04AvaxRewardsMerkleRoot.json'
 import veNewoRewardsPreviousEthMerkleRoot from 'constants/airdrop/july28EthRewardsMerkleRoot.json'
-import veNewoRewardsFinalAvaxMerkleRoot from 'constants/airdrop/august04AvaxRewardsMerkleRoot.json'
+import veNewoRewardsFinalAvaxMerkleRoot from 'constants/airdrop/august11AvaxRewardsMerkleRoot.json'
 import veNewoRewardsFinalEthMerkleRoot from 'constants/airdrop/august04EthRewardsMerkleRoot.json'
 
 const Claim = () => {
