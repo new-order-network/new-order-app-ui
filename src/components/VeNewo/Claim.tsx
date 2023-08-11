@@ -25,9 +25,9 @@ import { useVeNewoContext } from 'store/contexts/veNewoContext'
 import { useContractContext } from 'store/contexts/contractContext'
 
 import veNewoRewardsPreviousAvaxMerkleRoot from 'constants/airdrop/august04AvaxRewardsMerkleRoot.json'
-import veNewoRewardsPreviousEthMerkleRoot from 'constants/airdrop/july28EthRewardsMerkleRoot.json'
+import veNewoRewardsPreviousEthMerkleRoot from 'constants/airdrop/august04EthRewardsMerkleRoot.json'
 import veNewoRewardsFinalAvaxMerkleRoot from 'constants/airdrop/august11AvaxRewardsMerkleRoot.json'
-import veNewoRewardsFinalEthMerkleRoot from 'constants/airdrop/august04EthRewardsMerkleRoot.json'
+import veNewoRewardsFinalEthMerkleRoot from 'constants/airdrop/august11EthRewardsMerkleRoot.json'
 
 const Claim = () => {
   const { address } = useAccount()
