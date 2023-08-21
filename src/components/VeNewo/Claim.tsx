@@ -24,10 +24,12 @@ import AirdropReward from 'components/VeNewo/AirdropReward'
 import { useVeNewoContext } from 'store/contexts/veNewoContext'
 import { useContractContext } from 'store/contexts/contractContext'
 
-import veNewoRewardsPreviousAvaxMerkleRoot from 'constants/airdrop/august04AvaxRewardsMerkleRoot.json'
-import veNewoRewardsPreviousEthMerkleRoot from 'constants/airdrop/august04EthRewardsMerkleRoot.json'
-import veNewoRewardsFinalAvaxMerkleRoot from 'constants/airdrop/august11AvaxRewardsMerkleRoot.json'
-import veNewoRewardsFinalEthMerkleRoot from 'constants/airdrop/august11EthRewardsMerkleRoot.json'
+import veNewoRewardsPreviousAvaxMerkleRoot from 'constants/airdrop/august11AvaxRewardsMerkleRoot.json'
+// eslint-disable-next-line import/order
+import veNewoRewardsPreviousEthMerkleRoot from 'constants/airdrop/august11EthRewardsMerkleRoot.json'
+
+import veNewoRewardsFinalAvaxMerkleRoot from 'constants/airdrop/august18AvaxRewardsMerkleRoot.json'
+import veNewoRewardsFinalEthMerkleRoot from 'constants/airdrop/august18EthRewardsMerkleRoot.json'
 
 const Claim = () => {
   const { address } = useAccount()
