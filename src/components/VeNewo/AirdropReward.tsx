@@ -25,7 +25,7 @@ interface AirdropRewardProps {
   previousMerkleRoot: any
 }
 
-const currentSnapshotDate = 'August 11, 2023 - August 18, 2023'
+const currentSnapshotDate = 'August 18, 2023 - August 25, 2023'
 
 const AirdropReward: React.FC<AirdropRewardProps> = ({
   distributorAddress,
@@ -76,14 +76,14 @@ const AirdropReward: React.FC<AirdropRewardProps> = ({
                 <Text fontSize="sm" color="brand.green">
                   +{airdrop.airdropAmountDifference} {token.tokenSymbol}
                 </Text>
-                {/* <Text
+                <Text
                   fontSize="xs"
                   mt={1}
                   textTransform="uppercase"
                   color="gray.50"
                 >
-                  (Buyback: 21%, Emissions: 79%)
-                </Text> */}
+                  (Buyback: 24.9%, Emissions: 75.1%)
+                </Text>
               </>
             ) : (
               <>0.0000 {token.tokenSymbol}</>
@@ -110,13 +110,13 @@ const AirdropReward: React.FC<AirdropRewardProps> = ({
     }
   }
 
-  // : `The vault rewards for this week (${currentSnapshotDate}) have been updated. This week's APR is 79% from emissions, and 21% is from buybacks earned over the previous two weeks from staked BTRFLY. For the time being rewards are distributed on a weekly basis with rewards from buybacks occurring on every second week. We are taking additional steps to present the APR in a smoother way.`}
+  // : `The vault rewards for this week (${currentSnapshotDate}) have been updated. This week's APR is 100% from emissions, and there will be another buyback next week. For the time being rewards are distributed on a weekly basis with rewards from buybacks occurring on every second week. We are taking additional steps to present the APR in a smoother way.`}
   return (
     <>
       <Text fontSize="sm" color="gray.50">
         {airdrop?.isUpdating
           ? 'For the time being rewards are distributed on a weekly basis.'
-          : `The vault rewards for this week (${currentSnapshotDate}) have been updated. This week's APR is 100% from emissions, and there will be another buyback next week. For the time being rewards are distributed on a weekly basis with rewards from buybacks occurring on every second week. We are taking additional steps to present the APR in a smoother way.`}
+          : `The vault rewards for this week (${currentSnapshotDate}) have been updated. This week's APR is 75.1% from emissions, and 24.9% is from buybacks earned over the previous two weeks from staked BTRFLY. For the time being rewards are distributed on a weekly basis with rewards from buybacks occurring on every second week. We are taking additional steps to present the APR in a smoother way.`}
         {/* NOTE Put this back for next week `The vault rewards for this week (${currentSnapshotDate}) has been updated. For the time being rewards are distributed on a weekly basis.` */}
       </Text>
       <Box
