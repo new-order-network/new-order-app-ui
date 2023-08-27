@@ -115,11 +115,7 @@ const LockedToken: React.FC<LockedTokenProps> = ({
           >
             <Button
               variant="greenButton"
-              isDisabled={
-                !address ||
-                dayjs().isBefore(dayjs.unix(unlockDate)) ||
-                Number(assetBalance) <= 0
-              }
+              isDisabled={!address || Number(assetBalance) <= 0}
               onClick={onOpen}
               isLoading={veToken.loading}
             >
