@@ -11,7 +11,6 @@ import {
   ModalContent,
   Stack,
   Text,
-  Tooltip,
   useDisclosure,
 } from '@chakra-ui/react'
 import dayjs from 'dayjs'
@@ -33,7 +32,7 @@ const LockedToken: React.FC<LockedTokenProps> = ({
   veTokenAddress,
   tokenAddress,
 }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { isOpen, onClose } = useDisclosure()
   const { address } = useAccount()
   const { assetBalance, unlockDate, totalRewardsEarned, updateState } =
     useVeNewoContext()
@@ -108,20 +107,14 @@ const LockedToken: React.FC<LockedTokenProps> = ({
         <Td>{Number(assetBalance).toFixed(4)}</Td>
         <Td>{dayjs.unix(unlockDate).format('MMM DD YYYY')}</Td>
         <Td>
-          <Tooltip
-            hasArrow
-            label="You can't withdraw your funds before the unlock date"
-            isDisabled={dayjs().isAfter(dayjs.unix(unlockDate))}
+          <Button
+            variant="greenButton"
+            isDisabled={!address || Number(assetBalance) <= 0}
+            onClick={exit}
+            isLoading={veToken.loading}
           >
-            <Button
-              variant="greenButton"
-              isDisabled={!address || Number(assetBalance) <= 0}
-              onClick={onOpen}
-              isLoading={veToken.loading}
-            >
-              Withdraw
-            </Button>
-          </Tooltip>
+            Withdraw
+          </Button>
         </Td>
       </Tr>
     </>
