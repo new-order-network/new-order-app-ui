@@ -8,24 +8,24 @@ import {
   Th,
   Thead,
   Tr,
-} from '@chakra-ui/react'
-import { useEffect, useState } from 'react'
+} from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 
-import useToken from 'hooks/useToken'
-import useVeAirdropReward from 'hooks/useVeAirdropReward'
+import useToken from "hooks/useToken";
+import useVeAirdropReward from "hooks/useVeAirdropReward";
 
-import { useContractContext } from 'store/contexts/contractContext'
+import { useContractContext } from "store/contexts/contractContext";
 
 interface AirdropRewardProps {
-  distributorAddress?: `0x${string}`
-  tokenAddress?: `0x${string}`
+  distributorAddress?: `0x${string}`;
+  tokenAddress?: `0x${string}`;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  merkleRoot: any
+  merkleRoot: any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  previousMerkleRoot: any
+  previousMerkleRoot: any;
 }
 
-const currentSnapshotDate = 'August 18, 2023 - August 25, 2023'
+const currentSnapshotDate = "August 18, 2023 - August 25, 2023";
 
 const AirdropReward: React.FC<AirdropRewardProps> = ({
   distributorAddress,
@@ -33,25 +33,25 @@ const AirdropReward: React.FC<AirdropRewardProps> = ({
   tokenAddress,
   merkleRoot,
 }) => {
-  const { contracts } = useContractContext()
+  const { contracts } = useContractContext();
   const airdrop = useVeAirdropReward(
     merkleRoot,
     previousMerkleRoot,
     tokenAddress,
     distributorAddress
-  )
+  );
 
-  const token = useToken(tokenAddress)
-  const [claimableAmount, setClaimableAmount] = useState(0)
+  const token = useToken(tokenAddress);
+  const [claimableAmount, setClaimableAmount] = useState(0);
 
   useEffect(() => {
     if (airdrop) {
       const claimable =
-        Number(airdrop?.airdropAmount) - Number(airdrop?.claimableRewards)
+        Number(airdrop?.airdropAmount) - Number(airdrop?.claimableRewards);
 
-      setClaimableAmount(claimable)
+      setClaimableAmount(claimable);
     }
-  }, [airdrop])
+  }, [airdrop]);
 
   const airdropContent = () => {
     if (airdrop.isUpdating) {
@@ -61,12 +61,12 @@ const AirdropReward: React.FC<AirdropRewardProps> = ({
             Vaults are undergoing scheduled maintenance. Please check back soon.
           </Td>
         </Tr>
-      )
+      );
     } else {
       return (
         <Tr>
           <Td>{token.tokenSymbol}</Td>
-          <Td>{airdrop.APR ?? '0'} %</Td>
+          <Td>-</Td>
           <Td>
             {Number(claimableAmount).toFixed(4)} {token.tokenSymbol}
           </Td>
@@ -75,14 +75,6 @@ const AirdropReward: React.FC<AirdropRewardProps> = ({
               <>
                 <Text fontSize="sm" color="brand.green">
                   +{airdrop.airdropAmountDifference} {token.tokenSymbol}
-                </Text>
-                <Text
-                  fontSize="xs"
-                  mt={1}
-                  textTransform="uppercase"
-                  color="gray.50"
-                >
-                  (Buyback: 24.9%, Emissions: 75.1%)
                 </Text>
               </>
             ) : (
@@ -106,16 +98,16 @@ const AirdropReward: React.FC<AirdropRewardProps> = ({
           </Td>
           <Td></Td>
         </Tr>
-      )
+      );
     }
-  }
+  };
 
   // : `The vault rewards for this week (${currentSnapshotDate}) have been updated. This week's APR is 100% from emissions, and there will be another buyback next week. For the time being rewards are distributed on a weekly basis with rewards from buybacks occurring on every second week. We are taking additional steps to present the APR in a smoother way.`}
   return (
     <>
       <Text fontSize="sm" color="gray.50">
         {airdrop?.isUpdating
-          ? 'For the time being rewards are distributed on a weekly basis.'
+          ? "For the time being rewards are distributed on a weekly basis."
           : `Since the merger proposal passed, and all veNEWO is now unlocked there are no further rewards.`}
         {/* NOTE Put this back for next week `The vault rewards for this week (${currentSnapshotDate}) has been updated. For the time being rewards are distributed on a weekly basis.` */}
       </Text>
@@ -145,7 +137,7 @@ const AirdropReward: React.FC<AirdropRewardProps> = ({
         </Table>
       </Box>
     </>
-  )
-}
+  );
+};
 
-export default AirdropReward
+export default AirdropReward;
