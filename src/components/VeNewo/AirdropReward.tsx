@@ -116,7 +116,7 @@ const AirdropReward: React.FC<AirdropRewardProps> = ({
       <Text fontSize="sm" color="gray.50">
         {airdrop?.isUpdating
           ? 'For the time being rewards are distributed on a weekly basis.'
-          : `The vault rewards for this week (${currentSnapshotDate}) have been updated. This week's APR is 75.1% from emissions, and 24.9% is from buybacks earned over the previous two weeks from staked BTRFLY. For the time being rewards are distributed on a weekly basis with rewards from buybacks occurring on every second week. We are taking additional steps to present the APR in a smoother way.`}
+          : `Since the merger proposal passed, and all veNEWO is now unlocked there are no further rewards.`}
         {/* NOTE Put this back for next week `The vault rewards for this week (${currentSnapshotDate}) has been updated. For the time being rewards are distributed on a weekly basis.` */}
       </Text>
       <Box
