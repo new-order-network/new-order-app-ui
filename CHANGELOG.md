@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.14.0](https://github.com/new-order-network/new-order-app-ui/compare/v1.13.0...v1.14.0) (2023-09-12)
+
+
+### Features
+
+* **fix:** fix airdrop ([d64a6f4](https://github.com/new-order-network/new-order-app-ui/commit/d64a6f440e4c0e43740abd1bb9dd039cecc30ac2))
+* **fix:** remove modals ([cb8efa2](https://github.com/new-order-network/new-order-app-ui/commit/cb8efa2bbc6f416cbdb223763fb90d6d0bc45051))
+* **update:** 28-07-2023 airdrop rewards ([4d4fef7](https://github.com/new-order-network/new-order-app-ui/commit/4d4fef7f06aaf8464ff09a3f54a0cfd886b7b78c))
+* **update:** airdrop ([7e403cc](https://github.com/new-order-network/new-order-app-ui/commit/7e403cc7216655b3829a9b44faf058f84b216dc3))
+* **update:** airdrop ([67c8539](https://github.com/new-order-network/new-order-app-ui/commit/67c8539a16486a063db83f65274245937135d9c9))
+* **update:** airdrop 25/08/2023 ([549211a](https://github.com/new-order-network/new-order-app-ui/commit/549211a1559a9b74d0b76a8428ae78b79da034e6))
+* **update:** airdrop eth ([97e05d7](https://github.com/new-order-network/new-order-app-ui/commit/97e05d7788c728e2e1bc494f414a7e19f2105695))
+* **update:** airdrop update ([af466d1](https://github.com/new-order-network/new-order-app-ui/commit/af466d1b15b321bedf2936c686da30b147fd507f))
+* **update:** allow to withdraw even if unlock date is not reached ([de0b83a](https://github.com/new-order-network/new-order-app-ui/commit/de0b83a7b42a1535dcbb1415b4bb70fdb3cec4c5))
+* **update:** august 4 airdrop ([4ee48c2](https://github.com/new-order-network/new-order-app-ui/commit/4ee48c2dc29da97896ef25afad9712156f1507d6))
+
 ## [1.13.0](https://github.com/new-order-network/new-order-app-ui/compare/v1.12.0...v1.13.0) (2023-07-14)
 
 
