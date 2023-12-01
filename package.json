@@ -24,7 +24,7 @@
     "@snapshot-labs/snapshot.js": "^0.4.5",
     "@upstash/redis": "^1.21.0",
     "@visx/gradient": "^2.10.0",
-    "@visx/xychart": "^2.11.1",
+    "@visx/xychart": "^3.5.1",
     "axios": "^0.27.2",
     "contentful": "^9.1.32",
     "dayjs": "^1.11.3",
