@@ -11,7 +11,6 @@ export const SidebarMenuItems = [
     items: [
       { label: 'Home', icon: HomeIcon, href: '/' },
       { label: 'Voting', icon: VotingIcon, href: '/voting' },
-      { label: 'Airdrops', icon: AirdropIcon, href: '/airdrops' },
       {
         label: 'Delegation',
         icon: MigrateIcon,
