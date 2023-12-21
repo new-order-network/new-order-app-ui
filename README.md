@@ -39,6 +39,7 @@ Steps 1-6 only need to be done once to get set up.
    1. This builds the project and watches for changes
    2. Now, at localhost:3000, you should see the site
    3. Any changes you make to the code should cause an auto-update as the files are being watched
+   
 
 ### Committing Changes
 
