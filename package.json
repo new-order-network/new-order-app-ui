@@ -17,7 +17,7 @@
   "dependencies": {
     "@ajna/pagination": "^1.4.19",
     "@apollo/client": "^3.6.9",
-    "@chakra-ui/react": "^2.1.2",
+    "@chakra-ui/react": "^2.8.2",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "@metamask/onboarding": "^1.0.1",
