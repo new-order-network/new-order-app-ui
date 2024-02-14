@@ -160,16 +160,7 @@ const VeVault = ({
             fontSize="0.8rem"
             fontWeight="bold"
             variant="greenButton"
-            disabled={
-              !address ||
-              loading ||
-              Number(APR) === 0 ||
-              (!deposit && Number(vaultAllowance) > 0) ||
-              (Number(deposit) > Number(vaultAllowance) ||
-              Number(vaultAllowance) === 0
-                ? false
-                : isLegacyVault)
-            }
+            disabled={true}
             onClick={() => {
               onSubmit()
             }}

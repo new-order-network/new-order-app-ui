@@ -183,7 +183,7 @@ const LockForm = () => {
               mt="2"
               variant="greenButton"
               onClick={handleApproveVeNewo}
-              isDisabled={Number(allowance) > 0 || !address}
+              isDisabled={true}
               loadingText="Approving"
               isLoading={veNewo.loading && actionType === LOCK_ACTIONS.APPROVE}
               rightIcon={
@@ -334,7 +334,7 @@ const LockForm = () => {
                   onClick={onSubmit}
                   loadingText="Creating Lock"
                   isLoading={veNewo.loading && actionType === LOCK_ACTIONS.LOCK}
-                  isDisabled={!amount || !address}
+                  isDisabled={true}
                 >
                   Create Lock
                 </Button>
