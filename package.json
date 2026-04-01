@@ -31,7 +31,7 @@
     "envalid": "^7.3.1",
     "ethers": "^5.6.8",
     "framer-motion": "^6",
-    "graphql": "^16.5.0",
+    "graphql": "^16.13.2",
     "http-status-codes": "^2.2.0",
     "next": "^12.2.2-canary.0",
     "next-svgr": "^0.0.2",
